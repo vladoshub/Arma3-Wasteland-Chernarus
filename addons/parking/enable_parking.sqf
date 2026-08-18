@@ -1,0 +1,1 @@
+(_this select 0) setVariable ["is_parking", true, true];

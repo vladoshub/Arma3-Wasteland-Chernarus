@@ -1,0 +1,1 @@
+player setVariable ["playerPayType", "bmoney", true];

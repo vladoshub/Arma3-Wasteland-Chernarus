@@ -1,0 +1,1 @@
+[_this select 0, -1, nil, "FULL"] execVM "R3F_LOG\USER_FUNCT\init_creation_factory.sqf";

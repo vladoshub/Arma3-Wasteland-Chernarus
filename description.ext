@@ -1,0 +1,560 @@
+#include "infiSTAR_AdminMenu.hpp"
+respawn = "BASE";
+respawnDelay = 10;
+disabledAI = 1;
+disableChannels[] = {{0,false,true}, {1,false,true}, {2,true,true}};  // 0 = global, 1 = side, 2 = command // new syntax: {{channel<number>, disableText<bool>, disableVoice<bool>}, ...};
+// side chat is disabled for indies in client\preInit.sqf
+joinUnassigned = 0;
+enableItemsDropping = 0;
+forceRotorLibSimulation = 0; // if you set this to 1, you deny freedom of choice to the players, which is the very principle this mission is built upon
+weaponPool = 0;
+corpseManagerMode = 1;
+corpseLimit = 1;
+corpseRemovalMinTime = 10*60;
+corpseRemovalMaxTime = 12*60;
+wreckManagerMode = 1;
+wreckLimit = 1;
+wreckRemovalMinTime = 5*60;
+wreckRemovalMaxTime = 5*60;
+enableDebugConsole = 1;
+respawnDialog = 0;
+onPauseScript = "client\clientEvents\onPause.sqf";
+unsafeCVL = 1; //Dev Changed: createVehicleLocal was restricted in multiplayer - vehicles, shots, explosions and such are no longer possible to spawn V1.93
+
+author = "WASTELAND CHERNARUS | A3Wasteland.com";
+onLoadName = "WASTELAD"; 
+onLoadMission = "Wasteland is a harsh survival sandbox where two teams and independent players fight for survival.";
+overviewText = "Wasteland is a harsh survival sandbox where two teams and independent players fight for survival.";
+overviewTextLocked = "Wasteland is a harsh survival sandbox where two teams and independent players fight for survival.";
+// overviewPicture = "mapConfig\logo.paa";
+// loadScreen = "mapConfig\Loading.paa";
+briefing = 0; // if 0, skip Continue button
+
+#include "debugFlag.hpp"
+
+// A3W UI color (default = sky blue)
+
+#define A3W_UICOLOR_R  0 // default = 0.25
+#define A3W_UICOLOR_G  0 // default = 0.51
+#define A3W_UICOLOR_B  0 // default = 0.96
+
+//Dialog includes
+
+
+#include "addons\TVS\Tvs.hpp"
+
+
+#include "client\gui_base.hpp"
+#include "R3F_LOG\desc_include.h"
+#include "client\systems\ui_toolkit.hpp"
+#include "client\systems\common.hpp"
+#include "client\items\warchest\dialog.hpp"
+#include "client\items\atm\atm_gui.hpp"
+#include "client\items\artillery\artillery_gui.hpp"
+#include "client\actions\gui.hpp"
+// #include "addons\far_revive\revive_gui.hpp"
+#include "addons\far_revive\reviveBlank_gui.hpp"
+#include "client\systems\playerMenu\dialog\player_settings.hpp"
+#include "client\systems\groups\dialog\groupManagement.hpp"
+#include "client\systems\gunStore\dialog\gunshop_settings.hpp"
+#include "client\systems\customLoad\dialog\customload_settings.hpp"
+#include "client\systems\generalStore\dialog\genstore_settings.hpp"
+#include "client\systems\vehicleStore\dialog\vehiclestore_settings.hpp"
+#include "client\systems\vehicleStore\dialog\vehpaint_gui.hpp"
+#include "client\systems\adminPanel\dialog\adminMenu.hpp"
+#include "client\systems\adminPanel\dialog\modMenu.hpp"
+#include "client\systems\adminPanel\dialog\serverAdminMenu.hpp"
+#include "client\systems\adminPanel\dialog\debugMenu.hpp"
+#include "client\systems\adminPanel\dialog\playerMenu.hpp"
+#include "client\systems\adminPanel\dialog\vehicleManagement.hpp"
+#include "client\systems\adminPanel\dialog\markerLog.hpp"
+#include "client\systems\adminPanel\dialog\objectSearch.hpp"
+#include "client\systems\adminPanel\dialog\cleanupMenu.hpp"
+#include "client\systems\playerMenu\dialog\respawn_dialog.hpp"
+#include "client\systems\playerMenu\dialog\teamkill_dialog.hpp"
+#include "client\systems\killFeed\killFeedMenu_gui.hpp"
+#include "addons\proving_ground\PG_config.hpp"
+//#include "addons\outlw_magrepack\config.hpp"
+#include "addons\gui\gui.hpp"
+#include "addons\parking\list_simple_menu.hpp"
+#include "addons\CHVD\dialog.hpp"
+#include "addons\TOParmaInfo\dialog\TOParmaInfo_dialog.hpp"
+
+
+// #include "addons\aryx\gui\gui_common.hpp"
+// #include "addons\aryx\gui\gui.hpp"
+
+//codeLock
+#include "addons\CodeLock\dialog\nhcl_defines.hpp" 
+#include "addons\CodeLock\dialog\nhcl_control.hpp"
+
+//noAim stuff
+#include "addons\JTS_PM\PM_Compact.hpp"
+#include "addons\VehiclePainter\dialog\VehiclePainter_mainMenu.hpp"
+#include "client\systems\hud\dialog\downloadData.hpp"
+
+class RscTitles
+{
+	#include "addons\proving_ground\PG_rsctitles.hpp"
+	#include "client\systems\hud\dialog\hud.hpp"
+	#include "client\systems\playerMenu\dialog\welcome.hpp"
+	#include "client\systems\scoreboard\score_gui.hpp"
+	#include "client\systems\killFeed\killFeed_gui.hpp"
+	#include "addons\far_revive\revive_gui.hpp"
+	#include "addons\statusBar\statusBar.hpp"
+};
+
+class CfgDebriefing {
+	class ErrorSteamID {
+		title = "Error";
+		subtitle = "";
+		description = "The server is unable to find your Steam ID due to an Arma engine network bug. Please rejoin the server.<br/>If the problem persists after rejoining, please restart the game.";
+	};
+	class TeamBalance {
+		title = "Team balance";
+		subtitle = "You are being team balanced";
+		description = "The side you are trying to join has too many players. Please choose another side or subscribe to avoid balancing bit.ly/38kUOyX";
+	};
+};
+
+class CfgFunctions
+{
+
+	/*
+	Credits:
+
+	Freestyle's Nuclear Blast script by Freestyle_Build, available at https://github.com/FreestyleBuild/freestylesNuclearBlast
+	
+	*/
+	#include "addons\freestylesNuclearBlast\cfgFunctions.hpp"
+
+
+	class A3W
+	{
+		#include "client\CfgFunctions.hpp"
+		#include "server\CfgFunctions.hpp"
+		// #include "addons\aryx\gui\Functions.h"
+	};
+
+	#include "addons\CHVD\CfgFunctions.hpp"
+
+};
+
+class CfgNotifications
+{
+	#include "client\CfgNotifications.hpp"
+};
+/*
+class params
+{
+	class marker3D
+	{
+		title = "3D markers";
+		values[] = {0,1};
+		texts[] = {$STR_DISABLED,$STR_ENABLED};
+		default = 1;
+		isGlobal = 1;
+		file = "addons\3D_Markers\3Dmarkers.sqf";
+	};
+};
+*/
+class RscMapControl {
+	idcMarkerColor = -1;					//Determines which control will serve as ComboBox for setting color of map marker in the display where map is used.
+	idcMarkerIcon = -1;					//Determines which control will serve as ComboBox for setting texture of map marker in the display where map is used.
+	textureComboBoxColor = "#(argb,8,8,3)color(1,1,1,1)";	//Texture used in ComboBox for setting marker color. ComboBox is placed in the top panel of diary.
+	showMarkers = true;					//Determines if markers are displayed in the map.
+	drawingInMap = 0;
+}
+
+class RscDisplayMainMap {
+	class controlsBackground {
+		class CA_Map: RscMapControl {
+			idcMarkerColor = IDC_DIARY_MARKER_COLOR;
+			idcMarkerIcon = IDC_DIARY_MARKER_ICON;
+		};
+	}
+}
+
+class CfgSounds
+{
+    sounds[] =
+	{
+		beep, beep2, beep3, beep4, beep5, beep6, beep7, beep8, beep9
+	};
+
+	class beep {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 0.5};
+		titles[] = {};
+	};		
+	class beep2 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 0.6};
+		titles[] = {};
+	};
+	class beep3 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 0.7};
+		titles[] = {};
+	};
+	class beep4 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 0.8};
+		titles[] = {};
+	};
+	class beep5 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 0.9};
+		titles[] = {};
+	};
+	class beep6 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 1.0};
+		titles[] = {};
+	};
+	class beep7 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 1.2};
+		titles[] = {};
+	};
+	class beep8 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 1.4};
+		titles[] = {};
+	};
+	class beep9 {
+		sound[] = {"addons\beacondetector\sound\beep.wav", db-10, 0.1};
+		titles[] = {};
+	};
+	class MissileAlarm {
+		name = "MissileAlarm";
+		sound[] = {"client\sounds\alarm_locked_by_missile_4x15.ogg", 0.25, 1};
+		titles[] = {0,""};
+	};
+	class flashbang {
+		name = "flashbang";
+		sound[] = {"client\sounds\flashbang.ogg", 0.75, 1};
+		titles[] = {};
+	};
+
+class georgeDamageg101 {
+	name = "georgeDamageg101";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg102 {
+	name = "georgeDamageg102";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg103 {
+	name = "georgeDamageg103";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-03.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg104 {
+	name = "georgeDamageg104";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-04.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg201 {
+	name = "georgeDamageg201";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg202 {
+	name = "georgeDamageg202";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg203 {
+	name = "georgeDamageg203";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-03.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeDamageg207 {
+	name = "georgeDamageg207";
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-07.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikDamageg101 {
+	name = "jennikDamageg101";
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikDamageg102 {
+	name = "jennikDamageg102";
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+
+class jennikDamageg104 {
+	name = "jennikDamageg104";
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-04.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikDamageg105 {
+	name = "jennikDamageg105";
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-05.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikDamageg106 {
+	name = "jennikDamageg106";
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-06.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikDamageg107 {
+	name = "jennikDamageg107";
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-07.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaDamageg101 {
+	name = "vasaDamageg101";
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaDamageg102 {
+	name = "vasaDamageg102";
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaDamageg103 {
+	name = "vasaDamageg103";
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-03.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaDamageg104 {
+	name = "vasaDamageg104";
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-04.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaDamageg105 {
+	name = "vasaDamageg105";
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-05.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+
+
+class georgeHit01 {
+	name = "georgeHit01";
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeHit02 {
+	name = "georgeHit02";
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeHit04 {
+	name = "georgeHit04";
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-04.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeHit05 {
+	name = "georgeHit05";
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-05.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class georgeHit06 {
+	name = "georgeHit06";
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-06.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikHit01 {
+	name = "jennikHit01";
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikHit02 {
+	name = "jennikHit02";
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikHit03 {
+	name = "jennikHit03";
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-03.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikHit04 {
+	name = "jennikHit04";
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-04.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class jennikHit06 {
+	name = "jennikHit06";
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-06.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit01 {
+	name = "vasaHit01";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-01.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit02 {
+	name = "vasaHit02";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-02.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit03 {
+	name = "vasaHit03";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-03.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit04 {
+	name = "vasaHit04";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-04.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit05 {
+	name = "vasaHit05";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-05.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit06 {
+	name = "vasaHit06";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-06.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit07 {
+	name = "vasaHit07";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-07.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit08 {
+	name = "vasaHit08";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-08.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+class vasaHit09 {
+	name = "vasaHit09";
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-09.wav", 2, 1, 50};
+	titles[] = {};
+};
+
+
+
+
+};
+
+class CfgRemoteExec // applies only to clients
+{
+	class Functions
+	{
+		#ifndef A3W_DEBUG
+		mode = 1; // 0 = block all, 1 = whitelist, 2 = allow all
+		#else
+		mode = 2; // debug mode, don't touch
+		#endif
+		
+		class fn_infiSTAR_antiLagSwitch { allowedTargets=2; };	// infiSTAR anti lagswitch
+
+		#include "client\CfgRemoteExec_fnc.hpp"
+	};
+	class Commands
+	{
+		#ifndef A3W_DEBUG
+		mode = 1; // 0 = block all, 1 = whitelist, 2 = allow all
+		#else
+		mode = 2; // debug mode, don't touch
+		#endif
+	};
+};
+
+
+class nABookDialog {
+    idd = 7000;
+    movingEnable = 0;
+    enableSimulation = 1;
+    
+    class controlsBackground {
+        class Background: w_RscText {
+            idc = -1;
+            x = 0.025;
+            y = 0.0125;
+            w = 0.95;
+            h = 0.975;
+            colorBackground[] = {0,0,0,0.8};
+        };
+    };
+    
+    class controls {
+        class Combo: w_RscCombo {
+            idc = 7001;
+            x = 0.05;
+            y = 0.025;
+            w = 0.9;
+            h = 0.09;
+            colorBackground[] = {0,0,0,1};
+            colorDisabled[] = {0,0,0,1};
+            colorBackgroundDisabled[] = {0,0,0,1};
+            colorText[] = {1,1,1,1};
+            colorSelect[] = {1,1,1,1};
+            colorSelectBackground[] = {0,0.5,1,1};
+        };
+        
+        class TextBoxENG: w_RscStructuredText {
+            idc = 7002;
+            x = 0.05;
+            y = 0.13;
+            w = 0.9;
+            h = 0.35;  // Сохранен большой размер
+            colorBackground[] = {0,0,0,0.5};
+            colorText[] = {1,1,1,1};
+            size = 0.04;
+            text = "ENG text will appear here";
+        };
+        
+        class TextBoxRUS: w_RscStructuredText {
+            idc = 7003;
+            x = 0.05;
+            y = 0.5;   // Сдвинуто вниз
+            w = 0.9;
+            h = 0.35;  // Сохранен большой размер
+            colorBackground[] = {0,0,0,0.5};
+            colorText[] = {1,1,1,1};
+            size = 0.04;
+            text = "RUS текст появится здесь";
+        };
+        
+        class CloseButton: w_RscButton2 {
+            idc = 7004;
+            text = "CLOSE / ЗАКРЫТЬ";
+            x = 0.05;
+            y = 0.87;   // Правильная позиция
+            w = 0.9;
+            h = 0.09;
+            colorBackground[] = {0.7,0,0,0.8};
+            colorText[] = {1,1,1,1};
+            onButtonClick = "closeDialog 0;";
+        };
+    };
+};

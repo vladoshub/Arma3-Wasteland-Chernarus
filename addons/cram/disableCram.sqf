@@ -1,0 +1,1 @@
+(_this select 0) setVariable ["cramInit", false, true];

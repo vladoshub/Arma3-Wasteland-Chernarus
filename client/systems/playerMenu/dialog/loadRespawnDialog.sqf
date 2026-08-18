@@ -1,0 +1,1108 @@
+// ******************************************************************************************
+// * This project is licensed under the GNU Affero GPL v3. Copyright © 2014 A3Wasteland.com *
+// ******************************************************************************************
+//	@file Version: 2.0
+//	@file Name: loadRespawnDialog.sqf
+//	@file Author: [404] Deadbeat, [404] Costlyy, MercyfulFate, AgentRev
+//	@file Created: 20/11/2012 05:19
+
+#include "respawn_defines.hpp"
+
+// Check if both players are on the same side, and that our player is BLUFOR or OPFOR, or that both are in the same group
+#define FRIENDLY_CONDITION ([_x, player] call A3W_fnc_isFriendly)
+#define DISABLE_ALL_BUTTONS format ["{ ctrlEnable [_x, false] } forEach %1;", [respawn_Random_Button, Halo_Spawn_Button, respawn_Spawn_Button, respawn_Locations_Type, respawn_Locations_List, respawn_Preload_Checkbox, respawn_GroupMgmt_Button, custom_Loadout_Button]]
+#define TOWN_SPAWN_COOLDOWN (["A3W_townSpawnCooldown", 5*60] call getPublicVar)
+#define SPAWN_BEACON_COOLDOWN (["A3W_spawnBeaconCooldown", 5*60] call getPublicVar)
+#define TERRITORY_SPAWN_COOLDOWN (["A3W_territorySpawnCooldown", 15*60] call getPublicVar)
+#define FLAG_SPAWN_COOLDOWN (["A3W_flagSpawnCooldown", 1.5*60] call getPublicVar)
+#define SPAWN_POINT_COOLDOWN 60
+#define HQ_SPAWN_COOLDOWN (["A3W_hqSpawnCooldown", 7.5*60] call getPublicVar)
+#define BEACON_CHECK_RADIUS 250
+
+disableSerialization;
+waitUntil {!isNil "bis_fnc_init" && {bis_fnc_init}};
+
+createDialog "RespawnSelectionDialog";
+_display = uiNamespace getVariable ["RespawnSelectionDialog", displayNull];
+_display displayAddEventHandler ["KeyDown", "(respawnDialogActive && _this select 1 == 1)"];
+_respawnText = _display displayCtrl respawn_Content_Text;
+_missionUptimeText = _display displayCtrl respawn_MissionUptime_Text;
+
+_randomButton = _display displayCtrl respawn_Random_Button;
+_randomHaloButton = _display displayCtrl Halo_Spawn_Button;
+//_townsButton = _display displayCtrl respawn_LoadTowns_Button;
+//_beaconsButton = _display displayCtrl respawn_LoadBeacons_Button;
+_spawnButton = _display displayCtrl respawn_Spawn_Button;
+_spawnButton ctrlEnable false;
+ctrlSetFocus _randomButton;
+ctrlSetFocus _randomHaloButton;
+
+_spawnButton ctrlSetText "Loading...";
+
+_locType = _display displayCtrl respawn_Locations_Type;
+_locList = _display displayCtrl respawn_Locations_List;
+_locMap = _display displayCtrl respawn_Locations_Map;
+
+
+ctrlMapAnimClear _locMap;
+_locMap ctrlMapAnimAdd [0.25, 1, [(worldSize/2) + 7000, (worldSize/2) - 5000]];
+ctrlMapAnimCommit _locMap;
+
+_townSpawnCooldown = TOWN_SPAWN_COOLDOWN;
+_territorySpawnCooldown = TERRITORY_SPAWN_COOLDOWN;
+_spawnBeaconCooldown = SPAWN_BEACON_COOLDOWN;
+_spawnPointCooldown = SPAWN_POINT_COOLDOWN;
+_hqPointCooldown = HQ_SPAWN_COOLDOWN;
+
+_hqTypes = ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]; // Массив типов техник
+
+_side = switch (playerSide) do
+{
+	case BLUFOR: { "BLUFOR" };
+	case OPFOR:  { "OPFOR" };
+	default      { "Independent" };
+};
+
+_respawnText ctrlSetStructuredText parseText (format ["Welcome to A3Wasteland<br/>You are on %1. Please select a spawn point.", _side]);
+respawnDialogActive = true;
+player setVariable ["airBornSpawn", true];
+
+//buttonSetAction [respawn_Random_Button, format ["%1 [%2,0] execVM 'client\functions\spawnAction.sqf'", _disableAllButtons, respawn_Random_Button]];
+_randomButton buttonSetAction format ["%1 [%2,[0,nil]] execVM 'client\functions\spawnAction.sqf'", DISABLE_ALL_BUTTONS, respawn_Random_Button];
+_randomHaloButton buttonSetAction format ["%1 [%2,[3,nil]] execVM 'client\functions\spawnAction.sqf'", DISABLE_ALL_BUTTONS, Halo_Spawn_Button];
+(_display displayCtrl respawn_Preload_Checkbox) cbSetChecked (profileNamespace getVariable ["A3W_preloadSpawn", true]);
+
+#include "respawn_functions.sqf"
+
+_setPlayersInfo =
+{
+	//private ["_location", "_maxRad", "_centerPos", "_maxRad", "_townEntry"];
+	private ["_location"];
+
+	_location = _this; // spawn beacon object or town marker name
+	
+	private _notHQ = true;
+	if(typeName _location == "OBJECT") then {
+		if((typeOf _location) in ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]) then {
+			_notHQ = false;
+		};
+	};
+
+	_isBeacon = (typeName _location == "OBJECT" && !(_location isKindOf "FlagChecked_F") && _notHQ);
+	//_maxRad = 0;
+	_friendlyUnits = [];
+	_friendlyPlayers = 0;
+	_friendlyNPCs = 0;
+	_enemyPlayers = 0;
+	_enemyNPCs = 0;
+
+/*
+	if (_isBeacon) then
+	{
+		_centerPos = _location call fn_getPos3D;
+		_maxRad = BEACON_CHECK_RADIUS;
+	}
+	else // town
+	{
+		_centerPos = markerPos _location;
+		{
+			if (_x select 0 == _location) exitWith
+			{
+				_maxRad = _x select 1;
+			};
+		} forEach (call cityList);
+	};
+	*/
+
+
+	
+
+
+	{
+		//if (alive _x && {_x isKindOf "CAManBase" && {!(_x call A3W_fnc_isUnconscious) && _x distance _centerPos <= _maxRad}}) then
+		if (alive _x && {_x isKindOf "CAManBase" && {!(_x call A3W_fnc_isUnconscious) && _x inArea _location}}) then
+		{
+			if (FRIENDLY_CONDITION) then
+			{
+				if (isPlayer _x) then
+				{
+					_friendlyPlayers = _friendlyPlayers + 1;
+					_friendlyUnits pushBack _x;
+				}
+				else
+				{
+					_friendlyNPCs = _friendlyNPCs + 1;
+				};
+			}
+			else
+			{
+				if (isPlayer _x) then
+				{
+					_enemyPlayers = _enemyPlayers + 1;
+				}
+				else
+				{
+					if (side _x != sideLogic) then
+					{
+						_enemyNPCs = _enemyNPCs + 1;
+					};
+				};
+			};
+		};
+
+	} forEach allUnits;
+
+
+	// Store enemy counts in the beacon or public variables so we don't have to recount again later on
+	if (_isBeacon) then
+	{
+		_location setVariable ["friendlyUnits", _friendlyUnits];
+		_location setVariable ["friendlyPlayers", _friendlyPlayers];
+		_location setVariable ["friendlyNPCs", _friendlyNPCs];
+		_location setVariable ["enemyPlayers", _enemyPlayers];
+		_location setVariable ["enemyNPCs", _enemyNPCs];
+	}
+	else
+	{
+		missionNamespace setVariable [format ["%1_friendlyUnits", _location], _friendlyUnits];
+		missionNamespace setVariable [format ["%1_friendlyPlayers", _location], _friendlyPlayers];
+		missionNamespace setVariable [format ["%1_friendlyNPCs", _location], _friendlyNPCs];
+		missionNamespace setVariable [format ["%1_enemyPlayers", _location], _enemyPlayers];
+		missionNamespace setVariable [format ["%1_enemyNPCs", _location], _enemyNPCs];
+	};
+};
+
+
+_isTerritoryCaptured =
+{
+	private ["_location", "_index"];
+	_location = _this;
+	_index = A3W_currentTerritoryOwners findIf { (_x select 0) == _location };
+	_friendlyUnits = [];
+	_friendlyPlayers = 0;
+	_friendlyNPCs = 0;
+	_enemyPlayers = 0;
+	_enemyNPCs = 0;
+	{
+		if (alive _x && {_x isKindOf "CAManBase" && {!(_x call A3W_fnc_isUnconscious) && _x inArea _location}}) then
+		{
+			if (FRIENDLY_CONDITION) then
+			{
+				if (isPlayer _x) then
+				{
+					_friendlyPlayers = _friendlyPlayers + 1;
+					_friendlyUnits pushBack _x;
+				}
+				else
+				{
+					_friendlyNPCs = _friendlyNPCs + 1;
+				};
+			}
+			else
+			{
+				if (isPlayer _x) then
+				{
+					_enemyPlayers = _enemyPlayers + 1;
+				}
+				else
+				{
+					if (side _x != sideLogic) then
+					{
+						_enemyNPCs = _enemyNPCs + 1;
+					};
+				};
+			};
+		};
+	} forEach allUnits;
+
+	missionNamespace setVariable [format ["%1_friendlyUnits", _location], _friendlyUnits];
+	missionNamespace setVariable [format ["%1_friendlyPlayers", _location], _friendlyPlayers];
+	missionNamespace setVariable [format ["%1_friendlyNPCs", _location], _friendlyNPCs];
+	missionNamespace setVariable [format ["%1_enemyPlayers", _location], _enemyPlayers];
+	missionNamespace setVariable [format ["%1_enemyNPCs", _location], _enemyNPCs];
+
+	_playerGroup = group player;
+	_territoryOwner = A3W_currentTerritoryOwners select _index select 1;
+	if (_territoryOwner isEqualType grpNull) then
+	{
+		(_playerGroup == _territoryOwner)
+	} else
+	{
+		(playerSide == _territoryOwner)
+	};
+};
+
+
+_flagRespawnOk =
+{
+	private ["_location"];
+	_location = _this;
+	_friendlyUnits = [];
+	_friendlyPlayers = 0;
+	_friendlyNPCs = 0;
+	_enemyPlayers = 0;
+	_enemyNPCs = 0;
+	_isFlagRespawn = _location isKindOf "FlagChecked_F";
+
+	{
+		if (alive _x && {_x isKindOf "CAManBase" && {!(_x call A3W_fnc_isUnconscious) && ((_x distance _location) < 3) }}) then
+		{
+			if (FRIENDLY_CONDITION) then
+			{
+				if (isPlayer _x) then
+				{
+					_friendlyPlayers = _friendlyPlayers + 1;
+					_friendlyUnits pushBack _x;
+				}
+				else
+				{
+					_friendlyNPCs = _friendlyNPCs + 1;
+				};
+			}
+			else
+			{
+				if (isPlayer _x) then
+				{
+					_enemyPlayers = _enemyPlayers + 1;
+				}
+				else
+				{
+					if (side _x != sideLogic) then
+					{
+						_enemyNPCs = _enemyNPCs + 1;
+					};
+				};
+			};
+		};
+	} forEach allUnits;
+
+	missionNamespace setVariable [format ["%1_friendlyUnits", _location], _friendlyUnits];
+	missionNamespace setVariable [format ["%1_friendlyPlayers", _location], _friendlyPlayers];
+	missionNamespace setVariable [format ["%1_friendlyNPCs", _location], _friendlyNPCs];
+	missionNamespace setVariable [format ["%1_enemyPlayers", _location], _enemyPlayers];
+	missionNamespace setVariable [format ["%1_enemyNPCs", _location], _enemyNPCs];	
+
+	_enemyPlayers < 1
+};
+
+// Function to determine the player thresold for use by BIS_fnc_sortBy (friendly = +100, enemy = -1)
+_getPlayerThreshold =
+{
+	private ["_friendlyPlayers", "_friendlyNPCs", "_enemyPlayers", "_enemyNPCs"];
+	_this call _getPlayersInfo;
+
+	((_friendlyPlayers + _friendlyNPCs) * 100 - (_enemyPlayers + _enemyNPCs) + (if (typeName _this != "OBJECT" && _enemyPlayers > _friendlyPlayers) then { -99999 } else { 0 }))
+};
+
+_getBeaconDistance =
+{
+	_lastPos = position (player getVariable ["A3W_oldCorpse", player]);
+	_lastPos distance _this
+};
+
+_getFlagDistance =
+{
+	_lastPos = position (player getVariable ["A3W_oldCorpse", player]);
+	_lastPos distance _this
+};
+
+// Function to determine if a beacon is allowed for use with BIS_fnc_conditionalSelect
+_isBeaconAllowed =
+{
+	private ["_beacon", "_allowed", "_ownerUID"];
+
+	_beacon = _this;
+	_allowed = false;
+
+	if (alive _beacon && _beacon getVariable ["side", sideUnknown] == playerSide) then
+	{
+		if (playerSide == INDEPENDENT || {_beacon getVariable ["groupOnly", false]}) then
+		{
+			_ownerUID = _beacon getVariable ["ownerUID", ""];
+
+			if ({getPlayerUID _x == _ownerUID} count units player > 0) then
+			{
+				_allowed = true;
+			};
+		}
+		else
+		{
+			_allowed = true;
+		};
+	};
+
+	_allowed
+};
+
+_selLocChanged =
+{
+	disableSerialization;
+	private ["_location", "_textStr"];
+
+	_locList = _this select 0;
+	_curSel = _this select 1;
+	_selText = _locList lbText _curSel;
+
+	_display = ctrlParent _locList;
+	_locMap = _display displayCtrl respawn_Locations_Map;
+	_locText = _display displayCtrl respawn_Locations_Text;
+	_randomBtn = _display displayCtrl respawn_Random_Button;
+	_spawnBtn = _display displayCtrl respawn_Spawn_Button;
+	_spawnBtnEnabled = false;
+	_spawnBtnAction = "";
+	_textStr = "";
+
+	#include "respawn_functions.sqf"
+
+	_selData = _locList lbData lbCurSel _locList;
+
+	if (_selData != "") then
+	{
+		_location = call compile _selData;
+	};
+
+	if (!isNil "_location") then
+	{
+		private ["_friendlyUnits", "_friendlyPlayers", "_enemyPlayers", "_enemyNPCs", "_isFlag"];
+		_isBeacon = false;
+		_isHQ = false;
+		_isFlag = false;
+		_isValid = false;
+		if (typeName _location == "OBJECT" && (_location isKindOf "FlagChecked_F")) then {
+			_isFlag = true;
+		};
+
+		private _isCurrentHQ = false;
+		if(typeName _location == "OBJECT") then {
+			if((typeOf _location) in ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]) then {
+				_isCurrentHQ = true;
+			};
+		};
+
+		if (_isCurrentHQ) then {
+			_isHQ = true;
+
+			if (alive _location) then
+			{
+				_isValid = true;
+				_location call _getPlayersInfo;
+				_lastUse = missionNamespace getVariable "spawnHQ_lastUse_" + getPlayerUID player;
+
+				if (!isNil "_lastUse") then
+				{
+					_hqPointCooldown = HQ_SPAWN_COOLDOWN;
+					_remaining = _hqPointCooldown - (diag_tickTime - _lastUse);
+
+					if (_hqPointCooldown > 0 && _remaining > 0) then
+					{
+						_textStr = _textStr + format ["[<t color='#ffff00'>%1</t>] ", _remaining call fn_formatTimer];
+					}
+					else
+					{
+						_spawnBtnEnabled = true;
+					};
+				}
+				else
+				{
+					_spawnBtnEnabled = true;
+				};
+			};
+
+
+		}
+		else {
+
+		private _notHQ = true;
+			if(typeName _location == "OBJECT") then {
+				if((typeOf _location) in ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]) then {
+					_notHQ = false;
+			};
+		};	
+
+		if (typeName _location == "OBJECT" && !(_isFlag) && _notHQ) then
+		{
+			_isBeacon = true;
+
+			if (alive _location) then
+			{
+				_isValid = true;
+				_location call _getPlayersInfo;
+				_lastUse = _location getVariable "spawnBeacon_lastUse";
+
+				if (!isNil "_lastUse") then
+				{
+					_spawnBeaconCooldown = SPAWN_BEACON_COOLDOWN;
+					_remaining = _spawnBeaconCooldown - (diag_tickTime - _lastUse);
+
+					if (_spawnBeaconCooldown > 0 && _remaining > 0) then
+					{
+						_textStr = _textStr + format ["[<t color='#ffff00'>%1</t>] ", _remaining call fn_formatTimer];
+					}
+					else
+					{
+						_spawnBtnEnabled = true;
+					};
+				}
+				else
+				{
+					_spawnBtnEnabled = true;
+				};
+			};
+		}
+		else
+		{
+				if (_isFlag) then {
+
+				_isValid = true;
+				_location call _getPlayersInfo;
+				_lastSpawn = _location getVariable "flag_lastSpawn_UID_" + getPlayerUID player;
+				_isDiableSpawn = !(_location getVariable ["flag_respawn", false]);
+				_cooldown = false;
+				_spawnBtnEnabled = true;
+
+				if (!isNil "_lastSpawn" && !_isDiableSpawn) then
+				{
+					_spawnCooldown = 120;//_spawnFlagCooldown;
+					private _spawnCooldownLong = 600;
+					_remaining = _spawnCooldown - (serverTime - _lastSpawn);
+					private _remainingLong = _spawnCooldownLong - (serverTime - _lastSpawn);
+
+					if (_spawnCooldown > 0 && _remaining > 0) then
+					{
+						_textStr = _textStr + format ["[<t color='#ffff00'>%1</t>] before purchasing spawn.  Balance: %2", _remaining call fn_formatTimer, player getVariable ["bmoney", 0]];
+						_spawnBtnEnabled = false;
+						_cooldown = true;
+					};
+
+					if (_spawnCooldown > 0 && _remaining <= 0 && _remainingLong > 0 && player getVariable ["bmoney", 0] < 200000) then
+					{
+						_textStr = _textStr + format ["You don't have enough money to buy quick .  Balance: %1" , player getVariable ["bmoney", 0]];
+						_spawnBtnEnabled = false;
+						_cooldown = true;
+					};
+
+					if (_spawnCooldown > 0 && _remaining <= 0 && _remainingLong > 0 && player getVariable ["bmoney", 0] >= 200000) then
+					{
+						_textStr = _textStr + format ["200000 for quick spawn or wait %1 Balance: %2", _remainingLong call fn_formatTimer, player getVariable ["bmoney", 0]];
+					};
+
+				};
+
+				if(_isDiableSpawn) then {
+					_textStr = _textStr + "Spawn is disabled";
+					_spawnBtnEnabled = false;
+					_cooldown = true;
+				};
+
+				if (_enemyPlayers > 0) then
+				{
+					_textStr = _textStr + "[<t color='#ff0000'>Blocked by enemy</t>] ";
+					_spawnBtnEnabled = false;
+				};
+
+			}
+			else 
+			{
+			if (_location != "") then
+			{
+				_isValid = true;
+				_location call _getPlayersInfo;
+				_lastSpawn = player getVariable (_location + "_lastSpawn");
+				_cooldown = false;
+
+				if (!isNil "_lastSpawn") then
+				{
+					_spawnCooldown = 0;
+					if (["Spawn_", _location] call fn_startsWith) then {
+						_spawnCooldown = SPAWN_POINT_COOLDOWN;
+					} else {
+						_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { TERRITORY_SPAWN_COOLDOWN } else { TOWN_SPAWN_COOLDOWN };
+					};
+					_remaining = _spawnCooldown - (diag_tickTime - _lastSpawn);
+
+					if (_spawnCooldown > 0 && _remaining > 0) then
+					{
+						_textStr = _textStr + format ["[<t color='#ffff00'>%1</t>] ", _remaining call fn_formatTimer];
+						_cooldown = true;
+					};
+				};
+
+				if (_enemyPlayers > _friendlyPlayers && !(["Spawn_", _location] call fn_startsWith)) then
+				{
+					_textStr = _textStr + "[<t color='#ff0000'>Blocked by enemy</t>] ";
+				}
+				else
+				{
+					_spawnBtnEnabled = !_cooldown;
+				};
+			};
+			};
+		};
+		};
+
+
+
+
+
+		if (_isValid) then
+		{
+			_extraTextStr = "";
+
+			if (_friendlyPlayers > 0) then
+			{
+				if (_extraTextStr != "") then { _extraTextStr = _extraTextStr + ", " };
+				_extraTextStr = _extraTextStr + format ["<t color='#00ff00'>%1 friendly player(s)</t>", _friendlyPlayers];
+			};
+
+			if (_enemyPlayers > 0) then
+			{
+				if (_extraTextStr != "") then { _extraTextStr = _extraTextStr + ", " };
+				_extraTextStr = _extraTextStr + format ["<t color='#ff0000'>%1 enemy player(s)</t>", _enemyPlayers];
+			};
+
+			if (_enemyNPCs > 0) then
+			{
+				if (_extraTextStr != "") then { _extraTextStr = _extraTextStr + ", " };
+				_extraTextStr = _extraTextStr + format ["<t color='#ff0000'>%1 enemy AI(s)</t>", _enemyNPCs];
+			};
+
+			_textStr = _textStr + _extraTextStr;
+
+			private ["_data", "_pos"];
+
+			if(_isHQ) then {
+				_pos = getPosATL _location;
+				_data = [7, [netId _location, _pos, _selText]];
+			}
+			else {
+
+			if (_isBeacon) then
+			{
+				_pos = getPosATL _location;
+				_data = [2, [netId _location, _pos, _selText]];
+			}
+			else
+			{
+				if (!(["Spawn_", _location] call fn_startsWith)) then {
+
+					if(_location isKindOf "FlagChecked_F") then {
+						_pos = getPosASL _location;
+						_data = [5, netId _location];
+					} else {
+						_pos = markerPos _location;
+						if (["TERRITORY_", _location] call fn_startsWith) then
+							{
+							_data = [4, _location];
+						} else
+						{
+							_data = [1, _location];
+						};
+					};
+				} else {
+					_pos = markerPos _location;
+					_data = [6, _location];
+				};
+			};
+			};
+
+			_spawnBtnAction = format ["%1 %2 execVM 'client\functions\spawnAction.sqf'", DISABLE_ALL_BUTTONS, [respawn_Spawn_Button, _data]];
+
+			if (uiNamespace getVariable ["RespawnSelectionDialog_lastSelLoc", ""] != _selData) then
+			{
+				ctrlMapAnimClear _locMap;
+				//_locMap ctrlMapAnimAdd [0.25, ctrlMapScale _locMap, _pos];
+				_locMap ctrlMapAnimAdd [0.25, 0.45, _pos];
+				ctrlMapAnimCommit _locMap;
+			};
+
+			uiNamespace setVariable ["RespawnSelectionDialog_selLocPos", _pos];
+		}
+		else
+		{
+			uiNamespace setVariable ["RespawnSelectionDialog_selLocPos", nil];
+		};
+	}
+	else
+	{
+		uiNamespace setVariable ["RespawnSelectionDialog_selLocPos", nil];
+	};
+
+	if (buttonAction _spawnBtn != _spawnBtnAction) then
+	{
+		_spawnBtn buttonSetAction _spawnBtnAction;
+	};
+
+	_spawnBtnEnabled = _spawnBtnEnabled && ctrlEnabled _randomBtn;
+
+	if ((!ctrlEnabled _spawnBtn && _spawnBtnEnabled) || (ctrlEnabled _spawnBtn && !_spawnBtnEnabled)) then
+	{
+		_spawnBtn ctrlEnable _spawnBtnEnabled;
+	};
+
+	if (ctrlText _locText != _textStr) then
+	{
+		_locText ctrlSetStructuredText parseText _textStr;
+	};
+
+	uiNamespace setVariable ["RespawnSelectionDialog_lastSelLoc", _selData];
+};
+
+_locList ctrlAddEventHandler ["LBSelChanged", _selLocChanged];
+
+_locMap ctrlAddEventHandler ["Draw",
+{
+	_ctrl = _this select 0;
+
+	if (!isNil "A3W_mapDraw_eventCode") then
+	{
+		_this call A3W_mapDraw_eventCode;
+	};
+
+	_spawnLoc = uiNamespace getVariable "RespawnSelectionDialog_selLocPos";
+
+	if (!isNil "_spawnLoc") then
+	{
+		_ctrl drawIcon ["\A3\ui_f\Data\gui\Rsc\RscDisplayArcadeMap\top_close_gs.paa", [0,1,1,1], _spawnLoc, 31, 35, 0, "", 2];
+	};
+}];
+
+_locType lbAdd "Spawns";
+_locType lbAdd "Towns";
+_locType lbAdd "Beacons";
+_locType lbAdd "Territories";
+_locType lbAdd "Flags";
+_locType lbAdd "HQ";
+_locType lbSetCurSel 0;
+
+_locType ctrlAddEventHandler ["LBSelChanged",
+{
+	_locType = _this select 0;
+	_curSel = _this select 1;
+
+	_display = ctrlParent _locType;
+	showBeacons = switch (_curSel) do
+	{
+		case 0: { "Spawn" };
+		case 1: { "Town" };
+		case 2: { "Beacon" };
+		case 3: { "Territory" };
+		case 4: { "Flag" };
+		case 5: { "HQ" };
+	};
+	//showBeacons = (_curSel > 0);
+
+	_locList = _display displayCtrl respawn_Locations_List;
+	lbClear _locList;
+	_locList lbSetCurSel -1;
+
+	_spawnButton = _display displayCtrl respawn_Spawn_Button;
+	_spawnButton ctrlSetText "Loading...";
+
+	uiNamespace setVariable ["RespawnSelectionDialog_updateLocs", true];
+}];
+
+uiNamespace setVariable ["RespawnSelectionDialog_lastSelLoc", nil];
+uiNamespace setVariable ["RespawnSelectionDialog_selLocPos", nil];
+
+showBeacons = "Spawn";
+_oldLocArray = [];
+_typeAutoSel = false;
+
+// Separate thread for fast text updating
+[_selLocChanged] spawn
+{
+	disableSerialization;
+	_selLocChanged = _this select 0;
+	_display = uiNamespace getVariable ["RespawnSelectionDialog", displayNull];
+	_missionUptimeText = _display displayCtrl respawn_MissionUptime_Text;
+	_locList = _display displayCtrl respawn_Locations_List;
+
+	while {!isNull _display} do
+	{
+		_timeText = [serverTime/60/60] call BIS_fnc_timeToString;
+		_missionUptimeText ctrlSetText format ["Mission uptime: %1", _timeText];
+		[_locList, lbCurSel _locList] call _selLocChanged;
+		uiSleep 0.9;
+	};
+};
+
+// Main scanning subroutine
+while {!isNull _display} do
+{
+	_time = diag_tickTime;
+	//_timeText = [serverTime/60/60] call BIS_fnc_timeToString;
+	//_missionUptimeText ctrlSetText format ["Mission uptime: %1", _timeText];
+
+	_locations = [];
+
+	_spawns = [];
+	_hqs = [];
+	{
+		private _localSpawn = _x select 0;
+		_spawns pushBack _localSpawn;
+	} forEach (call spawnList);
+	
+	
+	{
+		private _currentVehicle = _x;
+    	if ((typeOf _currentVehicle) in ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]) then {
+			private _NearHqflags = (_currentVehicle nearEntities ["FlagChecked_F" , 400]);
+
+
+			private _flagHq = (({ _x getVariable ["is_base_flag_activate", false] } count _NearHqflags ) == 0);
+
+        	private _crew = crew _currentVehicle;
+        	private _emptyPositions = _currentVehicle emptyPositions "";
+        	private _hasFriendlyPlayers = false;
+        	{
+				private _playerCrew = _x;
+				if(alive _playerCrew) then {
+            		if (FRIENDLY_CONDITION) then {
+               			_hasFriendlyPlayers = true;
+            		} else {
+						_hasFriendlyPlayers = false;
+						break;
+					}
+				};
+        	} forEach _crew;
+        
+        	// Проверяем наличие свободных мест и дружественных игроков
+        	if (_hasFriendlyPlayers && _emptyPositions > 0 && _flagHq) then {
+            	_hqs pushBack _currentVehicle;
+        	};
+    	};
+	} forEach (vehicles);
+
+	_towns = [];
+	{
+		private "_friendlyPlayers";
+		_town = _x select 0;
+		_town call _setPlayersInfo;
+
+		if (_friendlyPlayers > 0) then
+		{
+			_towns pushBack _town;
+		};
+	} forEach (call cityList);
+
+	_territories = [];
+	{
+		private "_friendlyPlayers";
+		_territory = _x select 0;
+		if (_territory call _isTerritoryCaptured) then
+		{
+			_territories pushBack _territory;
+		};
+	} forEach (call compile preprocessFileLineNumbers format ["mapConfig\%1\territories.sqf", (["A3W_map", "chernarus"] call getPublicVar)]);
+
+	_beacons = [];
+	{
+		if (_x call _isBeaconAllowed) then
+		{
+			_x call _setPlayersInfo;
+			_beacons pushBack _x;
+		};
+	} forEach (["pvar_spawn_beacons", []] call getPublicVar);
+
+	private _allFlags = allMissionObjects "FlagChecked_F";
+	private _friendlyFlags = [];
+	{ 																																																																																																																									/* && (_x getVariable ["flag_respawn", false]) */
+		if ( (((str(side player)) == _x getVariable ["LastSide", (str(side player))])) && ((((_x getVariable ["ownerUID","0"] isEqualTo getPlayerUID player) || (_x getVariable ["ownerUID", "0"] in ((units player) apply {getPlayerUID _x})) || (group _x == group player) || ((side _x == side player) && (str(side player) == "WEST" || str(side player) == "EAST")) || ((str(side player) == "WEST" || str(side player) == "EAST") && (str(side player)) == (_x getVariable ["LastSide", ""])) ) ) || ((_x getVariable ["ownerUID","0"] isEqualTo getPlayerUID player) && (_x getVariable ["is_base_flag_activate", false]) && (_x getVariable ["flag_respawn", false])) )) then 
+			{
+				_friendlyFlags pushBack _x;
+			};
+	} forEach _allFlags;
+
+	_flagsRespawn = [];
+	{
+		private "_friendlyPlayers";
+		private _flag = _x;
+		if (_flag call _flagRespawnOk) then
+		{
+			_flagsRespawn pushBack _flag;
+		};
+
+	} forEach (_friendlyFlags);
+
+
+	if (!_typeAutoSel && ctrlEnabled _randomButton) then
+	{
+		if (showBeacons == "Spawns") then { _locType lbSetCurSel 0 };
+		if (showBeacons == "HQ") then { _locType lbSetCurSel 5 };
+		if (count _towns > 0 && count _beacons == 0 && showBeacons == "Towns") then { _locType lbSetCurSel 1 };
+		if (count _beacons > 0 && count _towns == 0 && showBeacons == "Beacons") then { _locType lbSetCurSel 2 };
+		if (count _territories > 0 && count _beacons == 0 && showBeacons == "Territories") then { _locType lbSetCurSel 3 };
+		if (count _flagsRespawn > 0 && count _beacons == 0 && showBeacons == "Flags") then { _locType lbSetCurSel 4 };
+		_typeAutoSel = true;
+	};
+
+	_locations = switch (showBeacons) do
+	{
+		case "Spawn":
+		{
+			[_spawns, [], {_x call _getPlayerThreshold}, "DESCEND"] call BIS_fnc_sortBy
+		};
+		case "Town":
+		{
+			[_towns, [], {_x call _getPlayerThreshold}, "DESCEND"] call BIS_fnc_sortBy
+		};
+		case "Territory":
+		{
+			[_territories, [], {_x call _getPlayerThreshold}, "DESCEND"] call BIS_fnc_sortBy
+		};
+		case "Beacon":
+		{
+			[_beacons, [], {_x call _getBeaconDistance}, "ASCEND", {alive _x}] call BIS_fnc_sortBy
+		};
+		case "Flag":
+		{
+			[_flagsRespawn, [], {_x call _getFlagDistance}, "ASCEND", {alive _x}] call BIS_fnc_sortBy
+		};
+		case "HQ":
+		{
+			[_hqs, [], {_x call _getPlayerThreshold}, "ASCEND", {alive _x}] call BIS_fnc_sortBy
+		};
+	};
+
+	_newLocArray = []; // Location, Text, Data, Picture, Enabled
+
+	{
+		_location = _x;
+		_text = "";
+		_data = "";
+
+		private _isHQ = false;
+		private _notHQ = true;
+			if(typeName _location == "OBJECT") then {
+				if((typeOf _location) in ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]) then {
+					_notHQ = false;
+					_isHQ = true;
+			};
+		};
+
+		_isBeacon = (typeName _location == "OBJECT" && !(_location isKindOf "FlagChecked_F") && _notHQ);
+
+
+		if(_isHQ) then {
+			_text = format ["%1: [%2, %3, %4]", (getText (configFile >> "CfgVehicles" >> typeOf _location >> "displayName")), round ((getPos _location)#0), round ((getPos _location)#1), round ((getPos _location)#2)];
+			_data = "objectFromNetId " + str netId _location;
+		} 
+		else 
+		{	
+
+			if (_isBeacon) then
+			{
+				_text = _location getVariable ["beaconName", (_location getVariable ["ownerName", "[Beacon]"])];
+				_data = "objectFromNetId " + str netId _location;
+			}
+			else
+			{
+				if(!(_location isKindOf "FlagChecked_F")) then {
+				_citiesTerritories = call cityList;
+				_spawnTerritories = call spawnList;
+				_citiesTerritories append (call compile preprocessFileLineNumbers format ["mapConfig\%1\territories.sqf", (["A3W_map", "chernarus"] call getPublicVar)]);
+				_index = _citiesTerritories findIf { _x select 0 == _location };
+				_indexSpawn = _spawnTerritories findIf { _x select 0 == _location };
+
+				if (["Spawn_", _location] call fn_startsWith) then
+				{
+					_text = _spawnTerritories select _indexSpawn select 2;
+				} else {
+
+				if (["TERRITORY_", _location] call fn_startsWith) then
+				{
+					_text = _citiesTerritories select _index select 1;
+
+				}
+				else
+				{
+					_text = _citiesTerritories select _index select 2;
+				};
+				};
+				
+				_data = str _location;
+				
+				}
+				else
+				{
+
+				//base_flag addon
+					_text = format ["Base Flag Respawn: %1", _forEachIndex];
+					_data = "objectFromNetId " + str netId _location;
+				};
+			};
+		};
+
+		//_isBeacon = (typeName _location == "OBJECT");
+
+		private ["_friendlyUnits", "_friendlyPlayers", "_enemyPlayers", "_enemyNPCs"];
+		_location call _getPlayersInfo;
+
+		private "_picture";
+		_enabled = true;
+
+
+		if(_isHQ) then {
+			_lastUseHQ = missionNamespace getVariable "spawnHQ_lastUse_" + getPlayerUID player;
+			if (!isNil "_lastUseHQ") then
+			{
+				_remainingHQ = _hqPointCooldown - (diag_tickTime - _lastUseHQ);
+				if (_hqPointCooldown > 0 && _remainingHQ > 0) then
+				{
+					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+					_enabled = false;
+				};
+			};
+		}
+		else 
+		{
+
+		if (_isBeacon) then
+		{
+			_lastUse = _location getVariable "spawnBeacon_lastUse";
+
+			if (!isNil "_lastUse") then
+			{
+				_remaining = _spawnBeaconCooldown - (diag_tickTime - _lastUse);
+
+				if (_spawnBeaconCooldown > 0 && _remaining > 0) then
+				{
+					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+					_enabled = false;
+				};
+			};
+		}
+		else
+		{
+			if((_location isKindOf "FlagChecked_F")) then {
+			_isDiableSpawn = !(_location getVariable ["flag_respawn", false]);
+			_lastSpawn = _location getVariable "flag_lastSpawn_UID_" + getPlayerUID player;
+			_cooldown = false;
+
+			if (!isNil "_lastSpawn" && !_isDiableSpawn) then
+			{
+				_spawnCooldown = 120;//_spawnFlagCooldown;
+				private _spawnCooldownLong = 600;
+				_remaining = _spawnCooldown - (serverTime - _lastSpawn);
+				private _remainingLong = _spawnCooldownLong - (serverTime - _lastSpawn);
+
+
+
+				if (_spawnCooldown > 0 && _remaining > 0) then
+				{
+					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+					_cooldown = true;
+				};
+
+				if (_spawnCooldown > 0 && _remaining <= 0 && _remainingLong > 0 && player getVariable ["bmoney", 0] < 200000) then
+				{
+					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+					_cooldown = true;
+				};
+
+
+			};
+
+			if (_isDiableSpawn) then
+			{
+				_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+				_cooldown = true;
+			};
+
+			_enabled = (!_cooldown && _enemyPlayers <= _friendlyPlayers);
+
+
+			} else 
+			{
+			_lastSpawn = player getVariable (_location + "_lastSpawn");
+			_cooldown = false;
+
+			if (!isNil "_lastSpawn") then
+			{
+				_spawnCooldown = 0;
+				if (["Spawn_", _location] call fn_startsWith) then {
+					_spawnCooldown = _spawnPointCooldown;
+				} else {
+					_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { _territorySpawnCooldown } else { _townSpawnCooldown };
+				};
+				_remaining = _spawnCooldown - (diag_tickTime - _lastSpawn);
+
+				if (_spawnCooldown > 0 && _remaining > 0) then
+				{
+					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+					_cooldown = true;
+				};
+			};
+
+			/////
+				if((["Spawn_", _location] call fn_startsWith)) then {
+					if(_cooldown) then {
+						_location setMarkerColorLocal "ColorOrange";
+					} else {
+						_location setMarkerColorLocal "ColorGreen";
+					};
+				};
+			
+
+			_enabled = (!_cooldown && _enemyPlayers <= _friendlyPlayers);
+			};
+		};
+
+		};
+
+		if (isNil "_picture") then
+		{
+			_picture = format ["\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\%1", if (_enabled) then { "sessions_none_ca.paa" } else { "sessions_version_ca.paa" }];
+		};
+
+		_newLocArray pushBack [_location, _text, _data, _picture, _enabled];
+	} forEach _locations;
+
+	if !(uiNamespace getVariable ["RespawnSelectionDialog_updateLocs", false]) then
+	{
+		if !(_newLocArray isEqualTo _oldLocArray) then
+		{
+			private ["_selData", "_selLoc", "_loc", "_idx", "_selIdx"];
+			_selData = _locList lbData lbCurSel _locList;
+
+			if (_selData != "") then
+			{
+				_selLoc = call compile _selData;
+			};
+
+			lbClear _locList;
+
+			{
+				_loc = _x select 0;
+				_idx = _locList lbAdd (_x select 1);
+				_locList lbSetData [_idx, _x select 2];
+				_locList lbSetPicture [_idx, _x select 3];
+
+				diag_log "OK";
+
+				if (isNil "_selIdx" && !isNil "_selLoc" && {typeName _loc == typeName _selLoc && {_loc == _selLoc}}) then
+				{
+					_selIdx = _idx;
+				};
+			} forEach _newLocArray;
+
+			if (!isNil "_selIdx") then
+			{
+				_locList lbSetCurSel _selIdx;
+			};
+		};
+
+		_spawnButton ctrlSetText "Spawn";
+	};
+
+	_oldLocArray = _newLocArray;
+
+	_updateLocs = false;
+	waitUntil {_updateLocs = uiNamespace getVariable ["RespawnSelectionDialog_updateLocs", false]; diag_tickTime - _time >= 0.5 || _updateLocs};
+
+	if (_updateLocs) then
+	{
+		_oldLocArray = [];
+		uiNamespace setVariable ["RespawnSelectionDialog_updateLocs", nil];
+	};
+};
