@@ -169,20 +169,37 @@ A3W_portalAmount = 1000;
 A3W_serverMissions = 1;            // Enable server missions (0 = no, 1 = yes)
 A3W_missionsDifficulty = 0;        // Missions difficulty (0 = normal, 1 = hard)
 A3W_missionFarAiDrawLines = 1;     // Draw small red lines on the map from mission markers to individual units & vehicles which are further away than 50m from the objective (0 = no, 1 = yes)
-A3W_missionsQuantity = 6;          // Number of missions running at the same time (0 to 6)
+A3W_missionsQuantity = 6;          // Hard ceiling for dynamically active missions (0 to 6)
+
+// Dynamic mission scheduler
+// Format: [maximum real players, active mission slots, [[mission type, spawn weight], ...]]
+// Weights are relative, but each row below totals 100 so they are easy to read as percentages.
+// Headless clients are not counted as real players.
+// The scheduler checks for free slots every A3W_dynamicMissionCheckInterval seconds.
+A3W_dynamicMissionCheckInterval = 60;
+A3W_dynamicMissionPlayerLimits =
+[
+    [10, 1, [["mainMission", 40], ["patrolMission", 10], ["moneyMission", 10], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [20, 2, [["mainMission", 40], ["patrolMission", 10], ["moneyMission", 10], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [30, 3, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [40, 4, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [50, 5, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [60, 5, [["mainMission", 25], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [1000000, 6, [["mainMission", 25], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]]
+];
 A3W_heliPatrolMissions = 1;        // Enable missions involving flying helicopters piloted by AI (0 = no, 1 = yes)
 A3W_underWaterMissions = 1;        // Enable underwater missions which require diving gear (0 = no, 1 = yes)
-A3W_mainMissionDelay = 1*60;      // Time in seconds between Main Missions
+A3W_mainMissionDelay = 1*60;      // Legacy: ignored by dynamic mission scheduler
 A3W_mainMissionTimeout = 35*60;    // Time in seconds that a Main Mission will run for, unless completed
-A3W_patrolMissionDelay = 60*60;      // Time in seconds between Main Missions
+A3W_patrolMissionDelay = 60*60;   // Legacy: ignored by dynamic mission scheduler
 A3W_patrolMissionTimeout = 25*60;    // Time in seconds that a Main Mission will run for, unless completed
-A3W_ultraMissionDelay = 10*60;     // Time in seconds between Main Missions
+A3W_ultraMissionDelay = 10*60;    // Legacy: ignored by dynamic mission scheduler
 A3W_ultraMissionTimeout = 45*60;   // Time in seconds that a Main Mission will run for, unless completed
-A3W_sideMissionDelay = 1*60;       // Time in seconds between Side Missions
+A3W_sideMissionDelay = 1*60;      // Legacy: ignored by dynamic mission scheduler
 A3W_sideMissionTimeout =30*60;    // Time in seconds that a Side Mission will run for, unless completed
-A3W_moneyMissionDelay = 30*60;     // Time in seconds between Money Missions
+A3W_moneyMissionDelay = 30*60;    // Legacy: ignored by dynamic mission scheduler
 A3W_moneyMissionTimeout = 45*60;   // Time in seconds that a Money Mission will run for, unless completed
-A3W_extraMissionDelay = 35*60;        // Time in seconds between Side Missions 
+A3W_extraMissionDelay = 35*60;    // Legacy: ignored by dynamic mission scheduler
 A3W_extraMissionTimeout = 40*60;    // Time in seconds that a Side Mission will run for, unless completed
 A3W_specialMissionDelay = 10*60;     // Time in seconds between Side Missions
 A3W_specialMissionTimeout = 40*60;    //
