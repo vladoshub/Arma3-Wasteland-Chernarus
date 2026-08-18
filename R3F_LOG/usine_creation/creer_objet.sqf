@@ -8,6 +8,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// A3Wasteland: per-player R3F Factory craft cooldown
+private _factoryCraftCooldown = ["A3W_factoryCraftCooldown", 15] call getPublicVar;
+private _factoryLastCraftTime = missionNamespace getVariable ["R3F_LOG_factory_lastCraftTime", -1];
+private _factoryCraftTimeLeft = _factoryCraftCooldown - (diag_tickTime - _factoryLastCraftTime);
+
+if (_factoryCraftCooldown > 0 && {_factoryLastCraftTime >= 0} && {_factoryCraftTimeLeft > 0}) exitWith
+{
+	hint format ["You need to wait %1s before creating another object", ceil _factoryCraftTimeLeft];
+	playSound "FD_CP_Not_Clear_F";
+};
+
 if (R3F_LOG_mutex_local_verrou) then
 {
 	hintC STR_R3F_LOG_mutex_action_en_cours;
@@ -121,6 +132,8 @@ else
 					
 					if !(isNull _objet) then
 					{
+						// Start cooldown only after an object was actually created.
+						missionNamespace setVariable ["R3F_LOG_factory_lastCraftTime", diag_tickTime];
 							//WASTLEAND ELEMENTS
 							if (_classe == "Land_BarrelWater_F") then 
 							{ 
