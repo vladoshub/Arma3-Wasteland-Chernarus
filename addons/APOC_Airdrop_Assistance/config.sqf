@@ -4,64 +4,64 @@
 // APOC_AA_coolDownTime = 180; //Expressed in sec
 
 APOC_AA_VehOptions = [
-	["Ifrit", "O_MRAP_02_F", 15000, "vehicle"],
-	["Hunter", "B_MRAP_01_F", 15000, "vehicle"],
-	["Assault Boat", "I_C_Boat_Transport_01_F", 14000, "vehicle"],
-	["MB 4WD LMG", "I_C_Offroad_02_LMG_F", 80000, "vehicle"],
-	["Qilin Minigun", "O_T_LSV_02_armed_F", 200000, "vehicle"],
-	["MB 4WD AT", "I_C_Offroad_02_AT_F", 200000, "vehicle"],
-	["Ifrit HMG", "O_MRAP_02_hmg_F", 360000, "vehicle"],
-	["HEMTT Ammo", "B_Truck_01_ammo_F", 3000000, "vehicle"]
+	["Ifrit", "O_MRAP_02_F", 45000, "vehicle"],
+	["Hunter", "B_MRAP_01_F", 65000, "vehicle"],
+	["Assault Boat", "I_C_Boat_Transport_01_F", 264000, "vehicle"],
+	["MB 4WD LMG", "I_C_Offroad_02_LMG_F", 180000, "vehicle"],
+	["Qilin Minigun", "O_T_LSV_02_armed_F", 600000, "vehicle"],
+	["MB 4WD AT", "I_C_Offroad_02_AT_F", 1000000, "vehicle"],
+	["Ifrit HMG", "O_MRAP_02_hmg_F", 1360000, "vehicle"],
+	["HEMTT Ammo", "B_Truck_01_ammo_F", 6000000, "vehicle"]
 ];
 
 APOC_AA_Veh2Options = [
-	["Hunter HMG", "B_MRAP_01_hmg_F", 300000, "vehicle2"],
-	["Hunter GMG", "B_MRAP_01_gmg_F", 400000, "vehicle2"],
-	["AFV-4 Gorgon", "I_APC_Wheeled_03_cannon_F", 700000, "vehicle2"],
-	["ZSU-39 Tigris AA", "O_APC_Tracked_02_AA_F", 1500000, "vehicle2"],
-	["T-100 Varsuk", "O_MBT_02_cannon_F", 1200000, "vehicle2"],
-	["AMV-7 Marshall (HQ)", "B_T_APC_Wheeled_01_cannon_F", 3800000, 'vehicle']
+	["Hunter HMG", "B_MRAP_01_hmg_F", 600000, "vehicle2"],
+	["Hunter GMG", "B_MRAP_01_gmg_F", 160000, "vehicle2"],
+	["AFV-4 Gorgon", "I_APC_Wheeled_03_cannon_F", 2700000, "vehicle2"],
+	["ZSU-39 Tigris AA", "O_APC_Tracked_02_AA_F", 4200000, "vehicle2"],
+	["T-100 Varsuk", "O_MBT_02_cannon_F", 4200000, "vehicle2"],
+	["AMV-7 Marshall (HQ)", "B_T_APC_Wheeled_01_cannon_F", 5800000, 'vehicle']
 	// ["Rhino MGS UP", "B_AFV_Wheeled_01_up_cannon_F", 95000, "vehicle2"]
 	// ["MBT-52 Kuma", "I_MBT_03_cannon_F", 170000, "vehicle2"]
 ];
 
 APOC_AA_Veh3Options = [
-	["Offroad", "C_Offroad_01_F", 20000, "vehicle3"],
-	["HEMTT Flatbed", "B_T_Truck_01_flatbed_F", 35000, "vehicle3"]
+	["Offroad", "C_Offroad_01_F", 60000, "vehicle3"],
+	["HEMTT Flatbed", "B_T_Truck_01_flatbed_F", 135000, "vehicle3"]
 ];
 
 APOC_AA_Veh4Options = [
-	["M-900 LittleBird", "C_Heli_Light_01_civil_F", 100000, "vehicle4"],
-	["PO-30 Orca (DAGR)", "O_Heli_Light_02_dynamicLoadout_F", 775000, "vehicle4"],
-	["Mi-48 Kajman Delta", "O_Heli_Attack_02_dynamicLoadout_F", 2000000, "vehicle4"],
-	["A-143 Buzzard", "I_Plane_Fighter_03_dynamicLoadout_F", 1500000, "vehicle4"],
-	["F/A-181 Black Wasp", "B_Plane_Fighter_01_F", 3000000, "vehicle4"],
-	["V-44 X Blackfish Armed (HQ)", "B_T_VTOL_01_armed_olive_F", 5300000, "vehicle4"]
+	["M-900 LittleBird", "C_Heli_Light_01_civil_F", 300000, "vehicle4"],
+	["PO-30 Orca (DAGR)", "O_Heli_Light_02_dynamicLoadout_F", 1775000, "vehicle4"],
+	["Mi-48 Kajman Delta", "O_Heli_Attack_02_dynamicLoadout_F", 3000000, "vehicle4"],
+	["A-143 Buzzard", "I_Plane_Fighter_03_dynamicLoadout_F", 3500000, "vehicle4"],
+	["F/A-181 Black Wasp", "B_Plane_Fighter_01_F", 5000000, "vehicle4"],
+	["V-44 X Blackfish Armed (HQ)", "B_T_VTOL_01_armed_olive_F", 7300000, "vehicle4"]
 ];
 
 
 APOC_AA_SupOptions = [
-	["Contact DLC Box", "mission_DLC_contact", 180000, "supply"],
-	["Assault Rifles", "mission_Assault1", 200000, "supply"],
-	["Dive Gear", "mission_Gear_Diving", 200000, "supply"],
-	["Machine Guns", "mission_LMGs1", 372500, "supply"],
-	["Marksmen DLC Box", "mission_DLC_marks", 372500, "supply"],
-	["Sniper Rifles", "mission_Snipers2", 472500, "supply"],
-	["Sniper Rifles #2", "mission_Snipers3", 472500, "supply"],
-	["Apex DLC Box", "mission_DLC_apex", 472500, "supply"],
-	["Launchers", "mission_Launchers1", 862500, "supply"]
+	["Contact DLC Box", "mission_DLC_contact", 680000, "supply"],
+	["Assault Rifles", "mission_Assault1", 600000, "supply"],
+	["Dive Gear", "mission_Gear_Diving", 600000, "supply"],
+	["Machine Guns", "mission_LMGs1", 772500, "supply"],
+	["Marksmen DLC Box", "mission_DLC_marks", 772500, "supply"],
+	["Sniper Rifles", "mission_Snipers2", 872500, "supply"],
+	["Sniper Rifles #2", "mission_Snipers3", 872500, "supply"],
+	["Apex DLC Box", "mission_DLC_apex", 872500, "supply"],
+	["Launchers", "mission_Launchers1", 1862500, "supply"]
 ];
 
 
 APOC_AA_Base_one = [
-	["Base blocks (walls)", [[["Land_HBarrier_3_F", 4], ["Land_HBarrierWall6_F", 2]], "Land_Cargo40_white_F"], 150000, "base"],
-	["Base blocks (bunkers)", [[["Land_BagBunker_Small_F", 1], ["Land_BagBunker_Large_F", 1], ["Land_HBarrier_3_F", 1], ["Land_HBarrierTower_F", 1]], "Land_Cargo40_white_F"], 200000, "base"],
-	["Base blocks (humps)", [[["Dirthump_3_F", 2]], "Land_Cargo40_white_F"], 150000, "base"], 
-	["Food and Water", [[["Land_Sacks_goods_F", 2], ["Land_BarrelWater_F", 3]], "Land_CargoBox_V1_F"], 300000, "base"],
-	["Mobile ATM", [[["Land_Atm_01_malden_F", 1]], "Land_Cargo40_white_F"], 2225000, "base"],
-	["Object Factory", [[["Land_SCF_01_shredder_F", 1]], "Land_Cargo40_white_F"], 2225000, "base"],
-	["Mobile parking", [[["Land_i_Garage_V1_F", 1]], "Land_Cargo40_white_F"], 4500000, "base"],
-	["Base flag", [[["FlagChecked_F", 1]], "Land_Cargo40_white_F"], 4500000, "base"]
+	["Base blocks (walls)", [[["Land_HBarrier_3_F", 4], ["Land_HBarrierWall6_F", 2]], "Land_Cargo40_white_F"], 200000, "base"],
+	["Base blocks (bunkers)", [[["Land_BagBunker_Small_F", 1], ["Land_BagBunker_Large_F", 1], ["Land_HBarrier_3_F", 1], ["Land_HBarrierTower_F", 1]], "Land_Cargo40_white_F"], 300000, "base"],
+	["Base blocks (humps)", [[["Dirthump_3_F", 2]], "Land_Cargo40_white_F"], 350000, "base"], 
+	["Food and Water", [[["Land_Sacks_goods_F", 2], ["Land_BarrelWater_F", 3]], "Land_CargoBox_V1_F"], 500000, "base"],
+	["Mobile ATM", [[["Land_Atm_01_malden_F", 1]], "Land_Cargo40_white_F"], 3825000, "base"],
+	["Object Factory", [[["Land_SCF_01_shredder_F", 1]], "Land_Cargo40_white_F"], 6225000, "base"],
+	["Mobile parking", [[["Land_i_Garage_V1_F", 1]], "Land_Cargo40_white_F"], 6500000, "base"],
+	["Base flag", [[["FlagChecked_F", 1]], "Land_Cargo40_white_F"], 8500000, "base"]
 	//["Base blocks (walls)", "block", 150000, "base"],
 	//["Base blocks (bunkers)", "block", 200000, "baseBunker"],
 //	["Base blocks 2", "block", 200000, "base1"],

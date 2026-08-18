@@ -31,13 +31,13 @@ _classe = _this select 0;
 // Formule de calcul de co�t
 //_cout_creation = _facteur_cout * (1 max ceil (0.01 * getNumber (configFile >> "CfgVehicles" >> _classe >> "cost")));
 
-_price = ceil ((call allGenStoreVanillaItems select { _x select 1 == _classe } select 0 select 2)) * 1.5; //objects
+_price = ceil ((call allGenStoreVanillaItems select { _x select 1 == _classe } select 0 select 2)) * 10.0; //objects
 
 _cout_creation = 100000;
 
 if (isNil "_price") then
 	{
-		_price = ceil ((call allVehStoreVehicles select { _x select 1 == _classe } select 0 select 2)) * 4.0; //vehicles
+		_price = ceil ((call allVehStoreVehicles select { _x select 1 == _classe } select 0 select 2)) * 10.0; //vehicles
 
 	};
 
