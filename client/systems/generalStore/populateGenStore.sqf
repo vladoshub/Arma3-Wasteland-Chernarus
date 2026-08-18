@@ -94,6 +94,8 @@ switch(_switch) do
 	};
 };
 
+_itemsArray = _itemsArray select { [_x param [1, "", [""]]] call A3W_fnc_isStoreItemAvailable };
+
 _playerSideNum = switch (playerSide) do
 {
 	case BLUFOR:      { 1 };

@@ -38,7 +38,7 @@ CHVD_maxView = 4500; // Set maximum view distance (default: 12000) //BY_VLADOS
 CHVD_maxObj = 4500; // Set maximimum object view distance (default: 12000) //BY_VLADOS
 externalConfigFolderAdditional = "\A3Wasteland_settings";
 
-private _need = "12345abz!";
+private _need = "12345abz";
 
 // versionName = ""; // Set in STR_WL_WelcomeToWasteland in stringtable.xml
 
@@ -96,6 +96,20 @@ if (hasInterface && (["A3W_use_CUP", false] call getPublicVar)) then {
 };
 
 call compile preprocessFileLineNumbers "addons\cram\Trophy.sqf"; //CRAM2
+
+// If the dynamic store rotates while a player has a store dialog open, close it so the next
+// opening immediately reflects the new server-wide assortment.
+if (hasInterface) then
+{
+	"A3W_dynamicStoreRevision" addPublicVariableEventHandler
+	{
+		if (!isNull (findDisplay 2001) || {!isNull (findDisplay 2009)} || {!isNull (findDisplay 5285)}) then
+		{
+			closeDialog 0;
+			hint "Store assortment has been updated. Reopen the store.";
+		};
+	};
+};
 
 //init Wasteland Core
 [] execVM "config.sqf";

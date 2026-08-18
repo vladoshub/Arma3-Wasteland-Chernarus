@@ -134,6 +134,11 @@ else
 
 if (isServer) then
 {
+	[] execVM "server\functions\dynamicStoreManager.sqf";
+};
+
+if (isServer) then
+{
 	// compileFinal & broadcast client config variables
 	{
 		missionNamespace setVariable [_x, compileFinal str (missionNamespace getVariable _x)];

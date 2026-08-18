@@ -35,6 +35,8 @@ _vehArray = switch (_switch) do
 	default { [] };
 };
 
+_vehArray = _vehArray select { [_x param [1, "", [""]]] call A3W_fnc_isStoreItemAvailable };
+
 _noBuzzard = ["vehicleStore_noBuzzard", true] call getPublicVar;
 
 _playerSideNum = switch (playerSide) do

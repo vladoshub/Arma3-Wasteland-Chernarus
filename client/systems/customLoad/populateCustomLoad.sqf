@@ -128,6 +128,8 @@ switch(_switch) do
 	};
 };
 
+_itemsArray = _itemsArray select { [_x param [1, "", [""]]] call A3W_fnc_isStoreItemAvailable };
+
 _ammoBtn ctrlShow _showAmmo;
 _ammoLbl ctrlShow _showAmmo;
 _ammolist ctrlShow _showAmmo;
