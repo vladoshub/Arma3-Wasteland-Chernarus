@@ -202,21 +202,8 @@ A3W_map = "chernarus";
 A3W_store_variant = "cup";
 
 // Dynamic store rotation
-// The server rolls one global assortment after every mission/server restart and then periodically.
-// Probability can be written as 0..1 or 0..100 (0.25 and 25 both mean 25%).
+// Every store row contains its own ["chance", X] value in storeConfig_*.sqf.
+// The assortment is rolled globally after restart and then periodically.
 A3W_dynamicStoreEnabled = true;
 A3W_dynamicStoreRefreshInterval = 2 * 60 * 60; // seconds; 0 = only roll once after restart
-A3W_dynamicStoreDefaultChance = 1.0;           // chance for every class not listed below
 
-// Per-item chance can also be written directly in storeConfig_cup.sqf by appending ["chance", X]:
-// ["M107", "CUP_srifle_M107_LeupoldVX3", 150000, ["chance", 0.10]]
-// This works with rows that already have noDLC/HIDDEN/type/variant fields: append the chance tag at the end.
-//
-// Per-class overrides below have higher priority than inline ["chance", X]. Add any classname here.
-// Examples:
-// ["CUP_srifle_AS50_SBPMII", 0.10], // 10%
-// ["CUP_launch_Javelin", 25],       // 25%
-// ["B_MBT_01_cannon_F", 0]         // never appears
-A3W_dynamicStoreItemChances =
-[
-];

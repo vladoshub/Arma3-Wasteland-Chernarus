@@ -38,7 +38,7 @@ CHVD_maxView = 4500; // Set maximum view distance (default: 12000) //BY_VLADOS
 CHVD_maxObj = 4500; // Set maximimum object view distance (default: 12000) //BY_VLADOS
 externalConfigFolderAdditional = "\A3Wasteland_settings";
 
-private _need = "12345abz";
+private _need = "12345abz!";
 
 // versionName = ""; // Set in STR_WL_WelcomeToWasteland in stringtable.xml
 

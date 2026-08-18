@@ -1,7 +1,7 @@
 // ******************************************************************************************
 // Dynamic Store Manager
-// Rolls one server-wide store rotation at mission start and then at a configurable interval.
-// Availability is synchronized to all clients (including JIP clients) via public mission vars.
+// Rolls every store position independently using the ["chance", X] value stored in that row.
+// Each section is kept separate, so duplicate classNames/variants can roll independently.
 // ******************************************************************************************
 
 if (!isServer) exitWith {};
@@ -15,6 +15,7 @@ if !(_enabled isEqualType true) then { _enabled = true };
 if (!_enabled) exitWith
 {
     missionNamespace setVariable ["A3W_dynamicStoreAvailableItems", nil, true];
+    missionNamespace setVariable ["A3W_dynamicStoreAvailableClasses", nil, true];
     missionNamespace setVariable ["A3W_dynamicStoreNextRefresh", -1, true];
     diag_log "[DynamicStore] Disabled";
 };
@@ -33,78 +34,6 @@ private _arrayNames =
     "landArray", "armoredArray", "tanksArray", "helicoptersArray", "planesArray", "boatsArray"
 ];
 
-private _allClasses = [];
-private _inlineChances = [];
-
-{
-    private _arrayCode = missionNamespace getVariable [_x, nil];
-
-    if (!isNil "_arrayCode" && {_arrayCode isEqualType {}}) then
-    {
-        {
-            private _class = _x param [1, "", [""]];
-            if !(_class isEqualTo "") then
-            {
-                _allClasses pushBackUnique _class;
-
-                // Optional inline syntax in storeConfig_*.sqf:
-                // ["Name", "Class", price, ..., ["chance", 0.25]]
-                private _chanceTagIndex = _x findIf
-                {
-                    _x isEqualType [] &&
-                    {count _x >= 2} &&
-                    {toLower (_x param [0, "", [""]]) isEqualTo "chance"}
-                };
-
-                if (_chanceTagIndex >= 0) then
-                {
-                    private _inlineChance = (_x select _chanceTagIndex) param [1, 1, [0]];
-                    private _existingIndex = _inlineChances findIf {(_x select 0) isEqualTo _class};
-
-                    if (_existingIndex >= 0) then
-                    {
-                        _inlineChances set [_existingIndex, [_class, _inlineChance]];
-                    }
-                    else
-                    {
-                        _inlineChances pushBack [_class, _inlineChance];
-                    };
-                };
-            };
-        } forEach (call _arrayCode);
-    };
-} forEach _arrayNames;
-
-private _getChance =
-{
-    params ["_class"];
-
-    private _chance = missionNamespace getVariable ["A3W_dynamicStoreDefaultChance", 1];
-
-    // Inline chance from the store row, if present.
-    private _inlineIndex = _inlineChances findIf {(_x select 0) isEqualTo _class};
-    if (_inlineIndex >= 0) then
-    {
-        _chance = (_inlineChances select _inlineIndex) param [1, _chance, [0]];
-    };
-
-    // Server config override has the highest priority.
-    private _overrides = missionNamespace getVariable ["A3W_dynamicStoreItemChances", []];
-    private _index = _overrides findIf
-    {
-        _x isEqualType [] && {count _x >= 2} && {(_x param [0, "", [""]]) isEqualTo _class}
-    };
-
-    if (_index >= 0) then
-    {
-        _chance = (_overrides select _index) param [1, _chance, [0]];
-    };
-
-    // Accept both 0..1 and 0..100 notation. Examples: 0.25 or 25 = 25%.
-    if (_chance > 1) then { _chance = _chance / 100 };
-    (_chance max 0) min 1
-};
-
 private _refreshInterval = missionNamespace getVariable ["A3W_dynamicStoreRefreshInterval", 2 * 60 * 60];
 _refreshInterval = _refreshInterval max 0;
 
@@ -112,20 +41,57 @@ private _revision = 0;
 
 while {true} do
 {
-    private _available = [];
+    private _availableKeys = [];
+    private _availableClasses = [];
+    private _totalRows = 0;
 
     {
-        private _chance = [_x] call _getChance;
+        private _section = _x;
+        private _arrayCode = missionNamespace getVariable [_section, nil];
 
-        if (_chance >= 1 || {_chance > 0 && {random 1 < _chance}}) then
+        if (!isNil "_arrayCode" && {_arrayCode isEqualType {}}) then
         {
-            _available pushBack _x;
+            {
+                private _row = _x;
+                private _class = _row param [1, "", [""]];
+
+                if !(_class isEqualTo "") then
+                {
+                    _totalRows = _totalRows + 1;
+
+                    private _chance = 1;
+                    private _chanceTagIndex = _row findIf
+                    {
+                        _x isEqualType [] &&
+                        {count _x >= 2} &&
+                        {toLower (_x param [0, "", [""]]) isEqualTo "chance"}
+                    };
+
+                    if (_chanceTagIndex >= 0) then
+                    {
+                        _chance = (_row select _chanceTagIndex) param [1, 1, [0]];
+                    };
+
+                    // Support either 0..1 or 0..100 notation.
+                    if (_chance > 1) then { _chance = _chance / 100 };
+                    _chance = (_chance max 0) min 1;
+
+                    if (_chance >= 1 || {_chance > 0 && {random 1 < _chance}}) then
+                    {
+                        // Section is part of the key so the same class/row can roll independently
+                        // when it appears in different store sections.
+                        _availableKeys pushBack format ["%1|%2", _section, str _row];
+                        _availableClasses pushBackUnique _class;
+                    };
+                };
+            } forEach (call _arrayCode);
         };
-    } forEach _allClasses;
+    } forEach _arrayNames;
 
     _revision = _revision + 1;
 
-    missionNamespace setVariable ["A3W_dynamicStoreAvailableItems", _available, true];
+    missionNamespace setVariable ["A3W_dynamicStoreAvailableItems", _availableKeys, true];
+    missionNamespace setVariable ["A3W_dynamicStoreAvailableClasses", _availableClasses, true];
     missionNamespace setVariable ["A3W_dynamicStoreRevision", _revision, true];
     missionNamespace setVariable
     [
@@ -136,10 +102,10 @@ while {true} do
 
     diag_log format
     [
-        "[DynamicStore] Rotation #%1 generated: %2/%3 items available; next refresh in %4 sec",
+        "[DynamicStore] Rotation #%1 generated: %2/%3 store positions available; next refresh in %4 sec",
         _revision,
-        count _available,
-        count _allClasses,
+        count _availableKeys,
+        _totalRows,
         _refreshInterval
     ];
 

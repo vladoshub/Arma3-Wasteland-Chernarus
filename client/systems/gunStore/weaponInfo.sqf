@@ -88,7 +88,7 @@ if (_showAmmo) then
 					_ammolist lbSetCurSel _ammolistIndex;
 				};
 			};
-		} forEach ((call ammoArray) select { [_x param [1, "", [""]]] call A3W_fnc_isStoreItemAvailable });
+		} forEach ((call ammoArray) select { [_x, "ammoArray"] call A3W_fnc_isStoreItemAvailable });
 
 		[] execVM "client\systems\gunStore\ammoInfo.sqf";
 	};

@@ -35,7 +35,18 @@ _vehArray = switch (_switch) do
 	default { [] };
 };
 
-_vehArray = _vehArray select { [_x param [1, "", [""]]] call A3W_fnc_isStoreItemAvailable };
+private _dynamicStoreSection = switch (_switch) do
+{
+    case 0: { "landArray" };
+    case 1: { "armoredArray" };
+    case 2: { "tanksArray" };
+    case 3: { "helicoptersArray" };
+    case 4: { "planesArray" };
+    case 5: { "boatsArray" };
+    default { "" };
+};
+
+_vehArray = _vehArray select { [_x, _dynamicStoreSection] call A3W_fnc_isStoreItemAvailable };
 
 _noBuzzard = ["vehicleStore_noBuzzard", true] call getPublicVar;
 
