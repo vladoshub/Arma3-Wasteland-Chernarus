@@ -64,7 +64,7 @@ if(diag_tickTime < _timer) exitWith {
 };
 */
 
-private _nearFlags = player nearObjects  ["FlagChecked_F", 4600];
+private _nearFlags = player nearObjects  ["FlagChecked_F", 7600];
 private _nearFlagsCount = ({ _x getVariable ["is_base_flag_activate", false] } count _nearFlags);
 
 private _allFlags = allMissionObjects "FlagChecked_F";
@@ -88,7 +88,7 @@ private _filteredFlags = [];
 */
 
 if(_nearFlagsCount > 0) exitWith {
-	hint "You cannot place a flag within a 4600m radius of others flags";
+	hint "You cannot place a flag within a 7600m radius of others flags";
 	playSound "FD_CP_Not_Clear_F";
 };
 

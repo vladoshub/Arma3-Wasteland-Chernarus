@@ -21,7 +21,7 @@ private _countNearObj = ({ (_x getVariable ["secure_by_flag", false]) } count (_
 
 
 
-private _nearFlags = player nearObjects  ["FlagChecked_F", 4600];
+private _nearFlags = player nearObjects  ["FlagChecked_F", 7600];
 private _nearFlagsCount = ({ _x getVariable ["is_base_flag_activate", false] } count _nearFlags);
 
 
