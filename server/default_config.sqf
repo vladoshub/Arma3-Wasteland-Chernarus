@@ -180,13 +180,13 @@ A3W_missionsQuantity = 6;          // Hard ceiling for dynamically active missio
 A3W_dynamicMissionCheckInterval = 60;
 A3W_dynamicMissionPlayerLimits =
 [
-    [10, 1, [["mainMission", 40], ["patrolMission", 10], ["moneyMission", 10], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [20, 2, [["mainMission", 40], ["patrolMission", 10], ["moneyMission", 10], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [30, 3, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [40, 4, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [50, 5, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [60, 5, [["mainMission", 25], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [1000000, 6, [["mainMission", 25], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]]
+    [10, 1, [["mainMission", 60], ["patrolMission", 5], ["moneyMission", 5], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 5]]],
+    [20, 2, [["mainMission", 60], ["patrolMission", 5], ["moneyMission", 5], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 5]]],
+    [30, 3, [["mainMission", 50], ["patrolMission", 5], ["moneyMission", 10], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 10]]],
+    [40, 4, [["mainMission", 40], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [50, 5, [["mainMission", 30], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 15]]],
+    [60, 5, [["mainMission", 30], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 15]]],
+    [1000000, 6, [["mainMission", 17], ["patrolMission", 17], ["moneyMission", 17], ["extraMission", 17], ["sideMission", 17], ["ultraMission", 15]]]
 ];
 A3W_heliPatrolMissions = 1;        // Enable missions involving flying helicopters piloted by AI (0 = no, 1 = yes)
 A3W_underWaterMissions = 1;        // Enable underwater missions which require diving gear (0 = no, 1 = yes)

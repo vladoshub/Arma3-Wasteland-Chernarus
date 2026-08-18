@@ -16,11 +16,11 @@ APOC_AA_VehOptions = [
 
 APOC_AA_Veh2Options = [
 	["Hunter HMG", "B_MRAP_01_hmg_F", 600000, "vehicle2"],
-	["Hunter GMG", "B_MRAP_01_gmg_F", 160000, "vehicle2"],
+	["Hunter GMG", "B_MRAP_01_gmg_F", 1600000, "vehicle2"],
 	["AFV-4 Gorgon", "I_APC_Wheeled_03_cannon_F", 2700000, "vehicle2"],
 	["ZSU-39 Tigris AA", "O_APC_Tracked_02_AA_F", 4200000, "vehicle2"],
 	["T-100 Varsuk", "O_MBT_02_cannon_F", 4200000, "vehicle2"],
-	["AMV-7 Marshall (HQ)", "B_T_APC_Wheeled_01_cannon_F", 5800000, 'vehicle']
+	["AMV-7 Marshall (HQ)", "B_T_APC_Wheeled_01_cannon_F", 8000000, 'vehicle']
 	// ["Rhino MGS UP", "B_AFV_Wheeled_01_up_cannon_F", 95000, "vehicle2"]
 	// ["MBT-52 Kuma", "I_MBT_03_cannon_F", 170000, "vehicle2"]
 ];
@@ -33,8 +33,8 @@ APOC_AA_Veh3Options = [
 APOC_AA_Veh4Options = [
 	["M-900 LittleBird", "C_Heli_Light_01_civil_F", 300000, "vehicle4"],
 	["PO-30 Orca (DAGR)", "O_Heli_Light_02_dynamicLoadout_F", 1775000, "vehicle4"],
-	["Mi-48 Kajman Delta", "O_Heli_Attack_02_dynamicLoadout_F", 3000000, "vehicle4"],
 	["A-143 Buzzard", "I_Plane_Fighter_03_dynamicLoadout_F", 3500000, "vehicle4"],
+	["Mi-48 Kajman Delta", "O_Heli_Attack_02_dynamicLoadout_F", 4000000, "vehicle4"],
 	["F/A-181 Black Wasp", "B_Plane_Fighter_01_F", 5000000, "vehicle4"],
 	["V-44 X Blackfish Armed (HQ)", "B_T_VTOL_01_armed_olive_F", 7300000, "vehicle4"]
 ];
