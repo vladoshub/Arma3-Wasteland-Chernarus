@@ -11,7 +11,7 @@
 A3W_teamPlayersMap = 1;            // Show all friendly players on the map at all times, regardless of difficulty level (0 = no, 1 = yes)
 A3W_disableGlobalVoice = 1;        // Auto-switch channel to Direct communication whenever broadcasting voice on global, unless being admin (0 = no, 1 = yes)
 A3W_uavControl = "group";          // Restrict connection to UAVs based on ownership ("owner", "group", "side")
-APOC_coolDownTimer = 300;		   // APOC Air Drop Cool Down Time
+APOC_coolDownTimer = 90*60;		   // APOC Air Drop Cool Down Time
 A3W_disableUavFeed = 0;            // Force disable UAV PIP feed to prevent thermal camera abuse (0 = no, 1 = yes)
 A3W_disableBuiltInThermal = 0;     // Display a black screen if the player tries to use thermal vision built-in a handheld weapon like Titan launcher (0 = no, 1 = yes)
 
@@ -50,6 +50,7 @@ A3W_gunStoreIntruderWarning = 1;   // Warn players in gunstore areas of enemy in
 A3W_remoteBombStoreRadius = 50;    // Prevent players from placing any kind of explosive on the ground within this distance from any store (0 = disabled)
 A3W_poiObjLockDistance = 100;      // Prevent players from locking objects within this distance from points of interest (stores & mission spawns)
 A3W_vehiclePurchaseCooldown = 60;  // Number of seconds to wait before allowing someone to purchase another vehicle, don't bother setting it too high because it can be bypassed by rejoining
+A3W_factoryCraftCooldown = 15;     // Number of seconds a player must wait after a successful R3F Factory craft before crafting again (0 = disabled)
 
 // ATM settings
 A3W_atmEnabled = 1;                // Enable ATM system (0 = no, 1 = yes)
@@ -93,15 +94,15 @@ A3W_warchestMoneySaving = 1;       // Save warchest team money between server re
 A3W_spawnBeaconSaving = 1;         // Save spawn beacons between server restarts (0 = no, 1 = yes)
 A3W_objectLifetime = 3*24;         // Maximum lifetime in hours for saved objects (baseparts, crates, etc. except vehicles) across server restarts (0 = no time limit) //WAS 3*24
 A3W_objectLifetimeFlag = 60*24;    // Maximum lifetime in hours for saved objects (flags) across server restarts (0 = no time limit) //WAS 3*24
-A3W_vehicleLifetime = 0;           // Maximum lifetime in hours for saved vehicles across server restarts, regardless of usage (0 = no time limit)
+A3W_vehicleLifetime = 3*24;           // Maximum lifetime in hours for saved vehicles across server restarts, regardless of usage (0 = no time limit)
 A3W_vehicleMaxUnusedTime = 2*24;   // Maximum parking time in hours after which unused saved vehicles will be marked for deletion (0 = no time limit) //WAS 2*24
 A3W_serverSavingInterval = 5*60;   // Interval in seconds between automatic vehicle & object saves; should be kept at 1 min for profileNamespace and iniDB, while for extDB it can be relaxed to 3-5 mins
 A3W_mineSaving = 1;                // Save placed mines between server restarts (0 = no, 1 = yes)
 A3W_mineLifetime = 24;           // Maximum lifetime in hours for saved mines across server restarts (0 = no time limit)
 A3W_privateStorage = 1;            // Enable persistent private storage locations across the map (0 = no, 1 = yes)
 A3W_privateParking = 1;            // If vehicleSaving = 1 and savingMethod = "extDB" or "sock", enable persistent private parking locations across the map (0 = no, 1 = yes)
-A3W_privateParkingLimit = 5;       // Maximum amount of vehicles allowed in private parking (0 = no limit)
-A3W_privateParkingCost = 5000;     // Cost to retrieve an individual vehicle from private parking
+A3W_privateParkingLimit = 3;       // Maximum amount of vehicles allowed in private parking (0 = no limit)
+A3W_privateParkingCost = 500000;     // Cost to retrieve an individual vehicle from private parking
 A3W_vehicleLocking = 1;            // Enable vehicle locking and lockpicking (0 = no, 1 = yes)
 
 // iniDB settings
@@ -169,20 +170,37 @@ A3W_portalAmount = 1000;
 A3W_serverMissions = 1;            // Enable server missions (0 = no, 1 = yes)
 A3W_missionsDifficulty = 0;        // Missions difficulty (0 = normal, 1 = hard)
 A3W_missionFarAiDrawLines = 1;     // Draw small red lines on the map from mission markers to individual units & vehicles which are further away than 50m from the objective (0 = no, 1 = yes)
-A3W_missionsQuantity = 6;          // Number of missions running at the same time (0 to 6)
+A3W_missionsQuantity = 6;          // Hard ceiling for dynamically active missions (0 to 6)
+
+// Dynamic mission scheduler
+// Format: [maximum real players, active mission slots, [[mission type, spawn weight], ...]]
+// Weights are relative, but each row below totals 100 so they are easy to read as percentages.
+// Headless clients are not counted as real players.
+// The scheduler checks for free slots every A3W_dynamicMissionCheckInterval seconds.
+A3W_dynamicMissionCheckInterval = 60;
+A3W_dynamicMissionPlayerLimits =
+[
+    [10, 1, [["mainMission", 60], ["patrolMission", 5], ["moneyMission", 5], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 5]]],
+    [20, 2, [["mainMission", 60], ["patrolMission", 5], ["moneyMission", 5], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 5]]],
+    [30, 3, [["mainMission", 50], ["patrolMission", 5], ["moneyMission", 10], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 10]]],
+    [40, 4, [["mainMission", 40], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
+    [50, 5, [["mainMission", 30], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 15]]],
+    [60, 5, [["mainMission", 30], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 15]]],
+    [1000000, 6, [["mainMission", 17], ["patrolMission", 17], ["moneyMission", 17], ["extraMission", 17], ["sideMission", 17], ["ultraMission", 15]]]
+];
 A3W_heliPatrolMissions = 1;        // Enable missions involving flying helicopters piloted by AI (0 = no, 1 = yes)
 A3W_underWaterMissions = 1;        // Enable underwater missions which require diving gear (0 = no, 1 = yes)
-A3W_mainMissionDelay = 1*60;      // Time in seconds between Main Missions
+A3W_mainMissionDelay = 1*60;      // Legacy: ignored by dynamic mission scheduler
 A3W_mainMissionTimeout = 35*60;    // Time in seconds that a Main Mission will run for, unless completed
-A3W_patrolMissionDelay = 60*60;      // Time in seconds between Main Missions
+A3W_patrolMissionDelay = 60*60;   // Legacy: ignored by dynamic mission scheduler
 A3W_patrolMissionTimeout = 25*60;    // Time in seconds that a Main Mission will run for, unless completed
-A3W_ultraMissionDelay = 10*60;     // Time in seconds between Main Missions
+A3W_ultraMissionDelay = 10*60;    // Legacy: ignored by dynamic mission scheduler
 A3W_ultraMissionTimeout = 45*60;   // Time in seconds that a Main Mission will run for, unless completed
-A3W_sideMissionDelay = 1*60;       // Time in seconds between Side Missions
+A3W_sideMissionDelay = 1*60;      // Legacy: ignored by dynamic mission scheduler
 A3W_sideMissionTimeout =30*60;    // Time in seconds that a Side Mission will run for, unless completed
-A3W_moneyMissionDelay = 30*60;     // Time in seconds between Money Missions
+A3W_moneyMissionDelay = 30*60;    // Legacy: ignored by dynamic mission scheduler
 A3W_moneyMissionTimeout = 45*60;   // Time in seconds that a Money Mission will run for, unless completed
-A3W_extraMissionDelay = 35*60;        // Time in seconds between Side Missions 
+A3W_extraMissionDelay = 35*60;    // Legacy: ignored by dynamic mission scheduler
 A3W_extraMissionTimeout = 40*60;    // Time in seconds that a Side Mission will run for, unless completed
 A3W_specialMissionDelay = 10*60;     // Time in seconds between Side Missions
 A3W_specialMissionTimeout = 40*60;    //
@@ -200,3 +218,10 @@ A3W_artilleryAmmo = "R_230mm_fly"; //"ModuleOrdnanceHowitzer_F_ammo"; // CfgAmmo
 A3W_use_CUP = false;
 A3W_map = "chernarus";
 A3W_store_variant = "cup";
+
+// Dynamic store rotation
+// Every store row contains its own ["chance", X] value in storeConfig_*.sqf.
+// The assortment is rolled globally after restart and then periodically.
+A3W_dynamicStoreEnabled = true;
+A3W_dynamicStoreRefreshInterval = 2 * 60 * 60; // seconds; 0 = only roll once after restart
+

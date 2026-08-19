@@ -3,9 +3,8 @@
 // ******************************************************************************************
 //	@file Name: missionProcessor.sqf
 //	@file Author: AgentRev, AryX
-if (!isServer) exitWith {};
+if (!isServer) exitWith { false };
 
-#define MISSION_LOCATION_COOLDOWN (10*60)
 #define MISSION_TIMER_EXTENSION (15*60)
 
 private ["_availableLocations", "_missionLocation", "_lastPos", "_missionType", "_locationsArray", "_missionPos", "_missionPicture", "_missionHintText", "_successHintMessage", "_failedHintMessage"];
@@ -17,40 +16,88 @@ if (!isNil "_setupVars") then { call _setupVars };
 
 private _missionTimeout = MISSION_PROC_TIMEOUT + (floor random [100, 200, 300]);
 
-if (!isNil "_locationsArray") then {
-	for "_i" from 0 to 1 step 0 do { //ARYX
-		_availableLocations = [_locationsArray, { !(_x select 1) && diag_tickTime - (_x param [2, -1e11]) >= MISSION_LOCATION_COOLDOWN}] call BIS_fnc_conditionalSelect;
+private _locationClaimed = true;
 
-		if (count _availableLocations > 0) exitWith {};
-		uiSleep 60;
-	};
+if (!isNil "_locationsArray") then
+{
+    _locationClaimed = false;
 
-	_missionLocation = (selectRandom _availableLocations) select 0;
-	[_locationsArray, _missionLocation, true] call setLocationState;
-	[_locationsArray, _missionLocation, markerPos _missionLocation] call cleanLocationObjects; // doesn't matter if _missionLocation is not a marker, the function will know
+    // Reserve a location atomically. A location is permanently recorded for this server
+    // session as soon as it is claimed, before any mission objects or AI are created.
+    // This prevents two concurrently-starting mission workers from selecting the same place.
+    isNil
+    {
+        private _usedLocations = missionNamespace getVariable ["A3W_usedMissionMarkers", []];
+        private _mapMarkers = allMapMarkers;
 
-	/*if(_missionType == "Base Capture") then {
-		//[_locationsArray, _missionLocation, true] call setLocationState;
-		_capturedArray = MissionNamespace getVariable ["_captureReady", []];
-		_tryCount = 3;
-		_currentCount = 0;
-		_curentPos = markerPos _missionLocation;
-		while {(_curentPos in _capturedArray) && (_currentCount < _tryCount)} do
-		{
-			diag_log format ["base capture was dup on %1", _curentPos];
-			_currentCount = _currentCount + 1;
-			_missionLocation = (_availableLocations call BIS_fnc_selectRandom) select 0;
-			//[_locationsArray, _missionLocation, true] call setLocationState;
-			_curentPos = markerPos _missionLocation;
-		};
-		[_locationsArray, _missionLocation, true] call setLocationState;
-		_capturedArray = _capturedArray + [_curentPos];
-		diag_log format ["base capture was spawned on %1", _capturedArray];
-		MissionNamespace setVariable ["_captureReady", _capturedArray];
-	} else {
-		[_locationsArray, _missionLocation, true] call setLocationState;
-		[_locationsArray, _missionLocation, markerPos _missionLocation] call cleanLocationObjects; // doesn't matter if _missionLocation is not a marker, the function will know
-	}; */
+        _availableLocations = [_locationsArray,
+        {
+            private _locationId = _x param [0, "", [""]];
+            private _locationBusy = _x param [1, false, [false]];
+
+            if (_locationBusy || {_locationId == ""}) exitWith { false };
+
+            // Convoy route IDs are also location IDs, but are not actual map markers.
+            // For actual markers, additionally compare coordinates so differently-named
+            // markers placed at the same spot cannot both be used during one session.
+            private _locationPos = if (_locationId in _mapMarkers) then { markerPos _locationId } else { [] };
+            private _alreadyUsed = _usedLocations findIf
+            {
+                private _usedId = _x param [0, "", [""]];
+                private _usedPos = _x param [1, [], [[]]];
+
+                (_usedId isEqualTo _locationId) ||
+                {
+                    count _locationPos >= 2 &&
+                    {count _usedPos >= 2} &&
+                    {_locationPos distance2D _usedPos < 5}
+                }
+            } >= 0;
+
+            !_alreadyUsed
+        }] call BIS_fnc_conditionalSelect;
+
+        if (count _availableLocations > 0) then
+        {
+            _missionLocation = (selectRandom _availableLocations) select 0;
+            [_locationsArray, _missionLocation, true] call setLocationState;
+
+            private _missionLocationPos = if (_missionLocation in _mapMarkers) then { markerPos _missionLocation } else { [] };
+            _usedLocations pushBack [_missionLocation, _missionLocationPos];
+            missionNamespace setVariable ["A3W_usedMissionMarkers", _usedLocations];
+
+            A3W_usedMissionMarkerCount = count _usedLocations;
+            publicVariable "A3W_usedMissionMarkerCount";
+
+            _locationClaimed = true;
+
+            diag_log format
+            [
+                "[DynamicMissions] Reserved session-unique location %1 at %2; used locations=%3",
+                _missionLocation,
+                _missionLocationPos,
+                count _usedLocations
+            ];
+        };
+    };
+};
+
+// No unused location remains for this concrete mission. Return to missionController before
+// _setupObjects, so it can try another concrete mission/type without leaving partial objects.
+if (!_locationClaimed) exitWith
+{
+    diag_log format
+    [
+        "[DynamicMissions] No unused location remains for %1 / %2",
+        MISSION_PROC_TYPE_NAME,
+        if (!isNil "_missionType") then { _missionType } else { "unknown mission" }
+    ];
+    false
+};
+
+if (!isNil "_locationsArray") then
+{
+    [_locationsArray, _missionLocation, markerPos _missionLocation] call cleanLocationObjects;
 };
 
 if (!isNil "_setupObjects") then { call _setupObjects };
@@ -235,3 +282,8 @@ deleteMarker _marker;
 if (!isNil "_locationsArray") then {
 	[_locationsArray, _missionLocation, false] call setLocationState;
 };
+
+// The concrete mission successfully acquired its location (or does not use a static
+// location array) and ran to completion/failure. The dynamic controller treats this slot
+// as successfully used and does not reroll another mission.
+true

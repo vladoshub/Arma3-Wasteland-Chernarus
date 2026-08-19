@@ -106,6 +106,11 @@ if (_key != "" && _player isKindOf "Man" && {_isGenStore || _isGunStore || _isVe
 
 	if (!isNil "_itemEntry" && markerShape _marker != "") then
 	{
+		if !([_itemEntry] call A3W_fnc_isStoreItemAvailable) exitWith
+		{
+			diag_log format ["[DynamicStore] Rejected unavailable store purchase: %1 by %2 (%3)", _class, name _player, getPlayerUID _player];
+		};
+
 		_itemPrice = _itemEntry select 2;
 		_skipSave = "SKIPSAVE" in (_itemEntry select [3,999]);
 

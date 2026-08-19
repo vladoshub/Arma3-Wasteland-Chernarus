@@ -43,6 +43,8 @@ storePurchaseHandle = _this spawn
 	_itemText = _gunsList lbText _itemIndex;
 	_itemData = _gunsList lbData _itemIndex;
 
+	if !([_itemData] call A3W_fnc_isStoreItemAvailable) exitWith { hint "This item is no longer available in the current store rotation. Reopen the store."; };
+
 	_showInsufficientFundsError =
 	{
 		_itemText = _this select 0;

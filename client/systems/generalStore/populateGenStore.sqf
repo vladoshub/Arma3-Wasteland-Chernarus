@@ -94,6 +94,22 @@ switch(_switch) do
 	};
 };
 
+private _dynamicStoreSection = switch (_switch) do
+{
+    case 0: { "headArray" };
+    case 1: { "uniformArray" };
+    case 2: { "vestArray" };
+    case 3: { "backpackArray" };
+    case 4: { "genItemArray" };
+    case 5: { "customPlayerItems" };
+    case 6: { "genObjectsArray" };
+    case 7: { "goggleArray" };
+    case 8: { "gasItemArray" };
+    default { "" };
+};
+
+_itemsArray = _itemsArray select { [_x, _dynamicStoreSection] call A3W_fnc_isStoreItemAvailable };
+
 _playerSideNum = switch (playerSide) do
 {
 	case BLUFOR:      { 1 };

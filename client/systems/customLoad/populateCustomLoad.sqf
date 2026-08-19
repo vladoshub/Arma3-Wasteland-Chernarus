@@ -128,6 +128,25 @@ switch(_switch) do
 	};
 };
 
+private _dynamicStoreSection = switch (_switch) do
+{
+    case 0: { "pistolArray" };
+    case 1: { "smgArray" };
+    case 2: { "rifleArray" };
+    case 3: { "lmgArray" };
+    case 5: { "launcherArray" };
+    case 6: { "throwputArray" };
+    case 7: { "accessoriesArray" };
+    case 8: { "staticGunsArray" };
+    case 9: { "gLauncherArray" };
+    case 10: { "genItemArray" };
+    case 11: { "customPlayerItems" };
+    case 12: { "gasItemArray" };
+    default { "" };
+};
+
+_itemsArray = _itemsArray select { [_x, _dynamicStoreSection] call A3W_fnc_isStoreItemAvailable };
+
 _ammoBtn ctrlShow _showAmmo;
 _ammoLbl ctrlShow _showAmmo;
 _ammolist ctrlShow _showAmmo;

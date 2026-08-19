@@ -75,6 +75,7 @@ A3W_fnc_getInFast = [_clientFunc, "fn_getInFast.sqf"] call mf_compile;
 A3W_fnc_isBleeding = [_serverFunc, "fn_isBleeding.sqf"] call mf_compile;
 A3W_fnc_isFriendly = [_clientFunc, "fn_isFriendly.sqf"] call mf_compile;
 A3W_fnc_isUnconscious = [_serverFunc, "fn_isUnconscious.sqf"] call mf_compile;
+A3W_fnc_isStoreItemAvailable = [_serverFunc, "fn_isStoreItemAvailable.sqf"] call mf_compile;
 A3W_fnc_killBroadcast = "client\systems\killFeed\fn_killBroadcast.sqf" call mf_compile;
 A3W_fnc_killFeedEntry = "client\systems\killFeed\fn_killFeedEntry.sqf" call mf_compile;
 A3W_fnc_setVarServer = [_serverFunc, "fn_setVarServer.sqf"] call mf_compile;

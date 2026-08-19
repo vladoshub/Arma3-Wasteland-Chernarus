@@ -97,6 +97,20 @@ if (hasInterface && (["A3W_use_CUP", false] call getPublicVar)) then {
 
 call compile preprocessFileLineNumbers "addons\cram\Trophy.sqf"; //CRAM2
 
+// If the dynamic store rotates while a player has a store dialog open, close it so the next
+// opening immediately reflects the new server-wide assortment.
+if (hasInterface) then
+{
+	"A3W_dynamicStoreRevision" addPublicVariableEventHandler
+	{
+		if (!isNull (findDisplay 2001) || {!isNull (findDisplay 2009)} || {!isNull (findDisplay 5285)}) then
+		{
+			closeDialog 0;
+			hint "Store assortment has been updated. Reopen the store.";
+		};
+	};
+};
+
 //init Wasteland Core
 [] execVM "config.sqf";
 [] execVM format ["storeConfig_%1.sqf", (["A3W_store_variant", "stock"] call getPublicVar)]; // Separated as its now v large for

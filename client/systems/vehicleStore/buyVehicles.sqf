@@ -46,6 +46,8 @@ storePurchaseHandle = _this spawn
 
 	_itemData = call compile _itemData; // [name, class, price, type, variant, ...]
 
+	if !([_itemData] call A3W_fnc_isStoreItemAvailable) exitWith { hint "This vehicle is no longer available in the current store rotation. Reopen the store."; };
+
 	_colorlist = _dialog displayCtrl vehshop_color_list;
 	_colorIndex = lbCurSel vehshop_color_list;
 	_colorText = _colorlist lbText _colorIndex;
