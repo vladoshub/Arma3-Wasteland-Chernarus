@@ -10,10 +10,11 @@
 
 if (!isServer) exitWith {};
 
-private ["_isWreck", "_spawnPos", "_spawnType", "_finalPos", "_currJet"]; //BY_VLADOS
+private ["_isWreck", "_spawnPos", "_spawnType", "_finalPos", "_currJet" , "_dir"]; //BY_VLADOS
 
 _isWreck = _this select 0;
 _spawnPos = _this select 1;
+_dir = _this select 2;
 
 _spawnType = staticJetList call fn_selectRandomNested;
 _finalPos = _spawnPos findEmptyPosition [0, 50, _spawnType];
@@ -23,7 +24,7 @@ if (count _finalPos == 0) then { _finalPos = _spawnPos };
 _currJet = createVehicle [_spawnType, _finalPos, [], 0, "None"];
 
 _currJet setPosATL [_finalPos select 0, _finalPos select 1, (_finalPos select 2) + 0.1];
-_currJet setDir random 360;
+_currJet setDir _dir;
 _currJet setVelocity [0,0,0.01];
 
 [_currJet] call vehicleSetup;

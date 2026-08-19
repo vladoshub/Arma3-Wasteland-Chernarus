@@ -145,7 +145,7 @@ A3W_hcScriptID = 1;            // ID of HC for Scripts
 // Server spawn settings
 A3W_serverSpawning = 1;            // Vehicle, object, and loot spawning (0 = no, 1 = yes)
 A3W_vehicleSpawning = 1;           // If serverSpawning = 1, spawn vehicles in towns (0 = no, 1 = yes)
-A3W_vehicleQuantity = 200;         // Approximate number of land vehicles to be spawned in towns
+A3W_vehicleQuantity = 240;         // Approximate number of land vehicles to be spawned in towns
 A3W_boatSpawning = 1;              // If serverSpawning = 1, spawn boats at marked areas near coasts (0 = no, 1 = yes)
 A3W_heliSpawning = 1;              // If serverSpawning = 1, spawn helicopters in some towns and airfields (0 = no, 1 = yes)
 A3W_planeSpawning = 1;             // If serverSpawning = 1, spawn planes at some airfields (0 = no, 1 = yes)
@@ -178,15 +178,14 @@ A3W_missionsQuantity = 6;          // Hard ceiling for dynamically active missio
 // Headless clients are not counted as real players.
 // The scheduler checks for free slots every A3W_dynamicMissionCheckInterval seconds.
 A3W_dynamicMissionCheckInterval = 60;
-A3W_dynamicMissionPlayerLimits =
-[
-    [10, 1, [["mainMission", 60], ["patrolMission", 5], ["moneyMission", 5], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 5]]],
-    [20, 2, [["mainMission", 60], ["patrolMission", 5], ["moneyMission", 5], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 5]]],
-    [30, 3, [["mainMission", 50], ["patrolMission", 5], ["moneyMission", 10], ["extraMission", 5], ["sideMission", 20], ["ultraMission", 10]]],
-    [40, 4, [["mainMission", 40], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 20], ["ultraMission", 10]]],
-    [50, 5, [["mainMission", 30], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 15]]],
-    [60, 5, [["mainMission", 30], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 15]]],
-    [1000000, 6, [["mainMission", 17], ["patrolMission", 17], ["moneyMission", 17], ["extraMission", 17], ["sideMission", 17], ["ultraMission", 15]]]
+A3W_dynamicMissionPlayerLimits = [     
+    [7, 1, [["mainMission", 60], ["patrolMission", 2], ["moneyMission", 5], ["extraMission", 3], ["sideMission", 20], ["ultraMission", 10]]],
+    [15, 2, [["mainMission", 60], ["patrolMission", 2], ["moneyMission", 5], ["extraMission", 3], ["sideMission", 15], ["ultraMission", 15]]],
+    [21, 3, [["mainMission", 50], ["patrolMission", 5], ["moneyMission", 10], ["extraMission", 5], ["sideMission", 10], ["ultraMission", 20]]],
+    [28, 4, [["mainMission", 30], ["patrolMission", 15], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 20]]],
+    [36, 5, [["mainMission", 25], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 20]]],
+    [42, 5, [["mainMission", 25], ["patrolMission", 20], ["moneyMission", 15], ["extraMission", 10], ["sideMission", 10], ["ultraMission", 20]]],
+    [300, 6, [["mainMission", 17], ["patrolMission", 17], ["moneyMission", 17], ["extraMission", 17], ["sideMission", 17], ["ultraMission", 15]]]
 ];
 A3W_heliPatrolMissions = 1;        // Enable missions involving flying helicopters piloted by AI (0 = no, 1 = yes)
 A3W_underWaterMissions = 1;        // Enable underwater missions which require diving gear (0 = no, 1 = yes)
@@ -223,5 +222,5 @@ A3W_store_variant = "cup";
 // Every store row contains its own ["chance", X] value in storeConfig_*.sqf.
 // The assortment is rolled globally after restart and then periodically.
 A3W_dynamicStoreEnabled = true;
-A3W_dynamicStoreRefreshInterval = 2 * 60 * 60; // seconds; 0 = only roll once after restart
+A3W_dynamicStoreRefreshInterval = 2 * 60 * 45; // seconds; 0 = only roll once after restart
 

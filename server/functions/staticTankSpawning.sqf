@@ -18,7 +18,7 @@ _count = 0;
 
 	if (["tankSpawn_", _marker] call fn_startsWith) then
 	{
-		if (!(_marker in currentStaticTanks) && {random 1 < 0.1}) then // 10% chance spawning
+		if (!(_marker in currentStaticTanks) && {random 1 < 0.2}) then // 10% chance spawning
 		{
 			_position = markerPos _marker;
 			[0, _position] call staticTankCreation;

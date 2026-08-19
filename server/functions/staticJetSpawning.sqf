@@ -10,7 +10,7 @@
 
 if (!isServer) exitWith {}; //BY_VLADOS
 
-private ["_count", "_position", "_markerName", "_marker", "_newPos", "_i", "_doSpawnWreck"];
+private ["_count", "_position", "_markerName", "_marker", "_newPos", "_i", "_doSpawnWreck", "_dir"];
 _count = 0;
 
 {
@@ -18,10 +18,11 @@ _count = 0;
 
 	if (["jetSpawn_", _marker] call fn_startsWith) then
 	{
-		if (!(_marker in currentStaticJets) && {random 1 < 0.15}) then // 15% chance spawning
+		if (!(_marker in currentStaticJets) && {random 1 < 0.35}) then // 15% chance spawning
 		{
 			_position = markerPos _marker;
-			[0, _position] call staticJetCreation;
+			_dir = markerDir _marker;
+			[0, _position, _dir] call staticJetCreation;
 
 			currentStaticJets pushBack _marker;
 

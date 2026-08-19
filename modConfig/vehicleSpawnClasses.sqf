@@ -149,9 +149,11 @@ staticWeaponsList =
 staticHeliList =
 [
 	"C_Heli_Light_01_civil_F",
-	"B_Heli_Light_01_F",
-	"O_Heli_Light_02_unarmed_F",
-	"I_Heli_light_03_unarmed_F"
+	"O_Heli_Light_02_dynamicLoadout_F",
+	"CUP_B_UH1D_armed_GER_KSK_Des",
+	"CUP_B_Mi171Sh_ACR",
+	"CUP_O_Mi24_D_Dynamic_SLA",
+	"B_Heli_Light_01_dynamicLoadout_F"
 	// don't put cargo helicopters here, it doesn't make sense to find them in towns; they spawn in the CivHeli mission
 ]; //heliSpawn_
 
@@ -160,8 +162,6 @@ staticJetList =
 [
 	"B_UAV_02_dynamicLoadout_F",
 	"I_Plane_Fighter_03_dynamicLoadout_F",
-	"O_Plane_CAS_02_dynamicLoadout_F",
-	"C_Plane_Civil_01_racing_F",
 	"C_Plane_Civil_01_F"
 ]; //jetSpawn_
 
@@ -171,9 +171,7 @@ staticJetList =
 		(CUP_Classes select {_x == "CUP_B_SU34_CDF"}) select 0,
     	(CUP_Classes select {_x == "CUP_I_T34_TK_GUE"}) select 0,
     	(CUP_Classes select {_x == "CUP_B_Su25_Dyn_CDF"}) select 0,
-		(CUP_Classes select {_x == "CUP_B_L39_CZ"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_AN2_TK"}) select 0,
-    	(CUP_Classes select {_x == "CUP_C_AN2_CIV"}) select 0
+    	(CUP_Classes select {_x == "CUP_O_AN2_TK"}) select 0
 		];
 	};
 
