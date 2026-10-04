@@ -233,7 +233,7 @@ while {true} do
 						[
 							[A3W_smallVehicles, 0.45],
 							[civilianVehicles, 1],
-							[lightMilitaryVehicles, 0.12], //0.1
+							[lightMilitaryVehicles, 0.08], //0.1
 							[mediumMilitaryVehicles, 0.04] //0.25
 						] call fn_selectRandomWeightedPairs call fn_selectRandomNested;
 						
