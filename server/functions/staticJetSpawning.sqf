@@ -21,7 +21,7 @@ _count = 0;
 		_position = markerPos _marker;
 
 		// Match the 50 m placement radius and include parked vehicles and wrecks.
-		if (nearestObjects [_position, ["LandVehicle", "Air", "Ship"], 50] isEqualTo [] && {random 1 < 0.35}) then // 35% chance per attempt
+		if (nearestObjects [_position, ["LandVehicle", "Air", "Ship"], 10] isEqualTo [] && {random 1 < 0.4}) then // 35% chance per attempt
 		{
 			_dir = markerDir _marker;
 			_vehicle = [0, _position, _dir] call staticJetCreation;

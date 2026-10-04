@@ -168,15 +168,14 @@ A3W_markerLootMaxWeapons = 100;   // Maximum weapon count per marker (magazines 
 A3W_markerLootWeaponsPerMeter = 2; // Building limit = floor(horizontal bounding-box diagonal in metres * this value)
 A3W_markerLootWeapons = [         // Weapon classnames; every weapon gets 1-4 compatible primary-muzzle magazines
 	"srifle_GM6_camo_LRPS_F",
-	"srifle_LRR_LRPS_F",
-	"MMG_02_black_F",
-	"MMG_01_hex_F",
+    "arifle_CTAR_GL_blk_F",
+    "hgun_esd_01_F",
 	"launch_Titan_F",
+    "launch_O_Titan_ghex_F",
+    "MMG_02_camo_F",
 	"launch_MRAWS_green_rail_F",
 	"launch_O_Vorona_brown_F",
     "launch_RPG7_F",
-    "LMG_Mk200_F",
-    "arifle_RPK12_lush_F",
     "launch_RPG32_F"
 ];
 
