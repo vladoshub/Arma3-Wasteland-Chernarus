@@ -56,7 +56,7 @@ _objCleanup =
 		};
 	};
 
-	if (!isNil {_obj getVariable "Lootready"}) then
+	if (!isNil {_obj getVariable "Lootready"} || {(_obj getVariable ["A3W_markerLootSource", ""]) != ""}) then
 	{
 		_processedDeath = 0;
 	}
@@ -257,7 +257,7 @@ _objCleanup =
 		};
 	};
 
-	if (!isNil {_obj getVariable "Lootready"}) then
+	if (!isNil {_obj getVariable "Lootready"} || {(_obj getVariable ["A3W_markerLootSource", ""]) != ""}) then
 	{
 		_processedDeath = 0;
 	}

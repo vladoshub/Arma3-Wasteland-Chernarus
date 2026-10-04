@@ -517,6 +517,11 @@ if ((isNil "A3W_buildingLoot" && {["A3W_buildingLootWeapons"] call isConfigOn ||
 	execVM "addons\Lootspawner\Lootspawner.sqf";
 };
 
+if (["A3W_markerLoot"] call isConfigOn) then
+{
+	[] execVM "server\spawning\markerLootManager.sqf";
+};
+
 [] execVM "server\functions\serverTimeSync.sqf"; //BY_VLADOS
 
 if (["A3W_serverSpawning"] call isConfigOn) then

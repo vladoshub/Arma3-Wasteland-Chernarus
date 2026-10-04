@@ -160,6 +160,28 @@ A3W_buildingLootSupplies = 1;      // Spawn supply loot (backpacks & player item
 A3W_buildingLootChances = 15;      // Chance percentage that loot will spawn at each spot in a building (0 to 100)
 A3W_vehicleLoot = 2;               // Level of loot added to vehicles (0 = none, 1 = weapon OR items, 2 = weapon AND items, 3 = two weapons AND items) - 2 or 3 recommended if buildingLoot = 0
 
+// Weapon loot in terrain buildings around loots_spawn_1, loots_spawn_2, ...
+A3W_markerLoot = 1;               // Enable marker weapon spawning independently of ordinary building loot (0 = no, 1 = yes)
+A3W_markerLootRadius = 100;       // Spawn radius in metres; individual indoor positions must be inside this radius
+A3W_markerLootInterval = 45*60;   // Seconds between complete refreshes of marker-owned ground holders
+A3W_markerLootMaxWeapons = 100;   // Maximum weapon count per marker (magazines do not count)
+A3W_markerLootWeaponsPerMeter = 2; // Building limit = floor(horizontal bounding-box diagonal in metres * this value)
+A3W_markerLootWeapons = [         // Weapon classnames; every weapon gets 1-4 compatible primary-muzzle magazines
+	"srifle_GM6_camo_LRPS_F",
+	"srifle_LRR_LRPS_F",
+	"MMG_02_black_F",
+	"MMG_01_hex_F",
+	"launch_Titan_F",
+	"launch_MRAWS_green_rail_F",
+	"launch_O_Vorona_brown_F",
+    "launch_RPG7_F",
+    "LMG_Mk200_F",
+    "arifle_RPK12_lush_F",
+    "launch_RPG32_F"
+];
+
+
+
 // Territory settings
 A3W_territoryCaptureTime = 3*60;   // Time in seconds needed to capture a territory
 A3W_territoryPayroll = 1;          // Periodically reward sides and indie groups based on how many territories they own (0 = no, 1 = yes)

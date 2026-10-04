@@ -8,7 +8,7 @@ class EditorData
 	toggles=77;
 	class ItemIDProvider
 	{
-		nextID=10799;
+		nextID=10805;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=2261;
+		nextID=2272;
 	};
 	class Camera
 	{
-		pos[]={4607.4829,76.360214,2499.9761};
-		dir[]={0.81184161,-0.52750146,0.25044954};
-		up[]={0.50411355,0.84951395,0.15551719};
-		aside[]={0.29480016,-1.3867975e-08,-0.95559978};
+		pos[]={3691.7048,427,5946.0913};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710677,0.70710677};
+		aside[]={0.99999994,0,-0};
 	};
 };
 binarizationWanted=0;
@@ -437,7 +437,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1197;
+		items=1202;
 		class Item0
 		{
 			dataType="Group";
@@ -542,7 +542,7 @@ class Mission
 			name="VehStore1_landSpawn";
 			type="Empty";
 			colorName="ColorBlack";
-			angle=228.85612;
+			angle=228.85611;
 			id=1107;
 		};
 		class Item3
@@ -12117,7 +12117,7 @@ class Mission
 			name="jetSpawn_3";
 			type="Empty";
 			colorName="ColorGreen";
-			angle=214.28099;
+			angle=214.28098;
 			id=8285;
 			atlOffset=0.094270706;
 		};
@@ -35737,7 +35737,7 @@ class Mission
 			name="Mission_64";
 			type="Empty";
 			colorName="ColorOrange";
-			angle=211.49075;
+			angle=211.49074;
 			id=10744;
 		};
 		class Item1138
@@ -36788,7 +36788,7 @@ class Mission
 			name="jetSpawn_5";
 			type="Empty";
 			colorName="ColorGreen";
-			angle=264.04886;
+			angle=264.04883;
 			id=10768;
 			atlOffset=-0.0014648438;
 		};
@@ -36891,7 +36891,7 @@ class Mission
 			name="tankSpawn_4";
 			type="Empty";
 			colorName="ColorGreen";
-			angle=106.61473;
+			angle=106.61472;
 			id=10772;
 			atlOffset=6.1035156e-05;
 		};
@@ -37207,7 +37207,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4894.375,344.46347,10134.75};
-				angles[]={0,1.0492522,-0};
+				angles[]={0,1.0492522,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37223,7 +37223,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4919.125,344.46347,10091.875};
-				angles[]={0,1.0492522,-0};
+				angles[]={0,1.0492522,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37239,7 +37239,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4942.125,344.46347,10051.625};
-				angles[]={0,1.0492522,-0};
+				angles[]={0,1.0492522,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37255,7 +37255,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4968.625,344.45837,10006.5};
-				angles[]={0,1.0492522,-0};
+				angles[]={0,1.0492522,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37480,7 +37480,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={12056.375,164.26346,12622.625};
-				angles[]={0,3.4620478,-0};
+				angles[]={0,3.4620478,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37496,7 +37496,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={12010,164.26346,12638.625};
-				angles[]={0,3.4567225,-0};
+				angles[]={0,3.4567225,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37611,7 +37611,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4756.375,14.163456,2595.875};
-				angles[]={0,0.50322092,-0};
+				angles[]={0,0.50322092,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37620,6 +37620,7 @@ class Mission
 			};
 			id=10797;
 			type="Land_Hangar_F";
+			atlOffset=-9.5367432e-07;
 		};
 		class Item1196
 		{
@@ -37627,7 +37628,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4790,14.163456,2576.125};
-				angles[]={0,0.5288071,-0};
+				angles[]={0,0.5288071,0};
 			};
 			side="Empty";
 			flags=5;
@@ -37636,6 +37637,57 @@ class Mission
 			};
 			id=10798;
 			type="Land_Hangar_F";
+			atlOffset=-9.5367432e-07;
+		};
+		class Item1197
+		{
+			dataType="Marker";
+			position[]={4751.6289,8.6999998,2571.542};
+			name="loots_spawn_1";
+			type="Empty";
+			colorName="ColorBlack";
+			angle=207.45198;
+			id=10799;
+		};
+		class Item1198
+		{
+			dataType="Marker";
+			position[]={12172.125,158.89999,12590.5};
+			name="loots_spawn_2";
+			type="Empty";
+			colorName="ColorBlack";
+			angle=207.45198;
+			id=10800;
+		};
+		class Item1199
+		{
+			dataType="Marker";
+			position[]={4730.4688,339,10253.73};
+			name="loots_spawn_3";
+			type="Empty";
+			colorName="ColorBlack";
+			angle=207.45197;
+			id=10801;
+		};
+		class Item1200
+		{
+			dataType="Marker";
+			position[]={4612.7983,338.99942,9630.2158};
+			name="loots_spawn_4";
+			type="Empty";
+			colorName="ColorBlack";
+			angle=207.45197;
+			id=10802;
+		};
+		class Item1201
+		{
+			dataType="Marker";
+			position[]={3704.1172,402,5983.5967};
+			name="loots_spawn_5";
+			type="Empty";
+			colorName="ColorBlack";
+			angle=207.45197;
+			id=10803;
 		};
 	};
 };
