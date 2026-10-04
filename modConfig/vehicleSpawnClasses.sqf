@@ -150,12 +150,18 @@ staticHeliList =
 [
 	"C_Heli_Light_01_civil_F",
 	"O_Heli_Light_02_dynamicLoadout_F",
-	"CUP_B_UH1D_armed_GER_KSK_Des",
-	"CUP_B_Mi171Sh_ACR",
-	"CUP_O_Mi24_D_Dynamic_SLA",
 	"B_Heli_Light_01_dynamicLoadout_F"
 	// don't put cargo helicopters here, it doesn't make sense to find them in towns; they spawn in the CivHeli mission
 ]; //heliSpawn_
+
+	if(["A3W_use_CUP", false] call getPublicVar) then {
+		staticHeliList append [
+		(CUP_Classes select {_x == "CUP_O_UH1H_armed_SLA"}) select 0,
+    	(CUP_Classes select {_x == "CUP_I_Ka60_GL_Blk_ION"}) select 0,
+    	(CUP_Classes select {_x == "CUP_O_Mi24_D_Dynamic_SLA"}) select 0,
+        (CUP_Classes select {_x == "CUP_B_AH6M_USA"}) select 0
+		];
+	};
 
 
 staticJetList =
@@ -200,15 +206,9 @@ staticTankList =
 staticPlaneList =
 [
 	"C_Plane_Civil_01_F",
-	"C_Plane_Civil_01_racing_F",
-	"I_Plane_Fighter_03_dynamicLoadout_F"
+	"C_Plane_Civil_01_racing_F"
 ];
 
-	if(["A3W_use_CUP", false] call getPublicVar) then {
-		staticPlaneList append [
-		(CUP_Classes select {_x == "CUP_B_L39_CZ"}) select 0
-		];
-	};
 
 
 A3W_planeSpawnOdds = 0.25; // 0.0 to 1.0
