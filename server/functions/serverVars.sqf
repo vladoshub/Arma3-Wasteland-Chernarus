@@ -16,10 +16,6 @@ if (isServer) then
 	#include "setupServerPVars.sqf"
 };
 
-currentStaticHelis = []; // Storage for the heli marker numbers so that we don't spawn wrecks on top of live helis
-currentStaticJets = []; // Storage for the jet marker numbers so that we don't spawn wrecks on top of live jets //BY_VLADOS
-currentStaticTanks = []; // Storage for the jet marker numbers so that we don't spawn wrecks on top of live jets //BY_VLADOS
-
 //Essential List - Random Spawns.
 essentialsList =
 [

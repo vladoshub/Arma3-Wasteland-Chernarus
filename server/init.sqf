@@ -528,6 +528,7 @@ if (["A3W_serverSpawning"] call isConfigOn) then
 		call compile preprocessFileLineNumbers "server\functions\staticHeliSpawning.sqf";
 		call compile preprocessFileLineNumbers "server\functions\staticJetSpawning.sqf"; //BY_VLADOS
 		call compile preprocessFileLineNumbers "server\functions\staticTankSpawning.sqf";//BY_VLADOS
+		[] execVM "server\spawning\staticVehicleRespawnManager.sqf";
 	};
 
 	if (["A3W_vehicleSpawning"] call isConfigOn) then

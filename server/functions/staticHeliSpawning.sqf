@@ -10,7 +10,7 @@
 
 if (!isServer) exitWith {};
 
-private ["_count", "_position", "_markerName", "_marker", "_newPos", "_i", "_doSpawnWreck"];
+private ["_count", "_position", "_marker", "_vehicle"];
 _count = 0;
 
 {
@@ -18,16 +18,15 @@ _count = 0;
 
 	if (["heliSpawn_", _marker] call fn_startsWith) then
 	{
-		if (!(_marker in currentStaticHelis) && {random 1 < 0.2}) then // 75% chance spawning
+		_position = markerPos _marker;
+
+		// Match the 50 m placement radius and include parked vehicles and wrecks.
+		if (nearestObjects [_position, ["LandVehicle", "Air", "Ship"], 50] isEqualTo [] && {random 1 < 0.2}) then // 20% chance per attempt
 		{
-			_position = markerPos _marker;
-			[0, _position] call staticHeliCreation;
-
-			currentStaticHelis pushBack _marker;
-
-			_count = _count + 1;
+			_vehicle = [0, _position] call staticHeliCreation;
+			if (!isNull _vehicle) then { _count = _count + 1 };
 		};
 	};
 } forEach allMapMarkers;
 
-//no_log format["WASTELAND SERVER - %1 Static helis Spawned",_count];
+_count

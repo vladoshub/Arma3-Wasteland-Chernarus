@@ -12,14 +12,27 @@ if (!isServer) exitWith {};
 params ["_markerPos", ["_vehicleType","",[""]], ["_respawnSettings",nil,[[]]]];
 private ["_pos", "_vehicle", "_hitPoint"];
 
-//_pos = [_markerPos, 2, 25, 5, 0, 60 * (pi / 180), 0, [], [_markerPos]] call BIS_fnc_findSafePos;
-// diabled as a test. might break other features
-_pos = _markerPos;
+private _isRespawn = !isNil "_respawnSettings";
+
+// Town startup spawning already supplies a safe position. For respawns, the
+// original point may now be obstructed by a player-built object or vehicle.
+_pos = if (_isRespawn) then
+{
+	_markerPos findEmptyPosition [0, 5, _vehicleType]
+}
+else
+{
+	_markerPos
+};
+
+// Keep the respawn entry pending; the manager will retry on its next pass.
+if (_pos isEqualTo []) exitWith {};
 
 //Car Initialization
 _vehicle = createVehicle [_vehicleType, _pos, [], 0, "None"];
+if (isNull _vehicle) exitWith {};
 
-_vehicle setPosATL [_pos select 0, _pos select 1, 1.5];
+_vehicle setPosATL [_pos select 0, _pos select 1, if (_isRespawn) then {(_pos select 2) + 0.1} else {1.5}];
 _vehicle setDir random 360;
 _vehicle setVelocity [0,0,0.01];
 
@@ -44,7 +57,7 @@ if (!isNil "_respawnSettings") then
 };
 
 //[_vehicle, _markerPos, 10, 20, 30] call addVehicleRespawn;
-[_vehicle, _markerPos, 5*60, 10*60, 25*60] call addVehicleRespawn;
+[_vehicle, _markerPos, 5*60, 10*60, 25*60] call addVehicleRespawn; // Keep the original respawn anchor.
 
 //Set Vehicle Attributes
 _vehicle setFuel (0.2 + random 0.1);

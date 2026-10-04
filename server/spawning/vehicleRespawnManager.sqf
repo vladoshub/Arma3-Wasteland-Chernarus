@@ -27,7 +27,7 @@ while {true} do
 			if (isNull (_veh getVariable ["R3F_LOG_est_transporte_par", objNull]) &&
 			    isNull (_veh getVariable ["R3F_LOG_est_deplace_par", objNull])) then
 			{
-				_settings = _x;
+				private _settings = _x;
 
 				private ["_vehClass", "_startPos", "_lastSeenAlive", "_respawnPos", "_respawnTimer", "_minDistance", "_desertedTimer", "_proxyTimer", "_proxyDistance", "_desertedTimeout", "_brokenTimeout", "_vehicleType", "_boatType"];
 				{
@@ -206,6 +206,9 @@ while {true} do
 					if (count _respawnPos < 3) then
 					{
 						_respawnPos = getPosATL _veh;
+						// Retain the fallback before deleting the old vehicle, so a
+						// blocked spawn can retry at the same point on the next pass.
+						[_settings, "RespawnPos", _respawnPos] call fn_setToPairs;
 					};
 
 					sleep 0.1;

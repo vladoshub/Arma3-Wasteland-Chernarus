@@ -8,7 +8,7 @@
 //	@file Description: Random static helis
 //	@file Args: [int (0 = not wreck | 1 = wreck), array (position)]
 
-if (!isServer) exitWith {};
+if (!isServer) exitWith {objNull};
 
 private ["_isWreck", "_spawnPos", "_spawnType", "_finalPos", "_currJet" , "_dir"]; //BY_VLADOS
 
@@ -19,9 +19,10 @@ _dir = _this select 2;
 _spawnType = staticJetList call fn_selectRandomNested;
 _finalPos = _spawnPos findEmptyPosition [0, 50, _spawnType];
 
-if (count _finalPos == 0) then { _finalPos = _spawnPos };
+if (count _finalPos == 0) exitWith {objNull};
 
 _currJet = createVehicle [_spawnType, _finalPos, [], 0, "None"];
+if (isNull _currJet) exitWith {objNull};
 
 _currJet setPosATL [_finalPos select 0, _finalPos select 1, (_finalPos select 2) + 0.1];
 _currJet setDir _dir;
@@ -35,3 +36,5 @@ _currJet setFuel (0.1 + random 0.2);
 _currJet setVehicleAmmo 0.5;
 
 _currJet enableSimulationGlobal true;
+
+_currJet
