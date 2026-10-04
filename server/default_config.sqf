@@ -148,7 +148,7 @@ A3W_vehicleSpawning = 1;           // If serverSpawning = 1, spawn vehicles in t
 A3W_vehicleQuantity = 240;         // Approximate number of land vehicles to be spawned in towns
 A3W_boatSpawning = 1;              // If serverSpawning = 1, spawn boats at marked areas near coasts (0 = no, 1 = yes)
 A3W_heliSpawning = 1;              // If serverSpawning = 1, spawn helicopters in some towns and airfields (0 = no, 1 = yes)
-A3W_staticVehicleRespawnInterval = 110*60; // Seconds between random spawn attempts at empty heliSpawn_, jetSpawn_, tankSpawn_ markers (0 = startup only)
+A3W_staticVehicleRespawnInterval = 150*60; // Seconds between random spawn attempts at empty heliSpawn_, jetSpawn_, tankSpawn_ markers (0 = startup only)
 A3W_planeSpawning = 1;             // If serverSpawning = 1, spawn planes at some airfields (0 = no, 1 = yes)
 A3W_boxSpawning = 1;               // If serverSpawning = 1, spawn weapon crates in 50% towns (0 = no, 1 = yes)
 A3W_baseBuilding = 1;              // If serverSpawning = 1, spawn base parts in towns (0 = no, 1 = yes)
