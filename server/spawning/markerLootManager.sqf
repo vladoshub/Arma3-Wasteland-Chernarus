@@ -38,7 +38,9 @@ if (["A3W_use_CUP", false] call getPublicVar) then
         "CUP_lmg_Pecheneg_woodland",
         "CUP_srifle_M107_LeupoldVX3",
         "CUP_srifle_AS50_SBPMII",
-        "CUP_sgun_AA12"
+        "CUP_sgun_AA12",
+        "CUP_srifle_m110_kac_black",
+        "CUP_srifle_AWM_wdl"
     ];
 };
 
