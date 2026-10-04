@@ -148,7 +148,6 @@ staticWeaponsList =
 //Object List - Random Helis.
 staticHeliList =
 [
-	"C_Heli_Light_01_civil_F",
 	"O_Heli_Light_02_dynamicLoadout_F",
 	"CUP_B_UH1D_armed_GER_KSK_Des",
 	"CUP_B_Mi171Sh_ACR",
@@ -161,15 +160,13 @@ staticHeliList =
 staticJetList =
 [
 	"B_UAV_02_dynamicLoadout_F",
-	"I_Plane_Fighter_03_dynamicLoadout_F",
-	"C_Plane_Civil_01_F"
+	"I_Plane_Fighter_03_dynamicLoadout_F"
 ]; //jetSpawn_
 
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		staticJetList append [
 		(CUP_Classes select {_x == "CUP_B_SU34_CDF"}) select 0,
-    	(CUP_Classes select {_x == "CUP_I_T34_TK_GUE"}) select 0,
     	(CUP_Classes select {_x == "CUP_B_Su25_Dyn_CDF"}) select 0,
     	(CUP_Classes select {_x == "CUP_O_AN2_TK"}) select 0
 		];

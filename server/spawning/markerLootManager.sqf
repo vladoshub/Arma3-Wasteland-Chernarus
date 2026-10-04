@@ -23,7 +23,8 @@ private _launcherWeapons = [
     "launch_MRAWS_green_rail_F",
     "launch_O_Vorona_brown_F",
     "launch_RPG7_F",
-    "launch_RPG32_F"
+    "launch_RPG32_F",
+    "launch_O_Titan_ghex_F"
 ];
 { _launcherWeapons set [_forEachIndex, toLower _x] } forEach _launcherWeapons;
 
