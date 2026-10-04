@@ -172,6 +172,8 @@ A3W_markerLootWeapons = [         // Weapon classnames; every weapon gets 1-4 co
     "hgun_esd_01_F",
 	"launch_Titan_F",
     "launch_O_Titan_ghex_F",
+    "launch_Titan_short_F",
+    "launch_I_Titan_F",
     "MMG_02_camo_F",
     "MMG_01_hex_F",
     "arifle_MXM_F",
