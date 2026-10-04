@@ -21,7 +21,7 @@ _count = 0;
 		_position = markerPos _marker;
 
 		// Match the 50 m placement radius and include parked vehicles and wrecks.
-		if (nearestObjects [_position, ["LandVehicle", "Air", "Ship"], 10] isEqualTo [] && {random 1 < 0.3}) then // 20% chance per attempt
+		if (nearestObjects [_position, ["LandVehicle", "Air", "Ship"], 10] isEqualTo [] && {random 1 < 0.2}) then // 20% chance per attempt
 		{
 			_vehicle = [0, _position] call staticHeliCreation;
 			if (!isNull _vehicle) then { _count = _count + 1 };
