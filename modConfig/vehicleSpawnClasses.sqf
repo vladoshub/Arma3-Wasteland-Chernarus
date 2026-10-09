@@ -98,7 +98,7 @@ mediumMilitaryVehicles =
 		mediumMilitaryVehicles append [
 		(CUP_Classes select {_x == "CUP_O_BTR90_RU"}) select 0,
     	//(CUP_Classes select {_x == "CUP_B_M7Bradley_USA_D"}) select 0,
-		//(CUP_Classes select {_x == "CUP_O_T55_CHDKZ"}) select 0,
+		(CUP_Classes select {_x == "CUP_O_T55_CHDKZ"}) select 0,
     	(CUP_Classes select {_x == "CUP_I_BMP1_TK_GUE"}) select 0,
     	(CUP_Classes select {_x == "CUP_B_BRDM2_ATGM_CDF"}) select 0,
     	//(CUP_Classes select {_x == "CUP_B_M6LineBacker_USA_W"}) select 0,
@@ -183,11 +183,11 @@ staticJetList =
 
 staticTankList =
 [
-	"O_APC_Tracked_02_AA_F",
-	"I_MBT_03_cannon_F",
-	"B_APC_Tracked_01_AA_F",
-	"B_MBT_01_TUSK_F",
-	"B_APC_Tracked_01_rcws_F"
+	//"O_APC_Tracked_02_AA_F",
+	"I_MBT_03_cannon_F"
+	//"B_APC_Tracked_01_AA_F",
+	//"B_MBT_01_TUSK_F",
+	//"B_APC_Tracked_01_rcws_F"
 ]; //tankSpawn_
 
 
@@ -198,7 +198,11 @@ staticTankList =
     	(CUP_Classes select {_x == "CUP_B_M1A1_DES_US_Army"}) select 0,
 		(CUP_Classes select {_x == "CUP_B_Challenger2_Desert_BAF"}) select 0,
     	(CUP_Classes select {_x == "CUP_B_ZSU23_CDF"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_2S6M_RU"}) select 0
+    	(CUP_Classes select {_x == "CUP_O_2S6M_RU"}) select 0,
+		(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_Datsun_AA_Random"}) select 0,
+		(CUP_Classes select {_x == "CUP_B_T72_CDF"}) select 0,
+		(CUP_Classes select {_x == "CUP_O_BMP3_RU"}) select 0
 		];
 	};
 
