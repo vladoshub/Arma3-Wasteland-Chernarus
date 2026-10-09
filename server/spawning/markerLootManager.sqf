@@ -42,7 +42,9 @@ if (["A3W_use_CUP", false] call getPublicVar) then
         "CUP_srifle_AS50_SBPMII",
         "CUP_sgun_AA12",
         "CUP_srifle_m110_kac_black",
-        "CUP_srifle_AWM_wdl"
+        "CUP_srifle_AWM_wdl",
+        "CUP_srifle_AS50_AMPAS13c2",
+        "CUP_srifle_M24_ghillie"
     ];
 };
 

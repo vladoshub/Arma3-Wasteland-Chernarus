@@ -73,6 +73,30 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 	};
 	*/
 
+
+
+
+	if(["A3W_use_CUP", false] call getPublicVar) then {
+
+
+	if (primaryWeapon player == "" && ((CUP_Classes select {_x == "CUP_arifle_G36C"}) select 0 == "CUP_arifle_G36C")) then {
+			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
+			player addWeapon "CUP_arifle_G36C";
+			player addPrimaryWeaponItem "optic_DMS";
+			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
+			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
+	};
+	
+	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_PG7V_M"}) select 0 == "CUP_PG7V_M")) then {
+			player addMagazine "CUP_PG7V_M";
+			player addWeapon "CUP_Weapon_launch_RPG7V";
+			player addMagazine "CUP_PG7V_M";
+	};
+
+
+
+	} else {	
+
 	if (primaryWeapon player == "") then {
 			player addMagazine "100Rnd_65x39_caseless_mag";
 			player addWeapon "arifle_MX_SW_F";
@@ -86,7 +110,10 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 			player addWeapon "launch_RPG7_F";
 			player addMagazine "RPG7_F";
 	};
-	
+
+
+	};
+
 
 	[player, 25000, true] call A3W_fnc_setCMoney;
 	missionNamespace setVariable [_playerGlobalNotFirstInit, false, true];
@@ -95,8 +122,34 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 	[player, _baseMoney, true] call A3W_fnc_setCMoney;
 
 
+
+	if(["A3W_use_CUP", false] call getPublicVar) then {
+
+
+	if (primaryWeapon player == "" && ((CUP_Classes select {_x == "CUP_arifle_G36C"}) select 0 == "CUP_arifle_G36C") ) then {
+		player addMagazine "CUP_30Rnd_556x45_G36";
+		player addWeapon "CUP_arifle_G36C";
+		player addPrimaryWeaponItem "optic_Arco";
+		player addMagazine "CUP_30Rnd_556x45_G36";
+		player addMagazine "CUP_30Rnd_556x45_G36";
+	};
+
+	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_PG7V_M"}) select 0 == "CUP_PG7V_M") ) then {
+			player addMagazine "CUP_PG7V_M";
+			player addWeapon "CUP_Weapon_launch_RPG7V";
+			if ((random 1) < 0.25 && SecondaryWeapon  player == "") then {
+				player addMagazine "CUP_PG7V_M";
+			};
+	};
+
+
+
+
+
+	} else {
+
 	if (primaryWeapon player == "") then {
-		player addMagazine "100Rnd_65x39_caseless_mag";
+		player addMagazine "30Rnd_65x39_caseless_mag";
 		player addWeapon "arifle_MX_SW_F";
 		player addPrimaryWeaponItem "optic_Arco";
 		player addMagazine "30Rnd_65x39_caseless_mag";
@@ -109,6 +162,8 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 			if ((random 1) < 0.25 && SecondaryWeapon  player == "") then {
 				player addMagazine "RPG7_F";
 			};
+	};
+
 	};
 
 };

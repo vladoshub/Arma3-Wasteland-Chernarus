@@ -6,13 +6,13 @@
 
 A3W_smallVehicles =
 [
-	"C_Quadbike_01_F",
-	"C_Hatchback_01_sport_F",
-	"C_SUV_01_F",
-	"B_MRAP_01_F",
-	["B_Quadbike_01_F", "O_Quadbike_01_F", "I_Quadbike_01_F", "I_G_Quadbike_01_F"],
-	["C_Offroad_01_F", "I_G_Offroad_01_F"],
-	["C_Offroad_02_unarmed_F", "I_C_Offroad_02_unarmed_F"]
+	//"C_Quadbike_01_F"
+	//"C_Hatchback_01_sport_F",
+	//"C_SUV_01_F",
+	//"B_MRAP_01_F",
+	["B_Quadbike_01_F", "O_Quadbike_01_F", "I_Quadbike_01_F", "I_G_Quadbike_01_F"]
+	//["C_Offroad_01_F", "I_G_Offroad_01_F"],
+	//["C_Offroad_02_unarmed_F", "I_C_Offroad_02_unarmed_F"]
 ];
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
@@ -28,8 +28,8 @@ A3W_smallVehicles =
 //Civilian Vehicle List - Random Spawns
 civilianVehicles =
 [
-	["C_Van_01_box_F", "C_Van_01_transport_F"],
-	"C_Hatchback_01_F"
+	["C_Van_01_box_F", "C_Van_01_transport_F"]
+	//"C_Hatchback_01_F"
 ];
 
 
@@ -53,7 +53,7 @@ civilianVehicles =
 //Light Military Vehicle List - Random Spawns
 lightMilitaryVehicles =
 [
-	["I_G_Offroad_01_armed_F", "I_C_Offroad_02_LMG_F"],
+	//["I_G_Offroad_01_armed_F", "I_C_Offroad_02_LMG_F"],
 	["I_G_Offroad_01_AT_F",    "I_C_Offroad_02_AT_F"]
 
 ];
@@ -148,9 +148,9 @@ staticWeaponsList =
 //Object List - Random Helis.
 staticHeliList =
 [
-	"C_Heli_Light_01_civil_F",
-	"O_Heli_Light_02_dynamicLoadout_F",
-	"B_Heli_Light_01_dynamicLoadout_F"
+	"C_Heli_Light_01_civil_F"
+	//"O_Heli_Light_02_dynamicLoadout_F",
+	//"B_Heli_Light_01_dynamicLoadout_F"
 	// don't put cargo helicopters here, it doesn't make sense to find them in towns; they spawn in the CivHeli mission
 ]; //heliSpawn_
 
@@ -216,35 +216,37 @@ A3W_planeSpawnOdds = 0.25; // 0.0 to 1.0
 //Random Weapon List - Change this to what you want to spawn in cars.
 vehicleWeapons =
 [
-	"arifle_ARX_ghex_F",
-	"hgun_PDW2000_F",
-    "SMG_05_F",
-    "SMG_03C_black",
-    "SMG_02_F",
-	["SMG_03_TR_black", "SMG_03C_TR_black"],
-	["arifle_TRG20_F", "arifle_TRG21_F", "arifle_TRG21_GL_F"],
-	["arifle_Mk20C_F", "arifle_Mk20_F", "arifle_Mk20_GL_F"],
+	//"arifle_ARX_ghex_F",
+	"arifle_SDAR_F",
+	//"hgun_PDW2000_F",
+    //"SMG_05_F",
+    //"SMG_03C_black",
+    //"SMG_02_F",
+	//["SMG_03_TR_black", "SMG_03C_TR_black"],
+	//["arifle_TRG20_F", "arifle_TRG21_F", "arifle_TRG21_GL_F"],
+	//["arifle_Mk20C_F", "arifle_Mk20_F", "arifle_Mk20_GL_F"],
 	"launch_Titan_F",
 	"launch_Titan_short_F",
 	"launch_RPG7_F",
-    "arifle_MXC_F",
-    "arifle_AKS_F",
-    "arifle_Mk20_F",
-    "arifle_TRG21_F",
-    "arifle_Katiba_F",
-    "arifle_MX_F",
-    "arifle_CTAR_blk_F", 
-    "arifle_AKM_F",
-    "arifle_AK12U_F",
-    "arifle_AK12_arid_F",
-    "arifle_MSBS65_F", 
+    
+	//"arifle_MXC_F",
+    //"arifle_AKS_F",
+    //"arifle_Mk20_F",
+    //"arifle_TRG21_F",
+    //"arifle_Katiba_F",
+    //"arifle_MX_F",
+    //"arifle_CTAR_blk_F", 
+    //"arifle_AKM_F",
+    //"arifle_AK12U_F",
+    //"arifle_AK12_arid_F",
+    //"arifle_MSBS65_F", 
     "arifle_Mk20_GL_plain_F",
-    "arifle_TRG21_GL_F",
+    //"arifle_TRG21_GL_F",
     "arifle_MX_GL_F",
-    "arifle_CTAR_GL_blk_F",
-    "arifle_MSBS65_GL_F", 
+    //"arifle_CTAR_GL_blk_F",
+    //"arifle_MSBS65_GL_F",
     "arifle_AK12_GL_F",
-    "arifle_MXM_Black_F"
+    //"arifle_MXM_Black_F"
 ];
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
@@ -279,10 +281,53 @@ vehicleWeapons =
 		(CUP_Classes select {_x == "CUP_launch_Mk153Mod0"}) select 0,
 		(CUP_Classes select {_x == "CUP_arifle_AK107_GL_pso"}) select 0,
 		(CUP_Classes select {_x == "CUP_srifle_SVD"}) select 0,
-		(CUP_Classes select {_x == "CUP_srifle_VSSVintorez_pso"}) select 0
+		(CUP_Classes select {_x == "CUP_srifle_VSSVintorez_pso"}) select 0,
+
+		(CUP_Classes select {_x == "CUP_arifle_AK103_GL"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_SAIGA_MK03"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_LeeEnfield_rail"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_L85A2_GL"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_M16A4_GL"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_HK_M27_VFG"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_HK_M27_AG36"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_VSSVintorez_VFG_top_rail"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_CZ750"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_Mk17_CQC_EGLM"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_Mk12SPR"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_Mk20"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_M24_wdl"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_AWM_wdl"}) select 0,
+		(CUP_Classes select {_x == "CUP_lmg_L110A1"}) select 0,
+		(CUP_Classes select {_x == "CUP_lmg_M249_E2"}) select 0,
+		(CUP_Classes select {_x == "CUP_lmg_Mk48"}) select 0,
+		(CUP_Classes select {_x == "CUP_lmg_L7A2_Flat"}) select 0,
+
+
+		(CUP_Classes select {_x == "CUP_hgun_glock17_flashlight"}) select 0,
+		(CUP_Classes select {_x == "CUP_hgun_Makarov"}) select 0,
+		(CUP_Classes select {_x == "CUP_hgun_Colt1911"}) select 0,
+		(CUP_Classes select {_x == "CUP_hgun_MP7"}) select 0,
+		(CUP_Classes select {_x == "CUP_hgun_M9"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_AS50_SBPMII"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_M110_Shortdot_bipod_snds"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_M24_blk_LeupoldMk4LRT"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_SVD_pso"}) select 0,
+		(CUP_Classes select {_x == "CUP_srifle_VSSVintorez_pso"}) select 0,
+		(CUP_Classes select {_x == "CUP_smg_bizon"}) select 0,
+		(CUP_Classes select {_x == "CUP_smg_bizon_snds"}) select 0,
+		(CUP_Classes select {_x == "CUP_smg_MP5A5"}) select 0,
+		(CUP_Classes select {_x == "CUP_sgun_Saiga12K"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_AK74_GL_Early"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_AK74_Early"}) select 0,
+		(CUP_Classes select {_x == "CUP_arifle_G36C"}) select 0,
+		(CUP_Classes select {_x == "CUP_Weapon_launch_RPG7V"}) select 0
+		
+
 
 		];
 	};
+
+
 
 vehicleAddition =
 [

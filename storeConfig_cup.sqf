@@ -104,7 +104,7 @@ rifleArray = compileFinal str
     ['Mk 12 SPR', 'CUP_srifle_Mk12SPR', 60000, ["chance", 0.5]],
     ['AA12','CUP_sgun_AA12', 65000, ["chance", 0.45]],
 
-    ['SVD PSO', 'CUP_srifle_SVD', 70000, ["chance", 0.4]],
+    ['SVD PSO', 'CUP_srifle_SVD_pso', 70000, ["chance", 0.4]],
     
     ['SPAR-17 Rifle', 'arifle_SPAR_03_blk_F', 70000, ["chance", 0.4]],
     ['MK 17 SV', 'CUP_arifle_Mk20', 70000, ["chance", 0.4]],
@@ -115,9 +115,9 @@ rifleArray = compileFinal str
     ['Mk14 Rifle (Classic)', 'srifle_DMR_06_hunter_F', 70000, 'noDLC', ["chance", 0.4]],
     ['Mk-I EMR Rifle', 'srifle_DMR_03_F', 70000, ["chance", 0.4]],
     ['M40A3', 'CUP_srifle_M40A3', 80000, ["chance", 0.35]],
-    ['M24', 'CUP_srifle_M24_wdl', 80000, ["chance", 0.35]],
+    ['M24', 'CUP_srifle_M24_blk_LeupoldMk4LRT', 80000, ["chance", 0.35]],
     ['Cyrus Rifle', 'srifle_DMR_05_blk_F', 80000, ["chance", 0.35]],
-    ['M110', 'CUP_srifle_m110_kac_black', 80000, ["chance", 0.2]],
+    ['M110', 'CUP_srifle_M110_Shortdot_bipod_snds', 80000, ["chance", 0.2]],
     ['L115A3 LRR (AWM)', 'CUP_srifle_AWM_wdl', 90000, ["chance", 0.2]],
     
     
@@ -126,10 +126,12 @@ rifleArray = compileFinal str
     ['MAR-10 Rifle (Sand)', 'srifle_DMR_02_sniper_F', 100000, ["chance", 0.1]],
     ['M320 LRR Sniper (Camo)', 'srifle_LRR_camo_LRPS_F', 120000, ["chance", 0.05]],
     ['M320 LRR Sniper', 'srifle_LRR_LRPS_F', 120000, ["chance", 0.05]],
+    ['KSVK', 'CUP_srifle_ksvk_PSO3', 120000, ["chance", 0.05]],
     ['GM6 Lynx Sniper', 'srifle_GM6_LRPS_F', 150000, ["chance", 0.01]],
     ['GM6 Lynx Sniper (Camo)', 'srifle_GM6_camo_LRPS_F', 150000, ["chance", 0.01]],
     ['AS50', 'CUP_srifle_AS50_SBPMII', 150000, ["chance", 0.01]],
-    ['M107', 'CUP_srifle_M107_LeupoldVX3', 150000, ["chance", 0.01]]
+    ['M107', 'CUP_srifle_M107_LeupoldVX3', 150000, ["chance", 0.01]],
+    ['AS50 TWS', 'CUP_srifle_AS50_AMPAS13c2', 250000, ["chance", 0.01]]
 ];
 
 lmgArray = compileFinal str
@@ -254,6 +256,7 @@ throwputArray = compileFinal str
 //Text name, classname, buy cost
 ammoArray = compileFinal str
 [
+    ['17Rnd Glock 17', 'CUP_17Rnd_9x19_glock17', 200, ["chance", 1.0]],
     ['9mm 10Rnd Mag', '10Rnd_9x21_Mag', 200, ["chance", 1.0]],
     ['.45 ACP 6Rnd Cylinder', '6Rnd_45ACP_Cylinder', 200, ["chance", 1.0]],
     ['9mm 16Rnd Mag', '16Rnd_9x21_Mag', 400, ["chance", 1.0]],
