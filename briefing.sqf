@@ -716,7 +716,7 @@ player createDiaryRecord ["credits",["Credits","
 <br/>	* AgentRev
 <br/>
 <br/><font size='16' color='#BBBBBB'>Modified by Vlados:</font>
-<br/>	October 05, 2026 Changed By Vlados (time of last change in the code of this mission)
+<br/>	October 09, 2026 Changed By Vlados (time of last change in the code of this mission)
 <br/>
 <br/>   You can view the mission source code by opening the mission file using a PBO extractor (for example PBO Manager)
 <br/>   Typically this file is located in the MPMissionsCache folder after logging into the server.
