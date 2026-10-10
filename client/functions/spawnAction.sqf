@@ -87,9 +87,9 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 			//player addMagazine "CUP_100Rnd_556x45_BetaCMag";
 	};
 	
-	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_PG7V_M"}) select 0 == "CUP_PG7V_M")) then {
+	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_launch_RPG7V"}) select 0 == "CUP_launch_RPG7V")) then {
 			player addMagazine "CUP_PG7V_M";
-			player addWeapon "CUP_Weapon_launch_RPG7V";
+			player addWeapon "CUP_launch_RPG7V";
 			//player addMagazine "CUP_PG7V_M";
 	};
 
@@ -134,9 +134,9 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 		player addMagazine "CUP_30Rnd_556x45_G36";
 	};
 
-	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_PG7V_M"}) select 0 == "CUP_PG7V_M") ) then {
+	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_launch_RPG7V"}) select 0 == "CUP_launch_RPG7V") ) then {
 			player addMagazine "CUP_PG7V_M";
-			player addWeapon "CUP_Weapon_launch_RPG7V";
+			player addWeapon "CUP_launch_RPG7V";
 			if ((random 1) < 0.25 && SecondaryWeapon  player == "") then {
 				player addMagazine "CUP_PG7V_M";
 			};

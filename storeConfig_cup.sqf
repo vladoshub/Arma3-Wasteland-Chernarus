@@ -164,6 +164,7 @@ lmgArray = compileFinal str
 launcherArray = compileFinal str
 [
     ['RPG-7', 'launch_RPG7_F', 20000, ["chance", 0.95]],
+    ['RPG-7V', 'CUP_launch_RPG7V', 20000, ["chance", 0.95]],
     ['RPG-42 Alamut', 'launch_RPG32_F', 35000, ["chance", 0.8]],
     ['RPG-42 Alamut (G Hex)', 'launch_RPG32_ghex_F', 35000, 'noDLC', ["chance", 0.8]],
     ['RPG-42 Alamut (Green)', 'launch_RPG32_green_F', 35000, 'noDLC', ["chance", 0.8]],
@@ -505,6 +506,7 @@ ammoArray = compileFinal str
     ['Fliegerfaust 2 Stinger', 'BWA3_Fliegerfaust', 8000, ["chance", 1.0]],
     ['Fliegerfaust 2 Lenkflugkörper', 'BWA3_Fliegerfaust_Mag', 8000, ["chance", 1.0]],
     ['PG-7VM HEAT Grenade', 'RPG7_F', 22500, ["chance", 1.0]],
+    ['PG-7V HEAT Grenade', 'CUP_PG7V_M', 22500, ["chance", 1.0]],
     ['RPG-42 AT Rocket', 'RPG32_F', 30000, ["chance", 1.0]],
     ['RPG-42 HE Rocket', 'RPG32_HE_F', 30000, ["chance", 1.0]],
     ['MAAWS HE 44 Rocket', 'MRAWS_HE_F', 40000, ["chance", 1.0]],

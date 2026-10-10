@@ -20,7 +20,7 @@ A3W_smallVehicles =
 		(CUP_Classes select {_x == "CUP_I_SUV_UNO"}) select 0,
 		(CUP_Classes select {_x == "CUP_I_TT650_NAPA"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Ural_Civ_02"}) select 0,
-		(CUP_Classes select {_x == "CUP_HMMWV_Unarmed_Base"}) select 0,
+		(CUP_Classes select {_x == "CUP_B_HMMWV_Unarmed_USA"}) select 0,
 		(CUP_Classes select {_x == "CUP_I_V3S_Covered_TKG"}) select 0
 		];
 	};
@@ -324,7 +324,7 @@ vehicleWeapons =
 		(CUP_Classes select {_x == "CUP_arifle_AK74_GL_Early"}) select 0,
 		(CUP_Classes select {_x == "CUP_arifle_AK74_Early"}) select 0,
 		(CUP_Classes select {_x == "CUP_arifle_G36C"}) select 0,
-		(CUP_Classes select {_x == "CUP_Weapon_launch_RPG7V"}) select 0
+		(CUP_Classes select {_x == "CUP_launch_RPG7V"}) select 0
 		
 
 
