@@ -250,7 +250,7 @@ vehicleWeapons =
     //"arifle_CTAR_GL_blk_F",
     //"arifle_MSBS65_GL_F",
     "arifle_AK12_GL_F",
-    //"arifle_MXM_Black_F"
+    "arifle_MXM_Black_F"
 ];
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
