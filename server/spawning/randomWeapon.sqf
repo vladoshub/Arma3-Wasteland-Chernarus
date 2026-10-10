@@ -88,7 +88,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 		_random = random 1;
 
 		// If building loot is turned off, give everything, otherwise 50/50 chance between gun or items
-		if (_random < 0.75 || !_buildingLootOn) then
+		if (_random < 0.85 || !_buildingLootOn) then
 		{
 			_car addWeaponCargoGlobal [_weapon, 1];
 			_car addMagazineCargoGlobal [_mag, 1 + floor random 2];
@@ -103,7 +103,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 	};
 	case 2:
 	{
-		if(random 1 < 0.75) then {
+		if(random 1 < 0.85) then {
 			_car addWeaponCargoGlobal [_weapon, 1];
 			_car addMagazineCargoGlobal [_mag, 2 + floor random 3];
 		};

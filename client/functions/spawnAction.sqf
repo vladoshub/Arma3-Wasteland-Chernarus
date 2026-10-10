@@ -83,14 +83,14 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
 			player addWeapon "CUP_arifle_G36C";
 			player addPrimaryWeaponItem "optic_DMS";
-			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
-			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
+			player addMagazine "CUP_30Rnd_556x45_G36";
+			//player addMagazine "CUP_100Rnd_556x45_BetaCMag";
 	};
 	
 	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_PG7V_M"}) select 0 == "CUP_PG7V_M")) then {
 			player addMagazine "CUP_PG7V_M";
 			player addWeapon "CUP_Weapon_launch_RPG7V";
-			player addMagazine "CUP_PG7V_M";
+			//player addMagazine "CUP_PG7V_M";
 	};
 
 
@@ -101,14 +101,14 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 			player addMagazine "100Rnd_65x39_caseless_mag";
 			player addWeapon "arifle_MX_SW_F";
 			player addPrimaryWeaponItem "optic_DMS";
-			player addMagazine "100Rnd_65x39_caseless_mag";
-			player addMagazine "100Rnd_65x39_caseless_mag";
+			player addMagazine "30Rnd_65x39_caseless_mag";
+			//player addMagazine "100Rnd_65x39_caseless_mag";
 	};
 	
 	if (SecondaryWeapon  player == "") then {
 			player addMagazine "RPG7_F";
 			player addWeapon "launch_RPG7_F";
-			player addMagazine "RPG7_F";
+			//player addMagazine "RPG7_F";
 	};
 
 
@@ -122,7 +122,7 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 	[player, _baseMoney, true] call A3W_fnc_setCMoney;
 
 
-
+	 /*
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 
 
@@ -165,6 +165,7 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 	};
 
 	};
+	*/
 
 };
 

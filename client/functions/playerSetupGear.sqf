@@ -181,6 +181,7 @@ if(["A3W_use_CUP", false] call getPublicVar) then {
 if(handgunWeapon _player == "" && ((CUP_Classes select {_x == "CUP_hgun_glock17_flashlight"}) select 0 == "CUP_hgun_glock17_flashlight")   ) then {
 	_player addMagazine "CUP_17Rnd_9x19_glock17";
 	_player addMagazine "CUP_17Rnd_9x19_glock17";
+	_player addMagazine "CUP_17Rnd_9x19_glock17";
 	_player addWeapon "CUP_hgun_glock17_flashlight";
 };
 
