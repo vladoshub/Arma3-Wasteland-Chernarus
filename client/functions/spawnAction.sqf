@@ -183,7 +183,7 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 		
 		//[MF_ITEMS_REPAIR_KIT, 1] call mf_inventory_add;
 		[MF_ITEMS_QUAD, 1] call mf_inventory_add;
-		["carSpawns", 1] call mf_inventory_add;
+		//["carSpawns", 1] call mf_inventory_add;
 	};
 
 	if (cbChecked ((uiNamespace getVariable "RespawnSelectionDialog") displayCtrl respawn_Preload_Checkbox)) then

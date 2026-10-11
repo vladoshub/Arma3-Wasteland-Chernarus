@@ -1888,14 +1888,14 @@ customPlayerItems = compileFinal str
 	["Syphon Hose", "syphonhose", localize "STR_WL_ShopDescriptions_SyphonHose", "client\icons\syphonhose.paa", 1000, 100, ["chance", 0.85]],
 	["Jerry Can (Empty)", "jerrycanempty", localize "STR_WL_ShopDescriptions_fuelEmpty", "client\icons\jerrycan.paa", 1000, 25, ["chance", 1.0]],
 	["Jerry Can (Full)", "jerrycanfull", localize "STR_WL_ShopDescriptions_fuelFull", "client\icons\jerrycan.paa", 5000, 75, ["chance", 0.8]],
-    ["Protective shield", "shield", "Deploy shield", "client\icons\save.paa", 7500, 750, ["chance", 0.1]],
-	["Offroad Quad Bike", "quad", localize "STR_WL_ShopDescriptions_Quad", "client\icons\quad.paa", 10000, 500, ["chance", 0.6]],
 	["Stash", "stash", localize "STR_WL_ShopDescriptions_Stash", "client\icons\stash.paa", 15000, 5000, "HIDDEN", ["chance", 0.5]],
 	["Repair Kit", "repairkit", localize "STR_WL_ShopDescriptions_RepairKit", "client\icons\briefcase.paa", 15000, 500, ["chance", 0.5]],
-    ["Fast Car", "carSpawns", "Deploy Car", "client\icons\car.paa", 15000, 750, ["chance", 0.5]],
+	["Protective shield", "shield", "Deploy shield", "client\icons\save.paa", 15000, 750, ["chance", 0.1]],
+    ["Offroad Quad Bike", "quad", localize "STR_WL_ShopDescriptions_Quad", "client\icons\quad.paa", 20000, 500, ["chance", 0.6]],
     ["Defibrillator", "defibrillator", localize "STR_WL_ShopDescriptions_Defibrillator", "client\icons\defibrillator.paa", 20000, 5000, ["chance", 0.2]],
 	["Warchest", "warchest", localize "STR_WL_ShopDescriptions_Warchest", "client\icons\warchest.paa", 20000, 500, "HIDDEN", ["chance", 0.4]],
-    ["Mini Heli", "heliSpawns", "Deploy Heli", "client\icons\heli.paa", 30000, 750, ["chance", 0.01]],
+    ["Fast Car", "carSpawns", "Deploy Car", "client\icons\car.paa", 35000, 750, ["chance", 0.5]],
+    ["Mini Heli", "heliSpawns", "Deploy Heli", "client\icons\heli.paa", 60000, 750, ["chance", 0.01]],
     ["Spawn Beacon", "spawnbeacon", localize "STR_WL_ShopDescriptions_spawnBeacon", "client\icons\spawnbeacon.paa", 350000, 75000, ["chance", 0.01]],
     ["Artillery Strike", "artillery", "", "client\icons\tablet.paa", 3500000, 750000, ["chance", 0.15]]
 ];
