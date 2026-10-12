@@ -75,7 +75,7 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 
 
 
-    if (hmd _player == "") then {
+    if (hmd player == "") then {
         player linkItem "NVGoggles";
     };
 
