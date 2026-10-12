@@ -1,6 +1,5 @@
-#include "infiSTAR_AdminMenu.hpp"
 respawn = "BASE";
-respawnDelay = 10;
+respawnDelay = 20;
 disabledAI = 1;
 disableChannels[] = {{0,false,true}, {1,false,true}, {2,true,true}};  // 0 = global, 1 = side, 2 = command // new syntax: {{channel<number>, disableText<bool>, disableVoice<bool>}, ...};
 // side chat is disabled for indies in client\preInit.sqf
