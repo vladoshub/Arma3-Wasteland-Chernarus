@@ -136,10 +136,11 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 
 
 
-	if (hmd _player == "") then { 
-		_player linkItem "NVGoggles"; 
-		//_player setVariable ["firstNVGogglesNeedRemove", false, true]; 
-	};
+	//if (hmd _player == "") then {
+	//	_player linkItem "NVGoggles";
+		//_player setVariable ["firstNVGogglesNeedRemove", false, true];
+	//};
+
 	/*
 
 	if (primaryWeapon _player == "") then {

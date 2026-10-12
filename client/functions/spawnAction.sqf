@@ -75,6 +75,10 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 
 
 
+    if (hmd _player == "") then {
+        player linkItem "NVGoggles";
+    };
+
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 
@@ -121,6 +125,9 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 	_baseMoney = ["A3W_startingMoney", 100] call getPublicVar;
 	[player, _baseMoney, true] call A3W_fnc_setCMoney;
 
+    if (hmd _player != "") then {
+        player unlinkItem (hmd player);
+    };
 
 	 /*
 	if(["A3W_use_CUP", false] call getPublicVar) then {
