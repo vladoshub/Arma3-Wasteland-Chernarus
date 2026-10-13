@@ -21,7 +21,10 @@ A3W_smallVehicles =
 		(CUP_Classes select {_x == "CUP_I_TT650_NAPA"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Ural_Civ_02"}) select 0,
 		(CUP_Classes select {_x == "CUP_B_HMMWV_Unarmed_USA"}) select 0,
-		(CUP_Classes select {_x == "CUP_I_V3S_Covered_TKG"}) select 0
+		(CUP_Classes select {_x == "CUP_I_V3S_Covered_TKG"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_V3S_Open_TKG"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Ikarus_TKC"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Bus_City_CRCIV"}) select 0
 		];
 	};
 
@@ -35,14 +38,11 @@ civilianVehicles =
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		civilianVehicles append [
-		(CUP_Classes select {_x == "CUP_C_Ikarus_TKC"}) select 0,
     	(CUP_Classes select {_x == "CUP_C_Skoda_White_CIV"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Volha_CR_CIV"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Octavia_CIV"}) select 0,
     	(CUP_Classes select {_x == "CUP_C_Lada_White_CIV"}) select 0,
-		(CUP_Classes select {_x == "CUP_C_Bus_City_CRCIV"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_S1203_CIV_CR"}) select 0,
-		(CUP_Classes select {_x == "CUP_I_V3S_Open_TKG"}) select 0,
     	(CUP_Classes select {_x == "CUP_C_Golf4_black_Civ"}) select 0,
     	(CUP_Classes select {_x == "CUP_O_LR_Transport_TKA"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_UAZ_Unarmed_TK_CIV"}) select 0,
