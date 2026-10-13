@@ -136,8 +136,8 @@ _result = [["getPlayerStatusXMap", _UID, _environment], 2] call extDB_Database_a
 
 if (_moneySaving) then
 {
-	//first load 1500000 on new Map
-	_bank = _result param [0,1500000]; 
+	//first load 500000 on new Map
+	_bank = _result param [0,500000];
 };
 
 if (["A3W_atmBounties"] call isConfigOn) then
