@@ -16,14 +16,19 @@ _setupVars =
 	_vehicleClass = // to specify a vehicleLoadouts variant, simply write "class/variant", e.g. "O_Heli_Light_02_dynamicLoadout_F/orcaDAR"
 	[
 		"B_APC_Tracked_01_AA_F",
-		"O_APC_Tracked_02_AA_F"
+		"O_APC_Tracked_02_AA_F",
+		"I_LT_01_AA_F"
 	];
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		_vehicleClass append [
 			(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"}) select 0,
 			(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}) select 0,
-			(CUP_Classes select {_x == "CUP_O_2S6M_RU"}) select 0
+			(CUP_Classes select {_x == "CUP_I_Datsun_AA_Random"}) select 0,
+
+			(CUP_Classes select {_x == "CUP_I_Hilux_zu23_NAPA"}) select 0,
+			(CUP_Classes select {_x == "CUP_B_Ural_ZU23_CDF"}) select 0,
+			(CUP_Classes select {_x == "CUP_B_ZSU23_CDF"}) select 0
 		];
 	};
 

@@ -301,9 +301,9 @@ vehicleWeapons =
 		(CUP_Classes select {_x == "CUP_arifle_Mk20"}) select 0,
 		(CUP_Classes select {_x == "CUP_srifle_M24_wdl"}) select 0,
 		(CUP_Classes select {_x == "CUP_srifle_AWM_wdl"}) select 0,
-		(CUP_Classes select {_x == "CUP_lmg_L110A1"}) select 0,
-		(CUP_Classes select {_x == "CUP_lmg_M249_E2"}) select 0,
-		(CUP_Classes select {_x == "CUP_lmg_Mk48"}) select 0,
+		//(CUP_Classes select {_x == "CUP_lmg_L110A1"}) select 0,
+		//(CUP_Classes select {_x == "CUP_lmg_M249_E2"}) select 0,
+		//(CUP_Classes select {_x == "CUP_lmg_Mk48"}) select 0,
 		(CUP_Classes select {_x == "CUP_lmg_L7A2_Flat"}) select 0,
 
 

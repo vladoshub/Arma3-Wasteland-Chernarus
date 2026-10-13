@@ -9,14 +9,14 @@ if (!isServer) exitWith {};
 // Mission filename, spawnrate
 
 MainMissions = [
-	["mission_APC", 0.1],
-	["mission_HeavyVehicle", 0.4],
+	["mission_APC", 0.2],
+	["mission_HeavyVehicle", 0.2],
 	["mission_wreckedUAV", 0.1],
 	["mission_wreckedUGV", 0.1],
-	["mission_ArmedHeli", 0.3],
-	["mission_ArmedJet", 0.2],
-	["mission_LightVehicle", 0.2],
-	["mission_CivHeli", 0.1],
+	["mission_ArmedHeli", 0.15],
+	["mission_ArmedJet", 0.1],
+	["mission_LightVehicle", 0.4],
+	["mission_CivHeli", 0.15],
 	["mission_AntiAir", 0.2]
 ]; 
 

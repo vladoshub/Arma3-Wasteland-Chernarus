@@ -24,18 +24,20 @@ _setupObjects =
 	[
 		["I_LT_01_AA_F"],
 		["B_MRAP_01_gmg_F"],
-		["O_APC_Tracked_02_cannon_F"],
-		["I_APC_tracked_03_cannon_F"],
-		["I_APC_Wheeled_03_cannon_F"],
-		["O_APC_Tracked_02_AA_F"]
+		["I_APC_Wheeled_03_cannon_F"]
 	];
 
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		_vehChoices append [
-			(CUP_Classes select {_x == "CUP_B_BMP2_CDF"}),
+			(CUP_Classes select {_x == "CUP_O_BTR60_TK"}),
 			(CUP_Classes select {_x == "CUP_B_UAZ_METIS_CDF"}),
-			(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"})
+			(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}),
+			(CUP_Classes select {_x == "CUP_I_SUV_Armored_ION"}),
+			(CUP_Classes select {_x == "CUP_B_UAZ_AGS30_CDF"}),
+			(CUP_Classes select {_x == "CUP_B_BRDM2_CDF"}),
+			(CUP_Classes select {_x == "CUP_B_BRDM2_ATGM_CDF"}),
+			(CUP_Classes select {_x == "CUP_O_GAZ_Vodnik_BPPU_RU"})
 		];
 	};
 
