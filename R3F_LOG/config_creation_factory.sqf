@@ -69,49 +69,49 @@ R3F_LOG_CFG_CF_whitelist_light_categories =
 ];
 
 
-R3F_LOG_CFG_CF_whitelist_objects =
+// Per-object availability: [className, ["chance", X]], using the store chance notation.
+R3F_LOG_CFG_CF_object_options =
 [
-	"Land_Sacks_goods_F",
-	"Land_BarrelWater_F",
-	"Land_Cargo_Tower_V4_F",
-	"Land_SCF_01_shredder_F",
-	"Land_i_Garage_V1_F",
-	"FlagChecked_F",
-	"Land_Atm_01_malden_F",
-	'Land_Cargo_Patrol_V1_F',
-	"Land_BagBunker_Large_F",
-	"Land_HBarrierTower_F",
-	"Dirthump_3_F",
-	"Land_ConcreteBlock",
-	"BlockConcrete_F",
-	"Land_CncBarrier_stripes_F",
-	"Dirthump_4_F",
-	"Land_Dirthump03",
-	"Land_HBarrier_1_F",
-    "Land_BagFence_Round_F",
-    "Land_BagBunker_Small_F",
-    "Land_HBarrierWall6_F",
-	"I_G_HMG_02_F",
-    "B_AAA_System_01_F",
-    "B_Radar_System_02_F",
-    "B_Radar_System_01_F",
-    "B_SAM_System_03_F",
-    "O_SAM_System_04_F",
-	"Land_ConcreteWall_01_l_gate_F",
-	"Land_PierConcrete_01_16m_F",
-	"Land_Pier_Box_F",
-	"Land_GH_Stairs_F",
-	"Static Titan Launcher (AT)",
-    "Static Titan Launcher (AA)",
-	"B_G_Mortar_01_F",
-	"I_G_HMG_02_high_F",
-	"I_G_HMG_02_F",
-	"B_T_GMG_01_F",
-	"I_Truck_02_ammo_F",
-	"Land_Bunker_01_big_F",
-	"B_T_APC_Wheeled_01_cannon_F",
-	"B_T_VTOL_01_armed_olive_F",
-	"land_bunker_garage"
+	["Land_Sacks_goods_F", ["chance", 0.3]],
+	["Land_BarrelWater_F", ["chance", 0.3]],
+	["Land_Cargo_Tower_V4_F", ["chance", 0.1]],
+	["Land_SCF_01_shredder_F", ["chance", 0.1]],
+	["Land_i_Garage_V1_F", ["chance", 0.01]],
+	["FlagChecked_F", ["chance", 0.01]],
+	["Land_Atm_01_malden_F", ["chance", 0.01]],
+	['Land_Cargo_Patrol_V1_F', ["chance", 0.1]],
+	["Land_BagBunker_Large_F", ["chance", 0.2]],
+	["Land_HBarrierTower_F", ["chance", 0.5]],
+	["Dirthump_3_F", ["chance", 0.5]],
+	["Land_ConcreteBlock", ["chance", 0.5]],
+	["BlockConcrete_F", ["chance", 0.5]],
+	["Land_CncBarrier_stripes_F", ["chance", 0.4]],
+	["Dirthump_4_F", ["chance", 0.8]],
+	["Land_Dirthump03", ["chance", 0.8]],
+	["Land_HBarrier_1_F", ["chance", 0.5]],
+    ["Land_BagFence_Round_F", ["chance", 0.9]],
+    ["Land_BagBunker_Small_F", ["chance", 0.7]],
+    ["Land_HBarrierWall6_F", ["chance", 0.6]],
+	["I_G_HMG_02_F", ["chance", 0.3]],
+    ["B_AAA_System_01_F", ["chance", 0.05]],
+    ["B_Radar_System_02_F", ["chance", 0.5]],
+    ["B_Radar_System_01_F", ["chance", 0.5]],
+    ["B_SAM_System_03_F", ["chance", 0.05]],
+    ["O_SAM_System_04_F", ["chance", 0.05]],
+	["Land_ConcreteWall_01_l_gate_F", ["chance", 0.6]],
+	["Land_PierConcrete_01_16m_F", ["chance", 0.05]],
+	["Land_Pier_Box_F", ["chance", 0.05]],
+	["Land_GH_Stairs_F", ["chance", 0.2]],
+	["Static Titan Launcher (AT)", ["chance", 0.03]],
+    ["Static Titan Launcher (AA)", ["chance", 0.03]],
+	["B_G_Mortar_01_F", ["chance", 0.01]],
+	["I_G_HMG_02_high_F", ["chance", 0.01]],
+	["B_T_GMG_01_F", ["chance", 0.01]],
+	["I_Truck_02_ammo_F", ["chance", 0.01]],
+	["Land_Bunker_01_big_F", ["chance", 0.3]],
+	["B_T_APC_Wheeled_01_cannon_F", ["chance", 0.05]],
+	["B_T_VTOL_01_armed_olive_F", ["chance", 0.05]],
+	["land_bunker_garage", ["chance", 0.2]]
 ];
 
 
@@ -119,29 +119,33 @@ R3F_LOG_CFG_CF_whitelist_objects =
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 
 		if(count CUP_Classes == 0) then {
-			[] execVM "cup_classes.sqf";
+			call compile preprocessFileLineNumbers "cup_classes.sqf";
 		};
 		
-		R3F_LOG_CFG_CF_whitelist_objects append [
-		(CUP_Classes select {_x == "CUP_B_M252_US"}) select 0,
-    	(CUP_Classes select {_x == "CUP_B_2b14_82mm_ACR"}) select 0,
-    	(CUP_Classes select {_x == "CUP_B_L16A2_BAF_DDPM"}) select 0,
-		(CUP_Classes select {_x == "CUP_B_RBS70_ACR"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_AGS_ChDKZ"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_KORD_high_RU"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_KORD_RU"}) select 0,
-    	(CUP_Classes select {_x == "CUP_B_ZU23_CDF"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_Metis_RU"}) select 0,
-    	(CUP_Classes select {_x == "CUP_B_TOW_TriPod_USMC"}) select 0,
-    	(CUP_Classes select {_x == "CUP_B_Igla_AA_pod_CDF"}) select 0,
-		(CUP_Classes select {_x == "CUP_B_LAV25_USMC"}) select 0,
-		(CUP_Classes select {_x == "RampConcrete"}) select 0,
-		(CUP_Classes select {_x == "Land_ConcreteRamp"}) select 0,
-		(CUP_Classes select {_x == "Land_fort_rampart_EP1"}) select 0
+		R3F_LOG_CFG_CF_object_options append ([
+		["CUP_B_M252_US", ["chance", 0.01]],
+		["CUP_B_2b14_82mm_ACR", ["chance", 0.01]],
+		["CUP_B_L16A2_BAF_DDPM", ["chance", 0.01]],
+		["CUP_B_RBS70_ACR", ["chance", 0.01]],
+		["CUP_O_AGS_ChDKZ", ["chance", 0.1]],
+		["CUP_O_KORD_high_RU", ["chance", 0.7]],
+		["CUP_O_KORD_RU", ["chance", 0.7]],
+		["CUP_B_ZU23_CDF", ["chance", 0.4]],
+		["CUP_O_Metis_RU", ["chance", 0.03]],
+		["CUP_B_TOW_TriPod_USMC", ["chance",  0.05]],
+		["CUP_B_Igla_AA_pod_CDF", ["chance", 0.02]],
+		["CUP_B_LAV25_USMC", ["chance",  0.01]],
+		["RampConcrete", ["chance", 0.3]],
+		["Land_ConcreteRamp", ["chance", 0.3]],
+		["Land_fort_rampart_EP1", ["chance", 0.5]]
 
 
-		];
+		] select {(_x select 0) in CUP_Classes});
 	};
+
+// Keep the original string whitelist for R3F category and pricing code.
+R3F_LOG_CFG_CF_whitelist_objects = R3F_LOG_CFG_CF_object_options apply {_x select 0};
+R3F_LOG_CF_configDone = true;
 
 /**
  * MEDIUM WHITE LIST

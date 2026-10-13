@@ -34,6 +34,8 @@ if (count (_usine getVariable "R3F_LOG_CF_cfgVehicles_par_categories") > 0) then
 		private ["_classe", "_config", "_nom", "_icone", "_cout", "_tab_icone", "_index"];
 		
 		_classe = _x;
+        if (["Factory", "objects", _classe] call A3W_fnc_isAssistanceItemAvailable) then
+        {
 		_config = configFile >> "CfgVehicles" >> _classe;
 		_nom = getText (_config >> "displayName");
 		_icone = getText (_config >> "icon");
@@ -74,6 +76,7 @@ if (count (_usine getVariable "R3F_LOG_CF_cfgVehicles_par_categories") > 0) then
 		_index = _ctrl_liste_objets lbAdd format ["%1 (%2 cred.)", _nom, [_cout] call R3F_LOG_FNCT_formater_nombre_entier_milliers];
 		_ctrl_liste_objets lbSetPicture [_index, _icone];
 		_ctrl_liste_objets lbSetData [_index, _classe];
+        };
 	} forEach (_usine getVariable "R3F_LOG_CF_cfgVehicles_par_categories" select _sel_categorie);
 	
 	// Ajout d'une ligne vide car l'affichage des listes de BIS est bugué (dernier élément masqué).....

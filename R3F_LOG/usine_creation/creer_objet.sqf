@@ -37,6 +37,11 @@ else
 	if (lbCurSel R3F_LOG_IDC_dlg_LO_liste_objets == -1) exitWith {R3F_LOG_mutex_local_verrou = false;};
 	_classe = lbData [R3F_LOG_IDC_dlg_LO_liste_objets, lbCurSel R3F_LOG_IDC_dlg_LO_liste_objets];
 	
+    if (!(["Factory", "objects", _classe] call A3W_fnc_isAssistanceItemAvailable)) exitWith
+    {
+        R3F_LOG_mutex_local_verrou = false;
+        hint "This object is no longer available in the factory assortment";
+    };
 	if (_classe != "") then
 	{
 		_cout = [_classe] call R3F_LOG_FNCT_determiner_cout_creation;
@@ -92,7 +97,7 @@ else
 					_action_confirmee = true;
 				};
 				
-				if (_action_confirmee) then
+				if (_action_confirmee && {["Factory", "objects", _classe] call A3W_fnc_isAssistanceItemAvailable}) then
 				{
 					// D�duction des cr�dits (si limit�)
 					if (_usine getVariable "R3F_LOG_CF_credits" != -1) then

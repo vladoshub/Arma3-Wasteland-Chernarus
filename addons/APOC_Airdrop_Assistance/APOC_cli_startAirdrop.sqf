@@ -19,6 +19,9 @@ switch (_type) do {
 	case "base": 	{_selectionArray = APOC_AA_Base_one};
 	default 		{_selectionArray = APOC_AA_VehOptions};
 };
+if (_selectionNumber < 0 || {_selectionNumber >= count _selectionArray} ||
+    {!( ["Airdrop", _type, _selectionNumber] call A3W_fnc_isAssistanceItemAvailable )}) exitWith {};
+
 _selectionName = (_selectionArray select _selectionNumber) select 0;
 _price = (_selectionArray select _selectionNumber) select 2;
 
@@ -28,7 +31,7 @@ if (_memberLevel isEqualTo 1) then {
 	_price = _price * 0.9;
 };
 
-private _coolDownTimer = (_selectionArray select _selectionNumber)select 4;
+private _coolDownTimer = (_selectionArray select _selectionNumber) param [4, APOC_coolDownTimer, [0]];
 
 /////////////  Cooldown Timer ////////////////////////
 if (!isNil "APOC_AA_lastUsedTime") then {

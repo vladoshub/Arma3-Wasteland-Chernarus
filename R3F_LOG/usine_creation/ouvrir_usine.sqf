@@ -61,8 +61,15 @@ _sel_categorie = 0 max (_usine getVariable "R3F_LOG_CF_mem_idx_categorie");
 
 _ctrl_liste_categories lbSetCurSel _sel_categorie;
 
+private _assortmentRevision = missionNamespace getVariable ["A3W_dynamicFactoryRevision", 0];
 while {!isNull _dlg_liste_objets} do
 {
+    private _newRevision = missionNamespace getVariable ["A3W_dynamicFactoryRevision", 0];
+    if (_newRevision != _assortmentRevision) then
+    {
+        _assortmentRevision = _newRevision;
+        [] call R3F_LOG_FNCT_usine_remplir_liste_objets;
+    };
 	_credits_usine = _usine getVariable "R3F_LOG_CF_credits";
 	
 	// Activer le bouton de cr�ation que s'il y a assez de cr�dits

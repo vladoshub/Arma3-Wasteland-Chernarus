@@ -1,67 +1,69 @@
 //Configuration for Airdrop Assistance
 //Author: Apoc
+// Append ["chance", X] to each row: 0..1 or 0..100; omitted = always available.
+// A numeric cooldown may still be specified at index 4, before the chance tag.
 
 // APOC_AA_coolDownTime = 180; //Expressed in sec
 
 APOC_AA_VehOptions = [
-	["Ifrit", "O_MRAP_02_F", 45000, "vehicle"],
-	["Hunter", "B_MRAP_01_F", 65000, "vehicle"],
-	["Assault Boat", "I_C_Boat_Transport_01_F", 264000, "vehicle"],
-	["MB 4WD LMG", "I_C_Offroad_02_LMG_F", 180000, "vehicle"],
-	["Qilin Minigun", "O_T_LSV_02_armed_F", 600000, "vehicle"],
-	["MB 4WD AT", "I_C_Offroad_02_AT_F", 1000000, "vehicle"],
-	["Ifrit HMG", "O_MRAP_02_hmg_F", 1360000, "vehicle"],
-	["HEMTT Ammo", "B_Truck_01_ammo_F", 6000000, "vehicle"]
+	["Ifrit", "O_MRAP_02_F", 45000, "vehicle", ["chance", 0.9]],
+	["Hunter", "B_MRAP_01_F", 65000, "vehicle", ["chance", 0.8]],
+	["Assault Boat", "I_C_Boat_Transport_01_F", 264000, "vehicle", ["chance", 0.9]],
+	["MB 4WD LMG", "I_C_Offroad_02_LMG_F", 180000, "vehicle", ["chance", 0.5]],
+	["Qilin Minigun", "O_T_LSV_02_armed_F", 600000, "vehicle", ["chance", 0.4]],
+	["MB 4WD AT", "I_C_Offroad_02_AT_F", 1000000, "vehicle", ["chance", 0.3]],
+	["Ifrit HMG", "O_MRAP_02_hmg_F", 1360000, "vehicle", ["chance", 0.1]],
+	["HEMTT Ammo", "B_Truck_01_ammo_F", 6000000, "vehicle", ["chance", 0.03]]
 ];
 
 APOC_AA_Veh2Options = [
-	["Hunter HMG", "B_MRAP_01_hmg_F", 600000, "vehicle2"],
-	["Hunter GMG", "B_MRAP_01_gmg_F", 1600000, "vehicle2"],
-	["AFV-4 Gorgon", "I_APC_Wheeled_03_cannon_F", 2700000, "vehicle2"],
-	["ZSU-39 Tigris AA", "O_APC_Tracked_02_AA_F", 4200000, "vehicle2"],
-	["T-100 Varsuk", "O_MBT_02_cannon_F", 4200000, "vehicle2"],
-	["AMV-7 Marshall (HQ)", "B_T_APC_Wheeled_01_cannon_F", 8000000, 'vehicle']
+	["Hunter HMG", "B_MRAP_01_hmg_F", 600000, "vehicle2", ["chance", 0.4]],
+	["Hunter GMG", "B_MRAP_01_gmg_F", 1600000, "vehicle2", ["chance", 0.2]],
+	["AFV-4 Gorgon", "I_APC_Wheeled_03_cannon_F", 2700000, "vehicle2", ["chance", 0.07]],
+	["ZSU-39 Tigris AA", "O_APC_Tracked_02_AA_F", 4200000, "vehicle2", ["chance", 0.03]],
+	["T-100 Varsuk", "O_MBT_02_cannon_F", 4200000, "vehicle2", ["chance", 0.03]],
+	["AMV-7 Marshall (HQ)", "B_T_APC_Wheeled_01_cannon_F", 8000000, "vehicle2", ["chance", 0.01]]
 	// ["Rhino MGS UP", "B_AFV_Wheeled_01_up_cannon_F", 95000, "vehicle2"]
 	// ["MBT-52 Kuma", "I_MBT_03_cannon_F", 170000, "vehicle2"]
 ];
 
 APOC_AA_Veh3Options = [
-	["Offroad", "C_Offroad_01_F", 60000, "vehicle3"],
-	["HEMTT Flatbed", "B_T_Truck_01_flatbed_F", 135000, "vehicle3"]
+	["Offroad", "C_Offroad_01_F", 60000, "vehicle3", ["chance", 0.9]],
+	["HEMTT Flatbed", "B_T_Truck_01_flatbed_F", 135000, "vehicle3", ["chance", 0.5]]
 ];
 
 APOC_AA_Veh4Options = [
-	["M-900 LittleBird", "C_Heli_Light_01_civil_F", 300000, "vehicle4"],
-	["PO-30 Orca (DAGR)", "O_Heli_Light_02_dynamicLoadout_F", 1775000, "vehicle4"],
-	["A-143 Buzzard", "I_Plane_Fighter_03_dynamicLoadout_F", 3500000, "vehicle4"],
-	["Mi-48 Kajman Delta", "O_Heli_Attack_02_dynamicLoadout_F", 4000000, "vehicle4"],
-	["F/A-181 Black Wasp", "B_Plane_Fighter_01_F", 5000000, "vehicle4"],
-	["V-44 X Blackfish Armed (HQ)", "B_T_VTOL_01_armed_olive_F", 7300000, "vehicle4"]
+	["M-900 LittleBird", "C_Heli_Light_01_civil_F", 300000, "vehicle4", ["chance", 0.1]],
+	["PO-30 Orca (DAGR)", "O_Heli_Light_02_dynamicLoadout_F", 1775000, "vehicle4", ["chance", 0.05]],
+	["A-143 Buzzard", "I_Plane_Fighter_03_dynamicLoadout_F", 3500000, "vehicle4", ["chance", 0.03]],
+	["Mi-48 Kajman Delta", "O_Heli_Attack_02_dynamicLoadout_F", 4000000, "vehicle4", ["chance", 0.02]],
+	["F/A-181 Black Wasp", "B_Plane_Fighter_01_F", 5000000, "vehicle4", ["chance", 0.01]],
+	["V-44 X Blackfish Armed (HQ)", "B_T_VTOL_01_armed_olive_F", 7300000, "vehicle4", ["chance", 0.01]]
 ];
 
 
 APOC_AA_SupOptions = [
-	["Contact DLC Box", "mission_DLC_contact", 680000, "supply"],
-	["Assault Rifles", "mission_Assault1", 600000, "supply"],
-	["Dive Gear", "mission_Gear_Diving", 600000, "supply"],
-	["Machine Guns", "mission_LMGs1", 772500, "supply"],
-	["Marksmen DLC Box", "mission_DLC_marks", 772500, "supply"],
-	["Sniper Rifles", "mission_Snipers2", 872500, "supply"],
-	["Sniper Rifles #2", "mission_Snipers3", 872500, "supply"],
-	["Apex DLC Box", "mission_DLC_apex", 872500, "supply"],
-	["Launchers", "mission_Launchers1", 1862500, "supply"]
+	["Contact DLC Box", "mission_DLC_contact", 680000, "supply", ["chance", 0.1]],
+	["Assault Rifles", "mission_Assault1", 600000, "supply", ["chance", 0.3]],
+	["Dive Gear", "mission_Gear_Diving", 600000, "supply", ["chance", 0.2]],
+	["Machine Guns", "mission_LMGs1", 772500, "supply", ["chance", 0.1]],
+	["Marksmen DLC Box", "mission_DLC_marks", 772500, "supply", ["chance", 0.3]],
+	["Sniper Rifles", "mission_Snipers2", 872500, "supply", ["chance", 0.1]],
+	["Sniper Rifles #2", "mission_Snipers3", 872500, "supply", ["chance", 0.15]],
+	["Apex DLC Box", "mission_DLC_apex", 872500, "supply", ["chance", 0.1]],
+	["Launchers", "mission_Launchers1", 1862500, "supply", ["chance", 0.02]]
 ];
 
 
 APOC_AA_Base_one = [
-	["Base blocks (walls)", [[["Land_HBarrier_3_F", 4], ["Land_HBarrierWall6_F", 2]], "Land_Cargo40_white_F"], 200000, "base"],
-	["Base blocks (bunkers)", [[["Land_BagBunker_Small_F", 1], ["Land_BagBunker_Large_F", 1], ["Land_HBarrier_3_F", 1], ["Land_HBarrierTower_F", 1]], "Land_Cargo40_white_F"], 300000, "base"],
-	["Base blocks (humps)", [[["Dirthump_3_F", 2]], "Land_Cargo40_white_F"], 350000, "base"], 
-	["Food and Water", [[["Land_Sacks_goods_F", 2], ["Land_BarrelWater_F", 3]], "Land_CargoBox_V1_F"], 500000, "base"],
-	["Mobile ATM", [[["Land_Atm_01_malden_F", 1]], "Land_Cargo40_white_F"], 3825000, "base"],
-	["Object Factory", [[["Land_SCF_01_shredder_F", 1]], "Land_Cargo40_white_F"], 6225000, "base"],
-	["Mobile parking", [[["Land_i_Garage_V1_F", 1]], "Land_Cargo40_white_F"], 6500000, "base"],
-	["Base flag", [[["FlagChecked_F", 1]], "Land_Cargo40_white_F"], 8500000, "base"]
+	["Base blocks (walls)", [[["Land_HBarrier_3_F", 4], ["Land_HBarrierWall6_F", 2]], "Land_Cargo40_white_F"], 200000, "base", ["chance", 0.8]],
+	["Base blocks (bunkers)", [[["Land_BagBunker_Small_F", 1], ["Land_BagBunker_Large_F", 1], ["Land_HBarrier_3_F", 1], ["Land_HBarrierTower_F", 1]], "Land_Cargo40_white_F"], 300000, "base", ["chance", 0.6]],
+	["Base blocks (humps)", [[["Dirthump_3_F", 2]], "Land_Cargo40_white_F"], 350000, "base", ["chance", 0.5]],
+	["Food and Water", [[["Land_Sacks_goods_F", 2], ["Land_BarrelWater_F", 3]], "Land_CargoBox_V1_F"], 500000, "base", ["chance", 0.2]],
+	["Mobile ATM", [[["Land_Atm_01_malden_F", 1]], "Land_Cargo40_white_F"], 3825000, "base", ["chance", 0.01]],
+	["Object Factory", [[["Land_SCF_01_shredder_F", 1]], "Land_Cargo40_white_F"], 6225000, "base", ["chance", 0.01]],
+	["Mobile parking", [[["Land_i_Garage_V1_F", 1]], "Land_Cargo40_white_F"], 6500000, "base", ["chance", 0.01]],
+	["Base flag", [[["FlagChecked_F", 1]], "Land_Cargo40_white_F"], 8500000, "base", ["chance", 0.01]]
 	//["Base blocks (walls)", "block", 150000, "base"],
 	//["Base blocks (bunkers)", "block", 200000, "baseBunker"],
 //	["Base blocks 2", "block", 200000, "base1"],
@@ -99,3 +101,5 @@ APOC_AA_Base_one = [
 	["Random XL *New Box","mission_Gear_RandomXL",1,"supply"],
 	["Random XS *New Box","mission_Gear_RandomXS",1,"supply"]
 */
+
+APOC_AA_configDone = true;
