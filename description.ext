@@ -92,12 +92,6 @@ briefing = 0; // if 0, skip Continue button
 #include "addons\VehiclePainter\dialog\VehiclePainter_mainMenu.hpp"
 #include "client\systems\hud\dialog\downloadData.hpp"
 
-class setFace
-{
-    allowedTargets = 0;
-    jip = 1;
-};
-
 class RscTitles
 {
 	#include "addons\proving_ground\PG_rsctitles.hpp"
@@ -491,6 +485,12 @@ class CfgRemoteExec // applies only to clients
 		#else
 		mode = 2; // debug mode, don't touch
 		#endif
+
+        class setFace
+        {
+            allowedTargets = 0;
+            jip = 1;
+        };
 	};
 };
 
