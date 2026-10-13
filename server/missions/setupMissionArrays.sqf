@@ -15,7 +15,7 @@ MainMissions = [
 	["mission_wreckedUGV", 0.1],
 	["mission_ArmedHeli", 0.15],
 	["mission_ArmedJet", 0.1],
-	["mission_LightVehicle", 0.4],
+	["mission_LightVehicle", 0.5],
 	["mission_CivHeli", 0.15],
 	["mission_AntiAir", 0.2]
 ]; 

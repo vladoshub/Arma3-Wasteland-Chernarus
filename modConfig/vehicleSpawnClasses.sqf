@@ -24,9 +24,17 @@ A3W_smallVehicles =
 		(CUP_Classes select {_x == "CUP_I_V3S_Covered_TKG"}) select 0,
 		(CUP_Classes select {_x == "CUP_I_V3S_Open_TKG"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Ikarus_TKC"}) select 0,
-		(CUP_Classes select {_x == "CUP_C_Bus_City_CRCIV"}) select 0
+		(CUP_Classes select {_x == "CUP_C_Bus_City_CRCIV"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Ural_Open_Civ_03"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Ural_Civ_03"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Ural_Civ_01"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_V3S_Covered_TKC"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_V3S_Open_TKC"}) select 0
 		];
 	};
+
+
+
 
 //Civilian Vehicle List - Random Spawns
 civilianVehicles =
@@ -38,6 +46,14 @@ civilianVehicles =
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		civilianVehicles append [
+
+		(CUP_Classes select {_x == "CUP_I_Datsun_4seat"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_Hilux_unarmed_NAPA"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Datsun_Covered"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_LR_Transport_CTK"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_UAZ_Open_TK_CIV"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_LR_Transport_AAF"}) select 0,
+		(CUP_Classes select {_x == "CUP_C_Lada_GreenTK_CIV"}) select 0,
     	(CUP_Classes select {_x == "CUP_C_Skoda_White_CIV"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Volha_CR_CIV"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_Octavia_CIV"}) select 0,
@@ -63,10 +79,13 @@ lightMilitaryVehicles =
 		lightMilitaryVehicles append [
 		(CUP_Classes select {_x == "CUP_O_BTR40_TKA"}) select 0,
     	(CUP_Classes select {_x == "CUP_B_Ural_CDF"}) select 0,
+    	(CUP_Classes select {_x == "CUP_I_Hilux_SPG9_NAPA"}) select 0,
+    	(CUP_Classes select {_x == "CUP_I_Hilux_zu23_NAPA"}) select 0,
     	(CUP_Classes select {_x == "CUP_I_Datsun_PK"}) select 0,
-
 		(CUP_Classes select {_x == "CUP_O_GAZ_Vodnik_PK_RU"}) select 0,
 		(CUP_Classes select {_x == "CUP_B_UAZ_SPG9_CDF"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_LR_SF_HMG_AAF"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_LR_MG_AAF"}) select 0,
 		(CUP_Classes select {_x == "CUP_O_BTR40_MG_TKA"}) select 0,
 		(CUP_Classes select {_x == "CUP_B_Jackal2_L2A1_GB_W"}) select 0,
 		(CUP_Classes select {_x == "CUP_B_HMMWV_SOV_M2_USA"}) select 0,
@@ -122,6 +141,7 @@ mediumMilitaryVehicles =
 		(CUP_Classes select {_x == "CUP_B_ZSU23_CDF"}) select 0,
 		(CUP_Classes select {_x == "CUP_O_BTR60_TK"}) select 0,
 		(CUP_Classes select {_x == "CUP_B_BRDM2_CDF"}) select 0,
+		(CUP_Classes select {_x == "CUP_I_Hilux_igla_NAPA"}) select 0,
 		(CUP_Classes select {_x == "CUP_O_GAZ_Vodnik_BPPU_RU"}) select 0
 		];
 	};

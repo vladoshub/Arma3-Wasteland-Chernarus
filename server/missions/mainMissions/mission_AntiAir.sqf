@@ -25,7 +25,7 @@ _setupVars =
 			(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"}) select 0,
 			(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}) select 0,
 			(CUP_Classes select {_x == "CUP_I_Datsun_AA_Random"}) select 0,
-
+			(CUP_Classes select {_x == "CUP_I_Hilux_igla_NAPA"}) select 0,
 			(CUP_Classes select {_x == "CUP_I_Hilux_zu23_NAPA"}) select 0,
 			(CUP_Classes select {_x == "CUP_B_Ural_ZU23_CDF"}) select 0,
 			(CUP_Classes select {_x == "CUP_B_ZSU23_CDF"}) select 0

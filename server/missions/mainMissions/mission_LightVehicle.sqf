@@ -50,7 +50,9 @@ _setupVars = {
 			(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"}) select 0,
 			(CUP_Classes select {_x == "CUP_B_M6LineBacker_USA_W"}) select 0,
 			(CUP_Classes select {_x == "CUP_B_HMMWV_Crows_M2_USA"}) select 0,
-			(CUP_Classes select {_x == "CUP_B_HMMWV_Crows_MK19_USA"}) select 0
+			(CUP_Classes select {_x == "CUP_B_HMMWV_Crows_MK19_USA"}) select 0,
+			(CUP_Classes select {_x == "CUP_I_Hilux_AGS30_NAPA"}) select 0,
+			(CUP_Classes select {_x == "CUP_I_LR_SF_GMG_AAF"}) select 0
 		];
 	};
 
