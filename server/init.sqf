@@ -135,6 +135,12 @@ else
 if (isServer) then
 {
 	[] execVM "server\functions\dynamicStoreManager.sqf";
+    ["Airdrop", "APOC_AA_configDone", [
+        ["vehicle", "APOC_AA_VehOptions"], ["vehicle2", "APOC_AA_Veh2Options"],
+        ["vehicle3", "APOC_AA_Veh3Options"], ["vehicle4", "APOC_AA_Veh4Options"],
+        ["supply", "APOC_AA_SupOptions"], ["base", "APOC_AA_Base_one"]
+    ]] execVM "server\functions\dynamicAssistanceManager.sqf";
+    ["Factory", "R3F_LOG_CF_configDone", [["objects", "R3F_LOG_CFG_CF_object_options"]]] execVM "server\functions\dynamicAssistanceManager.sqf";
 };
 
 if (isServer) then

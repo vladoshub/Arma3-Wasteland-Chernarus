@@ -250,6 +250,12 @@ A3W_store_variant = "cup";
 // Dynamic store rotation
 // Every store row contains its own ["chance", X] value in storeConfig_*.sqf.
 // The assortment is rolled globally after restart and then periodically.
+// Independent assortment rotations for airdrop assistance and R3F creation factories.
+A3W_dynamicAirdropEnabled = true;
+A3W_dynamicAirdropRefreshInterval = 2 * 60 * 45; // seconds; 0 = roll once after restart
+A3W_dynamicFactoryEnabled = true;
+A3W_dynamicFactoryRefreshInterval = 2 * 60 * 45; // seconds; 0 = roll once after restart
+
 A3W_dynamicStoreEnabled = true;
 A3W_dynamicStoreRefreshInterval = 2 * 60 * 45; // seconds; 0 = only roll once after restart
 

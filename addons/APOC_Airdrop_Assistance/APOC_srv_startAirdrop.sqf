@@ -23,6 +23,9 @@ switch (_type) do {
 	default 		{_selectionArray = APOC_AA_VehOptions};
 };
 
+if (_selectionNumber < 0 || {_selectionNumber >= count _selectionArray} ||
+    {!( ["Airdrop", _type, _selectionNumber] call A3W_fnc_isAssistanceItemAvailable )}) exitWith {};
+
 _selectionName 	= (_selectionArray select _selectionNumber) select 0;
 _selectionClass = (_selectionArray select _selectionNumber) select 1;
 _price 			= (_selectionArray select _selectionNumber) select 2;

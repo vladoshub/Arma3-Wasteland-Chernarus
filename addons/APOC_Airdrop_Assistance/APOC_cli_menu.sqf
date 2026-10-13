@@ -1,158 +1,30 @@
-//Client Menu Building for Airdrop Assistance 
-//Builds client commanding menus dynamically based on config file arrays
-//Author: Apoc
-//Credits to Cre4mpie for the command menu approach and static structure of menus
-
-AirdropMenu = 
-[
-	["Airdrop",true],
-		["Light Vehicles", [2], "#USER:VehicleMenu", -5, [["expression", ""]], "1", "1"],
-		["Armored Vehicles", [3], "#USER:Vehicle2Menu", -5, [["expression", ""]], "1", "1"],
-		["Civil Vehicles", [4], "#USER:Vehicle3Menu", -5, [["expression", ""]], "1", "1"],
-		["Air Vehicles", [5], "#USER:Vehicle4Menu", -5, [["expression", ""]], "1", "1"],
-		["Supplies", [6], "#USER:SupplyMenu", -5, [["expression", ""]], "1", "1"],
-		["Base", [7], "#USER:BaseMenu", -5, [["expression", ""]], "1", "1"],
-		["Cancel Airdrop", [8], "", -3, [["expression", ""]], "1", "1"]
+// Build fresh menus using the latest shared server rotation.
+AirdropMenu = [["Airdrop", true]];
+{
+    _x params ["_title", "_menuName", "_type", "_arrayName"];
+    private _menu = [[_title, true]];
+    {
+        private _index = _forEachIndex;
+        if (["Airdrop", _type, _index] call A3W_fnc_isAssistanceItemAvailable) then
+        {
+            _menu pushBack [
+                format ["%1 ($%2)", _x select 0, [_x select 2] call fn_numbersText],
+                [count _menu + 1], "", -5,
+                [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"', _type, _index]]],
+                "1", "1"
+            ];
+        };
+    } forEach (missionNamespace getVariable [_arrayName, []]);
+    _menu pushBack ["Cancel Airdrop", [count _menu + 1], "", -3, [["expression", ""]], "1", "1"];
+    missionNamespace setVariable [_menuName, _menu];
+    AirdropMenu pushBack [_title, [_forEachIndex + 2], "#USER:" + _menuName, -5, [["expression", ""]], "1", "1"];
+} forEach [
+    ["Light Vehicles", "VehicleMenu", "vehicle", "APOC_AA_VehOptions"],
+    ["Armored Vehicles", "Vehicle2Menu", "vehicle2", "APOC_AA_Veh2Options"],
+    ["Civil Vehicles", "Vehicle3Menu", "vehicle3", "APOC_AA_Veh3Options"],
+    ["Air Vehicles", "Vehicle4Menu", "vehicle4", "APOC_AA_Veh4Options"],
+    ["Supplies", "SupplyMenu", "supply", "APOC_AA_SupOptions"],
+    ["Base", "BaseMenu", "base", "APOC_AA_Base_one"]
 ];
-//////////////////////////////////////////////////////
-//Setting up the Vehicle Menu ///////////////////////
-/////////////////////////////////////////////////////
-VehicleMenu = [];
-_startVehMenu = ["Light Vehicles",true];
-VehicleMenu pushBack _startVehMenu;
-
-_i = 0;
-{
-	_optionVehMenu = [];
-	_lineElement1 = format ["%1 ($%2)",(APOC_AA_VehOptions select _i) select 0, [(APOC_AA_VehOptions select _i) select 2] call fn_numbersText];
-	_type = (APOC_AA_VehOptions select _i) select 3;
-	_optionVehMenu pushBack _lineElement1;
-	_optionVehMenu append [[_i+2], "", -5];
-	_optionVehMenu pushBack [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"',_type,_i]]];
-	_optionVehMenu append ["1","1"];
-	VehicleMenu pushBack _optionVehMenu;
-	_i=_i+1;
-}forEach APOC_AA_VehOptions;
-
-_endVehMenu = ["Cancel Airdrop", [_i+2], "", -3, [["expression", ""]], "1", "1"];
-VehicleMenu pushBack _endVehMenu;
-///////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////
-//Setting up the Vehicle2 Menu ///////////////////////
-/////////////////////////////////////////////////////
-Vehicle2Menu = [];
-_startVeh2Menu = ["Savable Vehicles",true];
-Vehicle2Menu pushBack _startVeh2Menu;
-
-_i=0;
-{
-	_optionVeh2Menu = [];
-	_lineElement1 = format ["%1 ($%2)",(APOC_AA_Veh2Options select _i) select 0, [(APOC_AA_Veh2Options select _i) select 2] call fn_numbersText];
-	_type = (APOC_AA_Veh2Options select _i) select 3;
-	_optionVeh2Menu pushBack _lineElement1;
-	_optionVeh2Menu append [[_i+2], "", -5];
-	_optionVeh2Menu pushBack [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"',_type,_i]]];
-	_optionVeh2Menu append ["1","1"];
-	Vehicle2Menu pushBack _optionVeh2Menu;
-	_i=_i+1;
-}forEach APOC_AA_Veh2Options;
-
-_endVeh2Menu = ["Cancel Airdrop", [_i+2], "", -3, [["expression", ""]], "1", "1"];
-Vehicle2Menu pushBack _endVeh2Menu;
-///////////////////////////////////////////////////////
-Vehicle3Menu = [];
-_startVeh3Menu = ["Civil Vehicles",true];
-Vehicle3Menu pushBack _startVeh3Menu;
-
-_i=0;
-{
-	_optionVeh3Menu = [];
-	_lineElement1 = format ["%1 ($%2)",(APOC_AA_Veh3Options select _i) select 0, [(APOC_AA_Veh3Options select _i) select 2] call fn_numbersText];
-	_type = (APOC_AA_Veh3Options select _i) select 3;
-	_optionVeh3Menu pushBack _lineElement1;
-	_optionVeh3Menu append [[_i+2], "", -5];
-	_optionVeh3Menu pushBack [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"',_type,_i]]];
-	_optionVeh3Menu append ["1","1"];
-	Vehicle3Menu pushBack _optionVeh3Menu;
-	_i=_i+1;
-}forEach APOC_AA_Veh3Options;
-
-_endVeh3Menu = ["Cancel Airdrop", [_i+2], "", -3, [["expression", ""]], "1", "1"];
-Vehicle3Menu pushBack _endVeh3Menu;
-///////////////////////////////////////////////////////
-Vehicle4Menu = [];
-_startVeh4Menu = ["Helicopters",true];
-Vehicle4Menu pushBack _startVeh4Menu;
-
-_i=0;
-{
-	_optionVeh4Menu = [];
-	_lineElement1 = format ["%1 ($%2)",(APOC_AA_Veh4Options select _i) select 0, [(APOC_AA_Veh4Options select _i) select 2] call fn_numbersText];
-	_type = (APOC_AA_Veh4Options select _i) select 3;
-	_optionVeh4Menu pushBack _lineElement1;
-	_optionVeh4Menu append [[_i+2], "", -5];
-	_optionVeh4Menu pushBack [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"',_type,_i]]];
-	_optionVeh4Menu append ["1","1"];
-	Vehicle4Menu pushBack _optionVeh4Menu;
-	_i=_i+1;
-}forEach APOC_AA_Veh4Options;
-
-_endVeh4Menu = ["Cancel Airdrop", [_i+2], "", -3, [["expression", ""]], "1", "1"];
-Vehicle4Menu pushBack _endVeh4Menu;
-///////////////////////////////////////////////////////
-
-
-
-//////////////////////////////////////////////////////
-//Setting up the Supply Menu ////////////////////////
-/////////////////////////////////////////////////////
-SupplyMenu = [];
-_startSupMenu = ["Supplies",true];
-SupplyMenu pushBack _startSupMenu;
-
-_i=0;
-{
-	_optionSupMenu = [];
-	_lineElement1 = format ["%1 ($%2)",(APOC_AA_SupOptions select _i) select 0, [(APOC_AA_SupOptions select _i) select 2] call fn_numbersText];
-	_type = (APOC_AA_SupOptions select _i) select 3;
-	_optionSupMenu pushBack _lineElement1;
-	_optionSupMenu append [[_i+2], "", -5];
-	_optionSupMenu pushBack [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"',_type,_i]]];
-	_optionSupMenu append ["1","1"];
-	SupplyMenu pushBack _optionSupMenu;
-	_i=_i+1;
-}forEach APOC_AA_SupOptions;
-
-_endSupMenu = ["Cancel Airdrop", [_i+2], "", -3, [["expression", ""]], "1", "1"];
-SupplyMenu pushBack _endSupMenu;
-///////////////////////////////////////////////////////
-
-
-
-BaseMenu = [];
-_startSupMenu = ["Base blocks",true];
-BaseMenu pushBack _startSupMenu;
-
-_i=0;
-{
-	_optionBaseMenu = [];
-	_lineElement1 = format ["%1 ($%2)",(APOC_AA_Base_one select _i) select 0, [(APOC_AA_Base_one select _i) select 2] call fn_numbersText];
-	_type = (APOC_AA_Base_one select _i) select 3;
-	_optionBaseMenu pushBack _lineElement1;
-	_optionBaseMenu append [[_i+2], "", -5];
-	_optionBaseMenu pushBack [["expression", format ['["%1",%2,player] execVM "addons\APOC_Airdrop_Assistance\APOC_cli_startAirdrop.sqf"',_type,_i]]];
-	_optionBaseMenu append ["1","1"];
-	BaseMenu pushBack _optionBaseMenu;
-	_i=_i+1;
-}forEach APOC_AA_Base_one;
-
-_endBaseMenu = ["Cancel Airdrop", [_i+2], "", -3, [["expression", ""]], "1", "1"];
-BaseMenu pushBack _endBaseMenu;
-///////////////////////////////////////////////////////
-
-
-
-
-
+AirdropMenu pushBack ["Cancel Airdrop", [8], "", -3, [["expression", ""]], "1", "1"];
 showCommandingMenu "#USER:AirdropMenu";
