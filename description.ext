@@ -485,6 +485,12 @@ class CfgRemoteExec // applies only to clients
 		#else
 		mode = 2; // debug mode, don't touch
 		#endif
+
+        class setFace
+        {
+            allowedTargets = 0;
+            jip = 1;
+        };
 	};
 };
 

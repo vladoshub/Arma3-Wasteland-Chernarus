@@ -9,6 +9,12 @@
 
 params ["_player", "_corpse"];
 
+_player setVariable [
+    "A3W_edenFace",
+    _corpse getVariable ["A3W_edenFace", ""],
+    true
+];
+
 playerSetupComplete = false;
 playerSpawning = true;
 
