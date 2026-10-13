@@ -131,7 +131,7 @@ private _value = (str {
 					//|| _vehicle isKindOf "CUP_O_TT650_TKA" || _vehicle isKindOf "CUP_B_M1030_USMC" ||  _vehicle isKindOf "C_Tractor_01_F" ||  _vehicle isKindOf "CUP_I_Tractor_Old_SYND"
 
 					if( (_vehicle isKindOf "Quadbike_01_base_F") || (_vehicle isKindOf "CUP_O_TT650_TKA") || (_vehicle isKindOf "CUP_B_M1030_USMC") ) then {
-						_vehCoef = 2.0; //2.5
+						_vehCoef = 1.8; //2.5
 					} else {
 						{
 							if(_vehicle isKindOf (_x select 0)) then {
