@@ -239,7 +239,8 @@ A3W_planeSpawnOdds = 0.25; // 0.0 to 1.0
 
 //Random Weapon List - Change this to what you want to spawn in cars.
 // Entries: ["classname", spawnChance], where 0 disables the entry and 1 always accepts it.
-// One entry is selected first; a failed 0..1 chance leaves that weapon slot empty (no reroll).
+// One entry is selected first. If its roll fails, an 80% fallback picks a random chance-1 entry.
+// If the fallback fails or no chance-1 entries exist, the weapon slot stays empty.
 // Legacy strings and nested groups still work, with chance 1 by default.
 vehicleWeapons =
 [

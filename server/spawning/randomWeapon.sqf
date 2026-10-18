@@ -70,7 +70,7 @@ _buildingLootOn = (["A3W_buildingLootWeapons"] call isConfigOn && (isNil "A3W_bu
 // A3W_vehicleloot
 //Add guns and magazines, note the Global at the end
 //add a probability of 50% of a vehicle getting a gun or some more additional loot instead
-_weapon = vehicleWeapons call fn_selectRandomLoot;
+_weapon = vehicleWeapons call fn_selectVehicleWeapon;
 
 _mag = "";
 if (_weapon != "") then {
@@ -126,7 +126,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 
 		// 2nd weapon
 		if(random 1 < 0.2) then {
-			_weapon = vehicleWeapons call fn_selectRandomLoot;
+			_weapon = vehicleWeapons call fn_selectVehicleWeapon;
 			if (_weapon != "") then {
 				_mag = ((getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines")) select 0) call getBallMagazine;
 				_car addWeaponCargoGlobal [_weapon, 1];

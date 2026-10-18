@@ -49,7 +49,7 @@ while {true} do {
 				_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
 				_safePos set [2, 0];
 				private _magCount = (1 + floor random 3);
-				_weapon = vehicleWeapons call fn_selectRandomLoot;
+				_weapon = vehicleWeapons call fn_selectVehicleWeapon;
 
 				if (_weapon != "") then {
 					_lootholder = createVehicle ["GroundWeaponHolder", _safePos, [], 0, "NONE"];

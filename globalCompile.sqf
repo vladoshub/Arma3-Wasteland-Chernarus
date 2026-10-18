@@ -127,6 +127,7 @@ fn_selectRandomLoot = [_serverFunc, "fn_selectRandomLoot.sqf"] call mf_compile;
 fn_selectRandomNested = [_serverFunc, "fn_selectRandomNested.sqf"] call mf_compile;
 fn_selectRandomWeighted = [_serverFunc, "fn_selectRandomWeighted.sqf"] call mf_compile;
 fn_selectRandomWeightedPairs = [_serverFunc, "fn_selectRandomWeightedPairs.sqf"] call mf_compile;
+fn_selectVehicleWeapon = [_serverFunc, "fn_selectVehicleWeapon.sqf"] call mf_compile;
 fn_setToPairs = [_serverFunc, "fn_setToPairs.sqf"] call mf_compile;
 fn_sortAlphabetically = [_serverFunc, "fn_sortAlphabetically.sqf"] call mf_compile;
 fn_splitString = [_serverFunc, "fn_splitString.sqf"] call mf_compile;
