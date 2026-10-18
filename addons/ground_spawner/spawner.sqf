@@ -1,7 +1,7 @@
 
-private ["_weapon", "_mag", "_launchers", "_addition", "_lootholder", "_safePos"];
+private ["_weapon", "_mag", "_launchers", "_addition", "_lootholder", "_safePos", "_newItem"];
 
-private _launchers = ["launch_Titan_F", "launch_Titan_short_F", "launch_RPG7_F", "CUP_launch_Metis", "CUP_launch_Javelin", "_newItem"];
+private _launchers = ["launch_Titan_F", "launch_Titan_short_F", "launch_RPG7_F", "CUP_launch_Metis", "CUP_launch_Javelin", "CUP_launch_RPG7V"];
 
 while {true} do {
 

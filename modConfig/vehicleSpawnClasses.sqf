@@ -253,8 +253,8 @@ vehicleWeapons =
 	//["SMG_03_TR_black", "SMG_03C_TR_black"],
 	//["arifle_TRG20_F", "arifle_TRG21_F", "arifle_TRG21_GL_F"],
 	//["arifle_Mk20C_F", "arifle_Mk20_F", "arifle_Mk20_GL_F"],
-	["launch_Titan_F", 0.2],
-	["launch_Titan_short_F", 0.2],
+	["launch_Titan_F", 0.6],
+	["launch_Titan_short_F", 0.4],
 	["launch_RPG7_F", 0.4],
 
 	//["arifle_MXC_F", 1.0],
@@ -279,8 +279,8 @@ vehicleWeapons =
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		vehicleWeapons append [
-		[(CUP_Classes select {_x == "CUP_launch_Metis"}) select 0, 0.2],
-		[(CUP_Classes select {_x == "CUP_launch_Javelin"}) select 0, 0.2],
+		[(CUP_Classes select {_x == "CUP_launch_Metis"}) select 0, 0.4],
+		[(CUP_Classes select {_x == "CUP_launch_Javelin"}) select 0, 0.4],
 		[(CUP_Classes select {_x == "CUP_lmg_M240"}) select 0, 0.35],
 		[(CUP_Classes select {_x == "CUP_srifle_CZ550_rail"}) select 0, 0.45],
 		//[(CUP_Classes select {_x == "CUP_srifle_M40A3"}) select 0, 0.35],

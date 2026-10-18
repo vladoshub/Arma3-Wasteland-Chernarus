@@ -11,7 +11,7 @@ if (!isServer) exitWith {};
 
 private ["_car", "_additionArray", "_nightTime", "_weapon", "_mag", "_magCount", "_additionOne", "_additionTwo", "_additionThree", "_buildingLootOn", "_random", "_launchers"];
 
-_launchers = ["launch_Titan_F", "launch_Titan_short_F", "launch_RPG7_F", "CUP_launch_Metis", "CUP_launch_Javelin"];
+_launchers = ["launch_Titan_F", "launch_Titan_short_F", "launch_RPG7_F", "CUP_launch_Metis", "CUP_launch_Javelin", "CUP_launch_RPG7V"];
 
 //Grabs car object from array in execVM
 _car = _this select 0;
