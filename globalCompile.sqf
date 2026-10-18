@@ -123,6 +123,7 @@ fn_numToStr = [_serverFunc, "fn_numToStr.sqf"] call mf_compile;
 fn_remotePlayerSetup = [_clientFunc, "fn_remotePlayerSetup.sqf"] call mf_compile;
 fn_removeFromPairs = [_serverFunc, "fn_removeFromPairs.sqf"] call mf_compile;
 fn_removeTurretWeapons = [_serverFunc, "fn_removeTurretWeapons.sqf"] call mf_compile;
+fn_selectRandomLoot = [_serverFunc, "fn_selectRandomLoot.sqf"] call mf_compile;
 fn_selectRandomNested = [_serverFunc, "fn_selectRandomNested.sqf"] call mf_compile;
 fn_selectRandomWeighted = [_serverFunc, "fn_selectRandomWeighted.sqf"] call mf_compile;
 fn_selectRandomWeightedPairs = [_serverFunc, "fn_selectRandomWeightedPairs.sqf"] call mf_compile;

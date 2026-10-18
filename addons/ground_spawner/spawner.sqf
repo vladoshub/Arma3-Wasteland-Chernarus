@@ -48,45 +48,44 @@ while {true} do {
 
 				_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
 				_safePos set [2, 0];
-				_lootholder = createVehicle ["GroundWeaponHolder", _safePos, [], 0, "NONE"];
-				_lootholder setVariable ["expLootTime", serverTime + (2700 + random [0, 100, 300]), true];
-				_lootholder setVariable ["expLootFlag", true, true];
-
 				private _magCount = (1 + floor random 3);
-				_weapon = vehicleWeapons call fn_selectRandomNested;
-				if (_weapon in _launchers && (random 1 < 0.8)) then {
-					_weapon = "launch_RPG7_F";
+				_weapon = vehicleWeapons call fn_selectRandomLoot;
+
+				if (_weapon != "") then {
+					_lootholder = createVehicle ["GroundWeaponHolder", _safePos, [], 0, "NONE"];
+					_lootholder setVariable ["expLootTime", serverTime + (2700 + random [0, 100, 300]), true];
+					_lootholder setVariable ["expLootFlag", true, true];
+
+					if (_weapon in _launchers) then {
+						_magCount = (1 + floor random 2);
+					};
+					_mag = ((getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines")) select 0) call getBallMagazine;
+
+					_lootholder addWeaponCargoGlobal [_weapon, 1];
+					_lootholder addMagazineCargoGlobal [_mag, _magCount];
+
+					if((random 1) < 0.35) then {
+						_addition = vehicleAddition call fn_selectRandomNested;
+						_lootholder addItemCargoGlobal [_addition, 1];
+					};
+
+
+					if (random 1 < 0.05) then { _lootholder addItemCargoGlobal ["HandGrenade", 1 + floor random 2]};
+
+					if (random 1 < 0.03) then { _lootholder addItemCargoGlobal ["1Rnd_HE_Grenade_shell", 1 + floor random 2]};
+
+					if (random 1 < 0.03) then {
+						_lootholder addItemCargoGlobal ["CUP_1Rnd_HE_M203", 1 + floor random 2];
+						_lootholder addItemCargoGlobal ["CUP_1Rnd_HEDP_M203", 1 + floor random 2];
+						_lootholder addItemCargoGlobal ["CUP_1Rnd_HE_GP25_M", 1 + floor random 2];
+					};
+
+
+					if (random 1 < 0.05) then { _lootholder addItemCargoGlobal ["NVGoggles", 1]};
+
+					_spawnHolders = _spawnHolders - 1;
+
 				};
-
-				if (_weapon in _launchers) then {
-					_magCount = (1 + floor random 2);
-				};
-				_mag = ((getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines")) select 0) call getBallMagazine;
-
-				_lootholder addWeaponCargoGlobal [_weapon, 1];
-			    _lootholder addMagazineCargoGlobal [_mag, _magCount];
-
-				if((random 1) < 0.35) then {
-					_addition = vehicleAddition call fn_selectRandomNested;	
-					_lootholder addItemCargoGlobal [_addition, 1];
-				};
-
-
-				if (random 1 < 0.05) then { _lootholder addItemCargoGlobal ["HandGrenade", 1 + floor random 2]};
-
-				if (random 1 < 0.03) then { _lootholder addItemCargoGlobal ["1Rnd_HE_Grenade_shell", 1 + floor random 2]};
-
-				if (random 1 < 0.03) then { 
-					_lootholder addItemCargoGlobal ["CUP_1Rnd_HE_M203", 1 + floor random 2];
-					_lootholder addItemCargoGlobal ["CUP_1Rnd_HEDP_M203", 1 + floor random 2];
-					_lootholder addItemCargoGlobal ["CUP_1Rnd_HE_GP25_M", 1 + floor random 2];
-				};
-
-
-				if (random 1 < 0.05) then { _lootholder addItemCargoGlobal ["NVGoggles", 1]};
-
-				_spawnHolders = _spawnHolders - 1;
-
 			};
 			
 		} forEach (_pos nearObjects ["Building", _square]);

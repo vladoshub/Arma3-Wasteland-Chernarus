@@ -53,7 +53,7 @@ if (["A3W_buildingLootSupplies", 1] call getPublicVar == 0) then
 	} forEach spawnClassChance_list;
 };
 
-//"exclcontainer_list" single array of container classnames to NOT to delete if filled
+// Container classes whose default cargo must be cleared after spawning.
 exclcontainer_list = ["ReammoBox_F"];
 
 //-------------------------------------------------------------------------------------
@@ -61,6 +61,7 @@ exclcontainer_list = ["ReammoBox_F"];
 spawnBuilding_list = [];
 Buildingpositions_list = [];
 LSusedclass_list = ["GroundWeaponHolder"];
+LS_spawnedLoot = [];
 //DONT change these, will be filled in MAIN -------------------------------------------
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
@@ -70,6 +71,14 @@ fn_getBuildingstospawnLoot = {
 
 LSdeleter = {
 	#include "LSdeleter.sqf"
+} call mf_compile;
+
+LSexpireLoot = {
+	#include "fn_LSexpireLoot.sqf"
+} call mf_compile;
+
+LSclearBuildingLoot = {
+	#include "fn_LSclearBuildingLoot.sqf"
 } call mf_compile;
 
 //Buildings that can spawn loot go in this list
@@ -90,15 +99,12 @@ getListBuildingnames = {
 //function only runs once on beginning of mission, not really needs a compile
 //get list of all Lootspawner generatable 'Worldobjects'
 getUsedclasses = {
-	for "_class" from 0 to ((count lootworldObject_list) - 1) do {
-		for "_item" from 0 to ((count ((lootworldObject_list select _class) select 1)) - 1) do {
-			if !((((lootworldObject_list select _class) select 1) select _item) in LSusedclass_list) then {
-				LSusedclass_list pushBack (((lootworldObject_list select _class) select 1) select _item);
-			};
-			sleep 0.001;
-		};
-		sleep 0.001;
-	};
+	{
+		{
+			private _className = if (_x isEqualType []) then {_x param [0, "", [""]]} else {_x};
+			if (_className != "") then {LSusedclass_list pushBackUnique _className};
+		} forEach (_x select 1);
+	} forEach lootworldObject_list;
 };
 
 //-------------------------------------------------------------------------------------
