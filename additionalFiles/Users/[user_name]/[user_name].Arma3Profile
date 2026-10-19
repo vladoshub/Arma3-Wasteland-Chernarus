@@ -33,7 +33,7 @@ class DifficultyPresets
 	class CustomAILevel
 	{
 		skillAI=0.5;
-		precisionAI=0.5;
+		precisionAI=0.8;
 	};
 };
 singleVoice=0;
