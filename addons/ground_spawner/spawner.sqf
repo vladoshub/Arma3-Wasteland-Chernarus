@@ -15,7 +15,8 @@ while {true} do {
 
 		{
 			private _exp = _x getVariable ["expLootTime", -1];
-			if(_exp != -1 && ((serverTime - _exp) > 0)) then {
+			//&& ((serverTime - _exp) > 0)) then {
+			if(_exp != -1) {
 				deleteVehicle _x;
 			};
 			
@@ -175,5 +176,5 @@ while {true} do {
 
 	
 	} forEach (call cityListLimit);
-	sleep (600 + random [0, 100, 300]);
+	sleep (900 + random [0, 100, 300]);
 };
