@@ -32,6 +32,7 @@ _markers pushBack ["Food", "mil_dot", "ColorBrown", [1,1]];
 _markers pushBack ["Water", "mil_dot", "Color4_FD_F", [1,1]];
 _markers pushBack ["Air Spawn (Clickable at respawn)", "respawn_para", "Default", [1,1]];
 _markers pushBack ["Mission", "mil_destroy", "ColorRed", [1,1]];
+_markers pushBack ["Equipment", "mil_dot", "ColorRed", [1,1]];
 
 
 // _mapSize = getNumber (configFile >> "CfgWorlds" >> worldName >> "mapSize");

@@ -8,15 +8,15 @@ class EditorData
 	toggles=77;
 	class ItemIDProvider
 	{
-		nextID=10806;
+		nextID=10812;
 	};
 	class MarkerIDProvider
 	{
-		nextID=26;
+		nextID=37;
 	};
 	class LayerIndexProvider
 	{
-		nextID=2294;
+		nextID=2305;
 	};
 	class Camera
 	{
@@ -27,7 +27,7 @@ class EditorData
 	};
 };
 binarizationWanted=0;
-sourceName="hello";
+sourceName="test";
 addons[]=
 {
 	"A3_Characters_F",
@@ -437,7 +437,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1173;
+		items=1179;
 		class Item0
 		{
 			dataType="Group";
@@ -542,7 +542,7 @@ class Mission
 			name="VehStore1_landSpawn";
 			type="Empty";
 			colorName="ColorBlack";
-			angle=228.85608;
+			angle=228.85606;
 			id=1107;
 		};
 		class Item3
@@ -11975,7 +11975,7 @@ class Mission
 			name="jetSpawn_3";
 			type="Empty";
 			colorName="ColorGreen";
-			angle=214.28094;
+			angle=214.28093;
 			id=8285;
 			atlOffset=0.094270706;
 		};
@@ -31761,6 +31761,61 @@ class Mission
 			};
 			id=1973;
 			atlOffset=0.0084247589;
+		};
+		class Item1173
+		{
+			dataType="Marker";
+			position[]={4632,339,9627.75};
+			name="marker_26";
+			type="mil_dot";
+			colorName="ColorRed";
+			id=10806;
+		};
+		class Item1174
+		{
+			dataType="Marker";
+			position[]={4751.625,8.6999998,2571.5};
+			name="marker_29";
+			type="mil_dot";
+			colorName="ColorRed";
+			id=10807;
+		};
+		class Item1175
+		{
+			dataType="Marker";
+			position[]={13069.499,6,7086.189};
+			name="marker_30";
+			type="mil_dot";
+			colorName="ColorRed";
+			id=10808;
+		};
+		class Item1176
+		{
+			dataType="Marker";
+			position[]={3704,402,5983.875};
+			name="marker_32";
+			type="mil_dot";
+			colorName="ColorRed";
+			id=10809;
+		};
+		class Item1177
+		{
+			dataType="Marker";
+			position[]={4799.1899,339,10266.418};
+			name="marker_34";
+			type="mil_dot";
+			colorName="ColorRed";
+			id=10810;
+		};
+		class Item1178
+		{
+			dataType="Marker";
+			position[]={12211.115,158.905,12584.284};
+			name="marker_36";
+			type="mil_dot";
+			colorName="ColorRed";
+			id=10811;
+			atlOffset=-0.00033569336;
 		};
 	};
 };
