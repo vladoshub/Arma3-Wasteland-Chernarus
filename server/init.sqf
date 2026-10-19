@@ -617,7 +617,7 @@ if !(["A3W_hcObjCleanup"] call isConfigOn) then
 [] execVM "addons\aiTown\spawnChecker.sqf";
 [] execVM "addons\ground_spawner\spawner.sqf";
 [] execVM "addons\ground_spawner\spawnerMoney.sqf";
-[] execVM "addons\ground_spawner\spawnerAdditional.sqf";
+//[] execVM "addons\ground_spawner\spawnerAdditional.sqf";
 
 if(isServer) then {
 	_need serverCommand "#unlock";

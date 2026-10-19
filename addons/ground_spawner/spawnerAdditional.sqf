@@ -1,11 +1,20 @@
 
-private ["_weapon", "_mag", "_launchers", "_addition", "_lootholder", "_safePos"];
+private ["_weapon", "_mag", "_launchers", "_addition", "_lootholder", "_safePos", "_newItem"];
 
+// Recover only this spawner's items if the script is restarted.
+private _spawnedAdditionalItems = ((allMissionObjects "Land_CanisterFuel_F") + (allMissionObjects "Land_Suitcase_F")) select {
+	_x getVariable ["additionalTownSpawn", false]
+};
 
 while {true} do {
 
-
-
+	// Clear the previous cycle before spawning in any town, even if items were moved.
+	{
+		if (!isNull _x) then {
+			deleteVehicle _x;
+		};
+	} forEach _spawnedAdditionalItems;
+	_spawnedAdditionalItems = [];
 
 	{
 		private _square = ((markerSize (_x select 0)) select 0) * ((markerSize (_x select 0)) select 1);
@@ -42,6 +51,8 @@ while {true} do {
 			_safePos set [2, 0];
 			_newItem = createVehicle ["Land_CanisterFuel_F", _safePos, [], 0, "NONE"];
 			_newItem setVariable["mf_item_id", "jerrycanfull", true];
+			_newItem setVariable ["additionalTownSpawn", true, true];
+			_spawnedAdditionalItems pushBack _newItem;
 
 			_spawnItemsThree = _spawnItemsThree - 1;
 			};
@@ -59,6 +70,8 @@ while {true} do {
 			_safePos set [2, 0];
 			_newItem = createVehicle ["Land_Suitcase_F", _safePos, [], 0, "NONE"];
 			_newItem setVariable["mf_item_id", "repairkit", true];
+			_newItem setVariable ["additionalTownSpawn", true, true];
+			_spawnedAdditionalItems pushBack _newItem;
 
 			_spawnItemsFour = _spawnItemsFour - 1;
 			};

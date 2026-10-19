@@ -8,15 +8,24 @@ private _spawnedWeaponHolders = (allMissionObjects "GroundWeaponHolder") select 
 	_x getVariable ["expLootFlag", false]
 };
 
+// Recover this spawner's food, water, fuel and repair items after a script restart.
+private _spawnedGroundItems = [];
+{
+	_spawnedGroundItems append ((allMissionObjects _x) select {
+		_x getVariable ["groundTownItemSpawn", false]
+	});
+} forEach ["Land_BakedBeans_F", "Land_BottlePlastic_V2_F", "Land_CanisterFuel_F", "Land_Suitcase_F"];
+
 while {true} do {
 
-	// Clear the previous cycle before spawning in any town, even if holders were moved.
+	// Clear the previous cycle before spawning in any town, even if loot was moved.
 	{
 		if (!isNull _x) then {
 			deleteVehicle _x;
 		};
-	} forEach _spawnedWeaponHolders;
+	} forEach (_spawnedWeaponHolders + _spawnedGroundItems);
 	_spawnedWeaponHolders = [];
+	_spawnedGroundItems = [];
 
 	{
 		private _square = ((markerSize (_x select 0)) select 0) * ((markerSize (_x select 0)) select 1);
@@ -96,22 +105,27 @@ while {true} do {
 
 
 		private _randonAdditional = 0.1;
+		private _randonAdditionalTwo = 0.05;
 
 		if(_buildingsCount < 30) then {
 			_randonAdditional = 0.15;
+			_randonAdditionalTwo = 0.1;
 		};
 
 		if(_buildingsCount < 20) then {
 			_randonAdditional = 0.2;
+			_randonAdditionalTwo = 0.2;
 		};
 
 		if(_buildingsCount < 10) then {
 			_randonAdditional = 0.5;
+			_randonAdditionalTwo = 0.25;
 		};
 
 
 		if(_buildingsCount < 7) then {
 			_randonAdditional = 1;
+			_randonAdditionalTwo = 0.3;
 		};
 
 
@@ -123,6 +137,8 @@ while {true} do {
 			_safePos set [2, 0];
 			_newItem = createVehicle ["Land_BakedBeans_F", _safePos, [], 0, "NONE"];
 			_newItem setVariable["mf_item_id", "cannedfood", true];
+			_newItem setVariable ["groundTownItemSpawn", true, true];
+			_spawnedGroundItems pushBack _newItem;
 
 			_spawnItemsOne = _spawnItemsOne - 1;
 			};
@@ -138,6 +154,8 @@ while {true} do {
 			_safePos set [2, 0];
 			_newItem = createVehicle ["Land_BottlePlastic_V2_F", _safePos, [], 0, "NONE"];
 			_newItem setVariable["mf_item_id", "water", true];
+			_newItem setVariable ["groundTownItemSpawn", true, true];
+			_spawnedGroundItems pushBack _newItem;
 
 			_spawnItemsTwo = _spawnItemsTwo - 1;
 			};
@@ -148,11 +166,13 @@ while {true} do {
 		private _spawnItemsThree = floor random 2 - ( ((count (_pos nearObjects ["Land_CanisterFuel_F", (_square + 10)]))) );
 		{
 			if(_spawnItemsThree > 0 && (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO")) then {
-			if(random 1 <= _randonAdditional) then {
+			if(random 1 <= _randonAdditionalTwo) then {
 			_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
 			_safePos set [2, 0];
 			_newItem = createVehicle ["Land_CanisterFuel_F", _safePos, [], 0, "NONE"];
 			_newItem setVariable["mf_item_id", "jerrycanfull", true];
+			_newItem setVariable ["groundTownItemSpawn", true, true];
+			_spawnedGroundItems pushBack _newItem;
 
 			_spawnItemsThree = _spawnItemsThree - 1;
 			};
@@ -163,11 +183,13 @@ while {true} do {
 		private _spawnItemsFour = floor random 2 - ( ((count (_pos nearObjects ["Land_Suitcase_F", (_square + 10)]))) );
 		{
 			if(_spawnItemsFour > 0 && (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO")) then {
-			if(random 1 <= _randonAdditional) then {
+			if(random 1 <= _randonAdditionalTwo) then {
 			_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
 			_safePos set [2, 0];
 			_newItem = createVehicle ["Land_Suitcase_F", _safePos, [], 0, "NONE"];
 			_newItem setVariable["mf_item_id", "repairkit", true];
+			_newItem setVariable ["groundTownItemSpawn", true, true];
+			_spawnedGroundItems pushBack _newItem;
 
 			_spawnItemsFour = _spawnItemsFour - 1;
 			};
