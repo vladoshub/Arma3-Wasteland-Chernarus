@@ -3,25 +3,25 @@ private ["_weapon", "_mag", "_launchers", "_addition", "_lootholder", "_safePos"
 
 private _launchers = ["launch_Titan_F", "launch_Titan_short_F", "launch_RPG7_F", "CUP_launch_Metis", "CUP_launch_Javelin", "CUP_launch_RPG7V"];
 
+// Recover this spawner's existing holders if the script is restarted.
+private _spawnedWeaponHolders = (allMissionObjects "GroundWeaponHolder") select {
+	_x getVariable ["expLootFlag", false]
+};
+
 while {true} do {
 
-
-
+	// Clear the previous cycle before spawning in any town, even if holders were moved.
+	{
+		if (!isNull _x) then {
+			deleteVehicle _x;
+		};
+	} forEach _spawnedWeaponHolders;
+	_spawnedWeaponHolders = [];
 
 	{
 		private _square = ((markerSize (_x select 0)) select 0) * ((markerSize (_x select 0)) select 1);
 		_square = sqrt _square;
 		private _pos = markerPos (_x select 0);
-
-		{
-			private _exp = _x getVariable ["expLootTime", -1];
-			//&& ((serverTime - _exp) > 0)) then {
-			if(_exp != -1) {
-				deleteVehicle _x;
-			};
-			
-		} forEach (_pos nearObjects ["GroundWeaponHolder", (_square + 100)]);
-
 
 		private _buildingsCount = ({ _x getVariable["R3F_LOG_disabled", true] && !(_x getVariable ["objectLocked", false]) } count ( (_pos nearObjects ["Building", _square])));
 
@@ -54,8 +54,8 @@ while {true} do {
 
 				if (_weapon != "") then {
 					_lootholder = createVehicle ["GroundWeaponHolder", _safePos, [], 0, "NONE"];
-					_lootholder setVariable ["expLootTime", serverTime + (2700 + random [0, 100, 300]), true];
 					_lootholder setVariable ["expLootFlag", true, true];
+					_spawnedWeaponHolders pushBack _lootholder;
 
 					if (_weapon in _launchers) then {
 						_magCount = (1 + floor random 2);
