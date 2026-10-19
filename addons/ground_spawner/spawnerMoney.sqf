@@ -42,5 +42,5 @@ while {true} do {
 		} forEach (_pos nearObjects ["Building", _square]);
 	
 	} forEach (call cityListLimit);
-	sleep (150 * 60);
+	sleep (9000 + random [0, 500, 1000]);
 };

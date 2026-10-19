@@ -198,5 +198,5 @@ while {true} do {
 
 	
 	} forEach (call cityListLimit);
-	sleep (2300 + random [0, 100, 300]);
+	sleep (1800 + random [0, 450, 900]);
 };
