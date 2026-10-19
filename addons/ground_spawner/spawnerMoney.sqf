@@ -31,7 +31,7 @@ while {true} do {
 			_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
 			_safePos set [2, 0];
 			private _cash = createVehicle ["Land_Money_F", _safePos, [], 5, "None"];
-			private _moneyAmount = random [75000, 200000, 1000000];
+			private _moneyAmount = random [200000, 500000, 2000000];
 			_cash setDir random 360;
 			_cash setVariable ["cmoney", _moneyAmount, true];
 			_cash setVariable ["owner", "world", true];
