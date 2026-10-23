@@ -27,6 +27,10 @@ _unit allowFleeing 0;
 _unit setSkill _skill;
 _unit setSkill ["aimingAccuracy", (_unit skill "aimingAccuracy") * _accuracy];
 _unit setSkill ["courage", 1];
+// React, aim and share detected targets faster without changing accuracy.
+_unit setSkill ["spotTime", 1];
+_unit setSkill ["aimingSpeed", 0.8];
+_unit setSkill ["commanding", 1];
 
 _unit call A3W_fnc_equipMissionOptic;
 

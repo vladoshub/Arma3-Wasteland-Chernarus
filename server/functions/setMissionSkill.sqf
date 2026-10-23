@@ -16,7 +16,6 @@ private _unit = _this;
 if (["A3W_missionsDifficulty"] call isConfigOn) then {
 	_skill = 0.8;
 	_accuracy = 0.75; // Relative multiplier; absolute default accuracy for ARMA3 is 0.25 //BY_VLADOS 0.7
-	_unit setSkill ["commanding", 1];
 } else {
 	_skill = 0.8;
 	_accuracy = 0.75; //0.75
@@ -27,6 +26,10 @@ _unit setSkill _skill;
 _unit setSkill ["aimingAccuracy", (_unit skill "aimingAccuracy") * _accuracy];
 //_unit setSkill ["aimingAccuracy", _accuracy];
 _unit setSkill ["courage", 1];
+// React, aim and share detected targets faster without changing accuracy.
+_unit setSkill ["spotTime", 1];
+_unit setSkill ["aimingSpeed", 0.8];
+_unit setSkill ["commanding", 1];
 //_unit setSkill ["spotDistance", 0.6];
 
 _unit call A3W_fnc_equipMissionOptic;
