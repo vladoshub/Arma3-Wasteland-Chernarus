@@ -144,11 +144,14 @@ private _value = (str {
 						} forEach (R3F_LOG_CFG_can_transport_cargo);
 					};
 
-					/*
+
 					if( "#CRSForest" in (surfaceType (getPos _vehicle)) && ((getRoadInfo roadAt (ASLToAGL (getPosASL _vehicle))) select 0) != "TRACK" && ((getRoadInfo roadAt (ASLToAGL (getPosASL _vehicle))) select 3) != "ca\roads2\data\grav_dirt_ca.paa") then {
 						_forestCoef = 0.5;
+						if (_vehicle isKindOf "Quadbike_01_base_F") then {
+						    _forestCoef = 0.8;
+						};
 					};
-					*/
+
 					
 					(driver _vehicle) setVariable ["offRoadSpeedLimit", MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef, true]; 
 
