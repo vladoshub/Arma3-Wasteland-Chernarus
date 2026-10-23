@@ -17,6 +17,8 @@ private _damage = param [4, 0, [0]];
 private _special = param [5, "None", [""]];
 
 private _veh2 = createVehicle [_class2, _pos, [], 0, _special];
+if (!isNil "_missionVehicleCandidates") then { _missionVehicleCandidates pushBack _veh2 };
+_veh2 setVariable ["A3W_missionVehicleCandidate", true];
 
 [_veh2] call vehicleSetup;
 

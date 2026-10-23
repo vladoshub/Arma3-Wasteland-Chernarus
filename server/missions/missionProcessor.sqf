@@ -11,6 +11,9 @@ private ["_availableLocations", "_missionLocation", "_lastPos", "_missionType", 
 
 private _controllerSuffix = param [0, "", [""]];
 private _aiGroup = grpNull;
+// Factory calls append here through SQF's local call scope. Convoy vehicles are
+// excluded below once their AI crews have been assigned.
+private _missionVehicleCandidates = [];
 
 if (!isNil "_setupVars") then { call _setupVars };
 
@@ -102,6 +105,12 @@ if (!isNil "_locationsArray") then
 
 if (!isNil "_setupObjects") then { call _setupObjects };
 
+private _missionPrizeVehicles = _missionVehicleCandidates select {
+    alive _x && {(_x isKindOf "LandVehicle") || {_x isKindOf "Air"} || {_x isKindOf "Ship"}} &&
+    {({alive _x && {!isPlayer _x}} count crew _x) == 0}
+};
+[_aiGroup, _missionPrizeVehicles, 20] call A3W_fnc_keepMissionVehicleDistance;
+
 private _leader = leader _aiGroup;
 private _marker = [_missionType, _missionPos] call createMissionMarker;
 _aiGroup setVariable ["A3W_missionMarkerName", _marker, true];
@@ -166,6 +175,8 @@ waitUntil {
 
 	(_failed || _complete || (!_ignoreAiDeaths && {alive _x} count units _aiGroup == 0))
 };
+
+_aiGroup setVariable ["A3W_missionVehicleAvoidanceActive", false];
 
 if (_failed) then {
 	// Mission failed

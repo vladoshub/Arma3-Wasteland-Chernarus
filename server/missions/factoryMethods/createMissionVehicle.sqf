@@ -22,6 +22,8 @@ if (_class isEqualType []) then {
 };
 
 private _veh = createVehicle [_class, _pos, [], 0, _special];
+if (!isNil "_missionVehicleCandidates") then { _missionVehicleCandidates pushBack _veh };
+_veh setVariable ["A3W_missionVehicleCandidate", true];
 
 if (_variant != "") then {
 	_veh setVariable ["A3W_vehicleVariant", _variant, true];

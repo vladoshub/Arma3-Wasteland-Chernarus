@@ -75,11 +75,12 @@ _setupObjects =
 	waitUntil {sleep 0.3; alive boat};
 	boat setDir random 360;
 		"O_diver_TL_F" createUnit [_boatPos,_smuggleGroup]; "O_diver_F" createUnit [_boatPos,_smuggleGroup]; "O_diver_F" createUnit [_boatPos,_smuggleGroup]; 
-		{_x addEventHandler ["Killed", serverAiMissionDiedMoneyDrop]} forEach units _smuggleGroup;
+		{
+			_x call setMissionSkill;
+			_x addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
+		} forEach units _smuggleGroup;
 		((units _smuggleGroup) select 0) assignAsCommander boat; ((units _smuggleGroup) select 0) moveInCommander boat; ((units _smuggleGroup) select 1) assignAsDriver boat; ((units _smuggleGroup) select 1) moveInDriver boat; ((units _smuggleGroup) select 2) assignAsGunner boat; ((units _smuggleGroup) select 2) moveInGunner boat;
 		{_x doWatch _flatPos} forEach units _smuggleGroup;
-		((units _smuggleGroup) select 1) setSkill 1;
-		((units _smuggleGroup) select 1) allowFleeing 0;	
 	_grp = _smuggleGroup;
 	_pos = _boatPos;
 	_grp allowFleeing 0;

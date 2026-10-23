@@ -8,8 +8,7 @@ if (isNull _unit || {isPlayer _unit} || {_unit getVariable ["A3W_missionMoneyDro
 _unit setVariable ["A3W_missionMoneyDropProcessed", true];
 
 
-private _chance = floor (random 10);
-if (_chance > 6) then {
+if ( (random 1) < 0.25) then {
 
 private _moneyAmount = floor random 30000;
 

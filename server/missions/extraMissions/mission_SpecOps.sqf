@@ -41,16 +41,7 @@ _setupObjects =
 	_aiGroup = createGroup CIVILIAN;
 	_groupAmount = (round(random 6) + 6);
 	_soldiers = [_aiGroup,_missionPos,_groupAmount,_radius] call createCustomGroupAirSpecOps;
-	{
-		// skill level is "HIGH" for all (see setMissionSkill.sqf).
-		_x setSkill ["general", 1];
-		_x setSkill ["aimingSpeed", 0.3]; //BY_VLADOS 0.3
-		_x setSkill ["aimingAccuracy", 0.3]; //BY_VLADOS 0.3
-		_x setSkill ["aimingShake", 0.3]; //BY_VLADOS 0.3
-		_x setSkill ["spotTime", 1]; //BY_VLADOS 0.5
-		_x setSkill ["spotDistance", 1];
-		_x setSkill ["commanding", 1];
-	} forEach _soldiers;
+	// createCustomGroupAirSpecOps already applies the common mission skill/optic.
 
 	_leader = leader _aiGroup;
 	_leader setRank "LIEUTENANT";

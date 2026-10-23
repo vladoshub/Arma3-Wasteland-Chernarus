@@ -40,7 +40,7 @@ _staticWeapons = [];
 
 // Find all nearby static defenses or vehicles without a gunner
 {
-	if (_x emptyPositions "gunner" > 0) then
+	if (_x emptyPositions "gunner" > 0 && {!(_x getVariable ["A3W_missionVehicleCandidate", false])}) then
 	{
 		_staticWeapons pushBack _x;
 	};
@@ -106,7 +106,8 @@ _wp2 setWaypointType "DISMISS";
 			{
 				_unitPos = getPosASL _unit;
 
-				if (_unitPos vectorDistance _targetPos > 75) then
+				if (_unitPos vectorDistance _targetPos > 75 &&
+					{!((vehicle _unit) getVariable ["A3W_missionVehicleAvoiding", false])}) then
 				{
 					_doMove = [[0, 5 + random 65, 0], -(([_targetPos, _unitPos] call BIS_fnc_dirTo) + (45 - random 90))] call BIS_fnc_rotateVector2D;
 					_unit moveTo (_targetPos vectorAdd _doMove);
