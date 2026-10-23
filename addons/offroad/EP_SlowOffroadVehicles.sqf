@@ -39,7 +39,7 @@ private _myJIPCode = "MAZ_EPSystem_SOV_JIP";
 	//["Slow Offroad Vehicles","Whether to enable the Slow Offroad Vehicles system.","MAZ_EP_slowOffroadVehiclesEnabled",true,"TOGGLE",[],"MAZ_SOV"] call MAZ_EP_fnc_addNewSetting;
 	//["Max Offroad Speed","The maximum speed vehicles can go while offroad.","MAZ_EP_maxVehicleOffroadSpeed",32,"SLIDER",[30,70],"MAZ_SOV"] call MAZ_EP_fnc_addNewSetting; //47 -> 25
 	missionNamespace setVariable ["MAZ_EP_slowOffroadVehiclesEnabled", true];
-	missionNamespace setVariable ["MAZ_EP_maxVehicleOffroadSpeed", 35];
+	missionNamespace setVariable ["MAZ_EP_maxVehicleOffroadSpeed", 30];
 };
 
 private _value = (str {
@@ -131,7 +131,7 @@ private _value = (str {
 					//|| _vehicle isKindOf "CUP_O_TT650_TKA" || _vehicle isKindOf "CUP_B_M1030_USMC" ||  _vehicle isKindOf "C_Tractor_01_F" ||  _vehicle isKindOf "CUP_I_Tractor_Old_SYND"
 
 					if( (_vehicle isKindOf "Quadbike_01_base_F") || (_vehicle isKindOf "CUP_O_TT650_TKA") || (_vehicle isKindOf "CUP_B_M1030_USMC") ) then {
-						_vehCoef = 1.8; //2.5
+						_vehCoef = 2.0; //2.5
 					} else {
 						{
 							if(_vehicle isKindOf (_x select 0)) then {
