@@ -8,7 +8,7 @@ class EditorData
 	toggles=77;
 	class ItemIDProvider
 	{
-		nextID=10849;
+		nextID=10850;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=2316;
+		nextID=2327;
 	};
 	class Camera
 	{
-		pos[]={23889.309,15.390747,-1.7758791};
-		dir[]={0.8289569,-0.55291671,-0.085750923};
-		up[]={0.55010486,0.83304983,-0.05690961};
-		aside[]={-0.10292075,-8.0796235e-07,-0.99484372};
+		pos[]={23890.455,15.390747,-13.203063};
+		dir[]={0.61641294,-0.51026046,0.5999192};
+		up[]={0.36577338,0.85982764,0.35597938};
+		aside[]={0.69755518,-7.1409158e-07,-0.71674806};
 	};
 };
 binarizationWanted=0;
@@ -548,7 +548,7 @@ class Mission
 			name="VehStore1_landSpawn";
 			type="Empty";
 			colorName="ColorBlack";
-			angle=228.85605;
+			angle=228.85603;
 			id=1107;
 		};
 		class Item3
@@ -11981,7 +11981,7 @@ class Mission
 			name="jetSpawn_3";
 			type="Empty";
 			colorName="ColorGreen";
-			angle=214.28091;
+			angle=214.2809;
 			id=8285;
 			atlOffset=0.094270706;
 		};
@@ -31718,7 +31718,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={23894.916,10.481395,-7.3389997};
+						position[]={23894.916,10.48097,-7.3389997};
 					};
 					side="Independent";
 					flags=5;
@@ -31729,7 +31729,6 @@ class Mission
 					};
 					id=10167;
 					type="CUP_I_GUE_Soldier_Scout";
-					atlOffset=0.00042438507;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -31835,70 +31834,199 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={23896.625,10.103426,-10.075001};
+						position[]={23894.875,10.060771,-9.6999998};
 					};
 					side="Independent";
 					flags=7;
 					class Attributes
 					{
-						isPlayer=1;
+						init="; if (isServer) then {this setVariable [""A3W_edenFace"", ""WhiteHead_10"", true];};";
+						isPlayable=1;
 					};
-					id=10839;
-					type="CUP_I_PMC_Sniper_KSVK";
+					id=10840;
+					type="CUP_I_PMC_Winter_Soldier";
+					atlOffset=0.012000084;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male06ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item1
 				{
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={23894.875,10.032452,-9.8249998};
+						position[]={23893.25,10.006498,-9.3249998};
 					};
 					side="Independent";
 					flags=5;
 					class Attributes
 					{
+						init="; if (isServer) then {this setVariable [""A3W_edenFace"", ""WhiteHead_10"", true];};";
+						isPlayable=1;
 					};
-					id=10840;
-					type="CUP_I_PMC_Winter_Soldier";
-					atlOffset=0.0065231323;
+					id=10844;
+					type="CUP_C_C_Rocker_04";
+					atlOffset=0.0089998245;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="CUP_D_Male05_CZ";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.97000003;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item2
 				{
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={23893.25,10.006338,-9.3249998};
+						position[]={23891.625,9.9789333,-8.8249998};
 					};
 					side="Independent";
 					flags=5;
 					class Attributes
 					{
+						init="; if (isServer) then {this setVariable [""A3W_edenFace"", ""WhiteHead_10"", true];};";
+						isPlayable=1;
 					};
-					id=10844;
-					type="CUP_C_C_Rocker_04";
-					atlOffset=0.0088396072;
+					id=10846;
+					type="CUP_C_C_Citizen_01";
+					atlOffset=0.010000229;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="CUP_D_Male01_CZ";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.97000003;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item3
 				{
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={23891.625,9.9789419,-8.8249998};
+						position[]={23896.75,10.114155,-10.075};
 					};
 					side="Independent";
 					flags=5;
 					class Attributes
 					{
+						init="; if (isServer) then {this setVariable [""A3W_edenFace"", ""WhiteHead_10"", true];};";
+						isPlayable=1;
 					};
-					id=10846;
-					type="CUP_C_C_Citizen_01";
-					atlOffset=0.010008812;
+					id=10849;
+					type="CUP_I_PMC_Sniper_KSVK";
+					atlOffset=0.001999855;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male02ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
 			{
 			};
 			id=10838;
+			atlOffset=0.012000084;
 		};
 	};
 };
