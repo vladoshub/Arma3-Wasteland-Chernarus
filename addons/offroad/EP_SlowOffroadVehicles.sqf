@@ -167,7 +167,8 @@ private _value = (str {
                             {(_roadInfo param [3, ""]) == "ca\roads2\data\grav_dirt_ca.paa"} ||
                             {
                                 // Ищем участки вокруг, затем проверяем расстояние до их края.
-                                ((_vehicle nearRoads 50) findIf {
+                                // Keep exitWith local to one road check so findIf still returns an index.
+                                ((_vehicle nearRoads 50) findIf { call {
                                     private _info = getRoadInfo _x;
                                     if (count _info < 8) exitWith {false};
 
@@ -198,7 +199,7 @@ private _value = (str {
 
                                     (_pastEnd * _pastEnd + _pastEdge * _pastEdge) <
                                         (_forestRoadDistance * _forestRoadDistance)
-                                }) >= 0
+                                } }) >= 0
                             };
 
                         if (!_nearDirtRoad) then {
