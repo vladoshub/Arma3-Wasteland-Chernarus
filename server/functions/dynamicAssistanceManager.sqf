@@ -27,10 +27,12 @@ while {true} do
             private _key = if (_catalog == "Factory") then {toLower (_row select 0)} else {str _forEachIndex};
             // Duplicate factory classes must have a single roll, since R3F displays each class once.
             private _chance = 1;
+            // Airdrop cargo is also an array; only string-headed arrays can be chance tags.
             private _tag = _row findIf
             {
                 _x isEqualType [] && {count _x >= 2} &&
-                {toLower (_x param [0, "", [""]]) == "chance"}
+                {(_x select 0) isEqualType ""} &&
+                {toLower (_x select 0) == "chance"}
             };
             if (_tag >= 0) then {_chance = (_row select _tag) param [1, 1, [0]]};
             if (_chance > 1) then {_chance = _chance / 100};

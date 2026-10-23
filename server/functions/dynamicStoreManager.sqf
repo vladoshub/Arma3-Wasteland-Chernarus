@@ -64,7 +64,8 @@ while {true} do
                     {
                         _x isEqualType [] &&
                         {count _x >= 2} &&
-                        {toLower (_x param [0, "", [""]]) isEqualTo "chance"}
+                        {(_x select 0) isEqualType ""} &&
+                        {toLower (_x select 0) isEqualTo "chance"}
                     };
 
                     if (_chanceTagIndex >= 0) then
