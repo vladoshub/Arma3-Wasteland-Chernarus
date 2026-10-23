@@ -101,7 +101,7 @@ _setupObjects =
 
 	private _spawn1 = [(_missionPos select 0), ((_missionPos select 1) + 35), (_missionPos select 2)];
 
-	(units _aiGroup) allowGetIn false; //BLOCK AI
+	((units _aiGroup) select {isNull objectParent _x}) allowGetIn false; // Keep foot defenders out; preserve vehicle crews.
 
 	_veh1Object = [_veh1, _spawn1] call _createVehicle;
 

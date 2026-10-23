@@ -126,7 +126,7 @@ _setupObjects =
 	_veh2Object = [_veh2, _spawn2] call _createVehicle;
 
 	_vehicleClass = "B_Truck_01_box_F";
-	(units _aiGroup) allowGetIn false; //BLOCK AI
+	((units _aiGroup) select {isNull objectParent _x}) allowGetIn false; // Keep foot defenders out; preserve vehicle crews.
 	_veh3Object = [_vehicleClass, _spawn3] call createMissionVehicle;
 
 	_objFlag = createVehicle ["FlagChecked_F", _missionPos, [], 0, "NONE"];

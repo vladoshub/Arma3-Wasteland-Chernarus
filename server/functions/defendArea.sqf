@@ -13,7 +13,7 @@ Group will guard/patrol the position and surrounding area.
 Parameter(s):
 _this select 0: group (Group)
 _this select 1: defense position (Array)
-_this select 2: Vehicle class to move in as gunner (String, optional)
+_this select 2: Legacy vehicle class argument (ignored; infantry cannot board)
 
 Returns:
 Boolean - success flag
@@ -25,38 +25,19 @@ Example(s):
 
 if (!isServer) exitWith {};
 
-private ["_grp", "_pos", "_vehicleType"];
+private ["_grp", "_pos"];
 
 _grp = _this select 0;
 _pos = _this select 1;
-_vehicleType = if (count _this > 2) then { _this select 2 } else { "StaticWeapon" };
-
 _grp allowFleeing 0;
 
-// Static weapons
-private ["_units", "_staticWeapons", "_unit"];
-_units = (units _grp) - [leader _grp]; // The leader should not man defenses
-_staticWeapons = [];
-
-// Find all nearby static defenses or vehicles without a gunner
-{
-	if (_x emptyPositions "gunner" > 0 && {!(_x getVariable ["A3W_missionVehicleCandidate", false])}) then
-	{
-		_staticWeapons pushBack _x;
-	};
-} forEach (nearestObjects [_pos, [_vehicleType], 75]);
-
-// Have the group man empty static defenses and vehicle turrets
-{
-	// Are there still units available?
-	if (count _units > 0) then
-	{
-		_unit = selectRandom _units;
-		_unit assignAsGunner _x;
-		_unit moveInGunner _x;
-		_units = _units - [_unit];
-	};
-} forEach _staticWeapons;
+// Keep foot defenders out of vehicles and static weapons. Leave seated crews alone.
+private _infantry = (units _grp) select {
+	alive _x && {local _x} && {!isPlayer _x} && {isNull objectParent _x}
+};
+_infantry allowGetIn false;
+_infantry orderGetIn false;
+{ unassignVehicle _x } forEach _infantry;
 
 // Search the area while alert. DISMISS makes small teams wander off and sit down.
 private ["_wp1", "_wp2"];
@@ -84,24 +65,27 @@ _wp2 setWaypointCompletionRadius 75;
 
 		while {alive _unit} do
 		{
-			if ((toUpper behaviour _unit) in ["COMBAT","STEALTH"]) then
+			if (isNull objectParent _unit) then
 			{
-				if (stance _unit == "PRONE") then
+				if ((toUpper behaviour _unit) in ["COMBAT","STEALTH"]) then
 				{
-					_unit setUnitPos "MIDDLE";
-				};
-			}
-			else
-			{
-				if (unitPos _unit == "MIDDLE") then
+					if (stance _unit == "PRONE") then
+					{
+						_unit setUnitPos "MIDDLE";
+					};
+				}
+				else
 				{
-					_unit setUnitPos "AUTO";
+					if (unitPos _unit == "MIDDLE") then
+					{
+						_unit setUnitPos "AUTO";
+					};
 				};
 			};
 
 			sleep 1;
 
-			if (alive _unit && {local _unit} && {!isPlayer _unit}) then
+			if (alive _unit && {local _unit} && {!isPlayer _unit} && {isNull objectParent _unit}) then
 			{
 				_unitPos = getPosATL _unit;
 
@@ -117,7 +101,7 @@ _wp2 setWaypointCompletionRadius 75;
 	};
 	
 	_x disableAI "COVER";
-} forEach units _grp;
+} forEach _infantry;
 
 _grp spawn
 {
