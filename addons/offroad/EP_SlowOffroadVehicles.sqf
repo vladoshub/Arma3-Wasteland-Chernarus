@@ -145,7 +145,18 @@ private _value = (str {
 					};
 
 
-                    if ("#CRSForest" in (surfaceType (getPos _vehicle))) then {
+                    private _surface = toLower (surfaceType (getPos _vehicle));
+                    private _isForest = "forest" in _surface;
+
+                    if (!_isForest && {"grass" in _surface}) then {
+                        private _trees = nearestTerrainObjects [
+                            _vehicle, ["TREE", "SMALL TREE"], 25, false, true
+                        ];
+
+                        _isForest = (count _trees) >= 6;
+                    };
+
+                    if (_isForest) then {
                         private _forestRoadDistance = 6;
                         private _vehiclePos = getPosASL _vehicle;
                         private _road = roadAt (ASLToAGL _vehiclePos);
