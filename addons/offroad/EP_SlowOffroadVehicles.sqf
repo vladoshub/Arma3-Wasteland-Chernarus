@@ -39,7 +39,7 @@ private _myJIPCode = "MAZ_EPSystem_SOV_JIP";
 	//["Slow Offroad Vehicles","Whether to enable the Slow Offroad Vehicles system.","MAZ_EP_slowOffroadVehiclesEnabled",true,"TOGGLE",[],"MAZ_SOV"] call MAZ_EP_fnc_addNewSetting;
 	//["Max Offroad Speed","The maximum speed vehicles can go while offroad.","MAZ_EP_maxVehicleOffroadSpeed",32,"SLIDER",[30,70],"MAZ_SOV"] call MAZ_EP_fnc_addNewSetting; //47 -> 25
 	missionNamespace setVariable ["MAZ_EP_slowOffroadVehiclesEnabled", true];
-	missionNamespace setVariable ["MAZ_EP_maxVehicleOffroadSpeed", 30];
+	missionNamespace setVariable ["MAZ_EP_maxVehicleOffroadSpeed", 35];
 };
 
 private _value = (str {
