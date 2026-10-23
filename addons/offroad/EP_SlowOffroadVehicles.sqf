@@ -136,8 +136,8 @@ private _value = (str {
 						{
 							if(_vehicle isKindOf (_x select 0)) then {
 								_vehCoef = 1.0 + (((_x select 1) / 100) * 2.5);
-								if(_vehCoef > 2.4) then {
-									_vehCoef = 2.3;
+								if(_vehCoef > 2.1) then {
+									_vehCoef = 2.1;
 								};
 								break;
 							};
@@ -145,12 +145,59 @@ private _value = (str {
 					};
 
 
-					if( "#CRSForest" in (surfaceType (getPos _vehicle)) && ((getRoadInfo roadAt (ASLToAGL (getPosASL _vehicle))) select 0) != "TRACK" && ((getRoadInfo roadAt (ASLToAGL (getPosASL _vehicle))) select 3) != "ca\roads2\data\grav_dirt_ca.paa") then {
-						_forestCoef = 0.5;
-						if (_vehicle isKindOf "Quadbike_01_base_F") then {
-						    _forestCoef = 0.8;
-						};
-					};
+                    if ("#CRSForest" in (surfaceType (getPos _vehicle))) then {
+                        private _forestRoadDistance = 6;
+                        private _vehiclePos = getPosASL _vehicle;
+                        private _road = roadAt (ASLToAGL _vehiclePos);
+                        private _roadInfo = if (isNull _road) then {[]} else {getRoadInfo _road};
+
+                        private _nearDirtRoad =
+                            ((_roadInfo param [0, ""]) == "TRACK") ||
+                            {(_roadInfo param [3, ""]) == "ca\roads2\data\grav_dirt_ca.paa"} ||
+                            {
+                                // Ищем участки вокруг, затем проверяем расстояние до их края.
+                                ((_vehicle nearRoads 50) findIf {
+                                    private _info = getRoadInfo _x;
+                                    if (count _info < 8) exitWith {false};
+
+                                    if (
+                                        (_info select 0) != "TRACK" &&
+                                        {(_info select 3) != "ca\roads2\data\grav_dirt_ca.paa"}
+                                    ) exitWith {false};
+
+                                    private _start = _info select 6;
+                                    private _end = _info select 7;
+                                    private _segment = _end vectorDiff _start;
+                                    _segment set [2, 0];
+
+                                    private _lengthSqr = _segment vectorDotProduct _segment;
+                                    if (_lengthSqr <= 0) exitWith {false};
+
+                                    private _length = sqrt _lengthSqr;
+                                    private _offset = _vehiclePos vectorDiff _start;
+                                    private _along = (_offset vectorDotProduct _segment) / _length;
+                                    private _across = abs (
+                                        ((_offset select 0) * (_segment select 1) -
+                                         (_offset select 1) * (_segment select 0)) / _length
+                                    );
+
+                                    private _halfWidth = ((_info select 1) max 0) / 2;
+                                    private _pastEnd = ((-_along) max (_along - _length)) max 0;
+                                    private _pastEdge = (_across - _halfWidth) max 0;
+
+                                    (_pastEnd * _pastEnd + _pastEdge * _pastEdge) <
+                                        (_forestRoadDistance * _forestRoadDistance)
+                                }) >= 0
+                            };
+
+                        if (!_nearDirtRoad) then {
+                            _forestCoef = 0.5;
+
+                            if (_vehicle isKindOf "Quadbike_01_base_F") then {
+                                _forestCoef = 0.8;
+                            };
+                        };
+                    };
 
 					
 					(driver _vehicle) setVariable ["offRoadSpeedLimit", MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef, true]; 
