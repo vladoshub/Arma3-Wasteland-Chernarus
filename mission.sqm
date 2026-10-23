@@ -8,7 +8,7 @@ class EditorData
 	toggles=77;
 	class ItemIDProvider
 	{
-		nextID=10812;
+		nextID=10849;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=2305;
+		nextID=2316;
 	};
 	class Camera
 	{
-		pos[]={23891.854,12.64329,1.5663674};
-		dir[]={0.24985984,-0.066568546,-0.96605295};
-		up[]={0.016698593,0.99777055,-0.064561866};
-		aside[]={-0.96820307,-1.1746306e-07,-0.25041595};
+		pos[]={23889.309,15.390747,-1.7758791};
+		dir[]={0.8289569,-0.55291671,-0.085750923};
+		up[]={0.55010486,0.83304983,-0.05690961};
+		aside[]={-0.10292075,-8.0796235e-07,-0.99484372};
 	};
 };
 binarizationWanted=0;
@@ -90,13 +90,14 @@ addons[]=
 	"A3_Characters_F_Kart",
 	"A3_Props_F_Exp_Military_Camps",
 	"A3_Structures_F_Ind_AirPort",
-	"CUP_Creatures_Military_NAPA"
+	"CUP_Creatures_Military_NAPA",
+	"CUP_Creatures_Military_PMC"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=45;
+		items=46;
 		class Item0
 		{
 			className="A3_Characters_F";
@@ -381,6 +382,11 @@ class AddonsMetaData
 			className="CUP_Creatures_Military_NAPA";
 			name="CUP_Creatures_Military_NAPA";
 		};
+		class Item45
+		{
+			className="CUP_Creatures_Military_PMC";
+			name="CUP_Creatures_Military_PMC";
+		};
 	};
 };
 dlcs[]=
@@ -437,7 +443,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1179;
+		items=1180;
 		class Item0
 		{
 			dataType="Group";
@@ -542,7 +548,7 @@ class Mission
 			name="VehStore1_landSpawn";
 			type="Empty";
 			colorName="ColorBlack";
-			angle=228.85606;
+			angle=228.85605;
 			id=1107;
 		};
 		class Item3
@@ -11975,7 +11981,7 @@ class Mission
 			name="jetSpawn_3";
 			type="Empty";
 			colorName="ColorGreen";
-			angle=214.28093;
+			angle=214.28091;
 			id=8285;
 			atlOffset=0.094270706;
 		};
@@ -31816,6 +31822,83 @@ class Mission
 			colorName="ColorRed";
 			id=10811;
 			atlOffset=-0.00033569336;
+		};
+		class Item1179
+		{
+			dataType="Group";
+			side="Independent";
+			class Entities
+			{
+				items=4;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={23896.625,10.103426,-10.075001};
+					};
+					side="Independent";
+					flags=7;
+					class Attributes
+					{
+						isPlayer=1;
+					};
+					id=10839;
+					type="CUP_I_PMC_Sniper_KSVK";
+				};
+				class Item1
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={23894.875,10.032452,-9.8249998};
+					};
+					side="Independent";
+					flags=5;
+					class Attributes
+					{
+					};
+					id=10840;
+					type="CUP_I_PMC_Winter_Soldier";
+					atlOffset=0.0065231323;
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={23893.25,10.006338,-9.3249998};
+					};
+					side="Independent";
+					flags=5;
+					class Attributes
+					{
+					};
+					id=10844;
+					type="CUP_C_C_Rocker_04";
+					atlOffset=0.0088396072;
+				};
+				class Item3
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={23891.625,9.9789419,-8.8249998};
+					};
+					side="Independent";
+					flags=5;
+					class Attributes
+					{
+					};
+					id=10846;
+					type="CUP_C_C_Citizen_01";
+					atlOffset=0.010008812;
+				};
+			};
+			class Attributes
+			{
+			};
+			id=10838;
 		};
 	};
 };
