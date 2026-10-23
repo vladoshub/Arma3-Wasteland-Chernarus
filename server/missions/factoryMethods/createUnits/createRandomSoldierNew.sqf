@@ -147,6 +147,7 @@ switch (_camo) do
 };
 
 _soldier = _group createUnit [selectRandom _soldierTypes, _position, [], 0, "NONE"];
+_soldier addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 removeHeadgear _soldier;
 removeAllAssignedItems _soldier;
 

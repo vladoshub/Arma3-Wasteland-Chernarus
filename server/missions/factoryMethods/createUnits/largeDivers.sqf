@@ -83,6 +83,7 @@ _leader = leader _group;
 	_x call setMissionSkill;
 	_x addRating 9999999;
 	_x addEventHandler ["Killed", server_playerDied];
+	_x addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 } forEach units _group;
 
 [_group, _pos, "Ship"] call defendArea;

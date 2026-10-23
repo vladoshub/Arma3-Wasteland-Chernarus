@@ -120,6 +120,7 @@ for "_i" from 1 to _nbUnits do {
     _unit assignAsDriver _parachute;
 	_unit moveInDriver _parachute;
 	_unit addEventHandler ["Killed", server_playerDied];
+	_unit addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 };
 
 [_group, _pos, "LandVehicle"] call defendArea;

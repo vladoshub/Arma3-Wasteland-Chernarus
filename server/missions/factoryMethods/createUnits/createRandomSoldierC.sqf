@@ -10,6 +10,8 @@ private _weaponTypes = ["arifle_TRG20_F","LMG_Mk200_F","arifle_MXM_F","arifle_MX
 private _vestTypes = ["V_PlateCarrier1_rgr", "V_PlateCarrier1_wdl", "V_PlateCarrierL_CTRG"];
 private _group = _this select 0;
 private _position = _this select 1;
+// Mission crews drop money by default; assistance pilots can opt out.
+private _dropMissionMoney = param [2, true, [true]];
 private _soldier = _group createUnit [selectRandom _soldierTypes, _position, [], 0, "NONE"];
 _soldier addUniform "U_B_Ghilliesuit";
 _soldier addVest (selectRandom _vestTypes);
@@ -21,5 +23,9 @@ _soldier spawn addMilCap;
 _soldier call setMissionSkill;
 
 _soldier addEventHandler ["Killed", server_playerDied];
+if (_dropMissionMoney) then
+{
+    _soldier addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
+};
 
 _soldier

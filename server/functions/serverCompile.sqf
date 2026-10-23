@@ -119,6 +119,7 @@ weaponDisassembledServer = [_path, "weaponDisassembledServer.sqf"] call mf_compi
 //Player Management
 server_playerDied = [_path, "serverAiDied.sqf"] call mf_compile;
 serverAiDiedMoneyDrop = [_path, "serverAiDiedMoneyDrop.sqf"] call mf_compile;
+serverAiMissionDiedMoneyDrop = [_path, "serverAiMissionDiedMoneyDrop.sqf"] call mf_compile;
 A3W_fnc_serverPlayerDied = [_path, "serverPlayerDied.sqf"] call mf_compile;
 
 //Spawning Compiles

@@ -68,6 +68,7 @@ _setupObjects = {
 	_Assassin1 spawn refillPrimaryAmmo;
 	_Assassin1 call setMissionSkill;
 	_Assassin1 addEventHandler ["Killed", server_playerDied];
+	_Assassin1 addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 	
 	// Assassin #2
 	_Assassin2 = _aiGroup createUnit ["C_man_polo_1_F", _spawn1, [], 0, "None"];
@@ -98,6 +99,7 @@ _setupObjects = {
 	_Assassin2 spawn refillPrimaryAmmo;
 	_Assassin2 call setMissionSkill;
 	_Assassin2 addEventHandler ["Killed", server_playerDied];
+	_Assassin2 addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 	
 	// Assassin #3
 	_Assassin3 = _aiGroup createUnit ["C_man_polo_1_F", _spawn1, [], 0, "None"];
@@ -127,6 +129,7 @@ _setupObjects = {
 	_Assassin3 spawn refillPrimaryAmmo;
 	_Assassin3 call setMissionSkill;
 	_Assassin3 addEventHandler ["Killed", server_playerDied];
+	_Assassin3 addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 	
 	// Loadout End ***
 	

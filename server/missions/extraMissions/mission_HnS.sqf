@@ -52,6 +52,7 @@ _setupObjects = {
 	_Assassin spawn refillPrimaryAmmo;
 	_Assassin call setMissionSkill;
 	_Assassin addEventHandler ["Killed", server_playerDied];
+	_Assassin addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 		
 	_Assassin = leader _aiGroup;
 	

@@ -111,6 +111,7 @@ for "_i" from 1 to _nbUnits do {
 	_unit spawn refillPrimaryAmmo;
 	_unit call setMissionSkill;
 	_unit addEventHandler ["Killed", server_playerDied];
+	_unit addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 };
 
 [_group, _pos, "LandVehicle"] call defendArea;

@@ -37,5 +37,6 @@ _soldier spawn refillPrimaryAmmo;
 _soldier call setMissionSkill;
 
 _soldier addEventHandler ["Killed", server_playerDied];
+_soldier addEventHandler ["Killed", serverAiMissionDiedMoneyDrop];
 
 _soldier

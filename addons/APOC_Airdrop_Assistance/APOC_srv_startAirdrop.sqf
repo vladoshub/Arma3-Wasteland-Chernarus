@@ -53,7 +53,7 @@ _heli allowDamage false;
 _heli setVariable ["R3F_LOG_disabled", true, true];
 [_heli] call vehicleSetup;
 
-_crew = [_grp, _spos] call createRandomSoldierC;
+_crew = [_grp, _spos, false] call createRandomSoldierC;
 _crew moveInDriver _heli;
 _crew allowDamage false;
 _crew setVariable ["NOAI",1,false];  //Disable VCOM for Airdrop Pilot. Just in Case.
