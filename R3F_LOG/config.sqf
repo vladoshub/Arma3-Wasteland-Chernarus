@@ -433,7 +433,7 @@ R3F_LOG_CFG_can_be_towed = R3F_LOG_CFG_can_be_towed +
 	"Plane_Fighter_01_Base_F",
 	"Plane_Fighter_02_Base_F",
 	"Plane_CAS_01_base_F",
-	"Plane_CAS_02_base_F",
+	"Plane_CAS_02_base_F"
 
 ];
 
