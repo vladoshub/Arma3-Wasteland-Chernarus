@@ -58,22 +58,20 @@ _staticWeapons = [];
 	};
 } forEach _staticWeapons;
 
-// Waypoints
+// Search the area while alert. DISMISS makes small teams wander off and sit down.
 private ["_wp1", "_wp2"];
 
 _wp1 = _grp addWaypoint [_pos, 0];
 _wp1 setWaypointType "SAD"; // Seek And Destroy
-[_grp, 1] setWaypointBehaviour "SAFE";
-[_grp, 1] setWaypointCombatMode "RED";
-[_grp, 1] setWaypointCompletionRadius 75;
-[_grp, 1] setWaypointStatements ["true", "(group this) setCurrentWaypoint [group this, 2]"];
+_wp1 setWaypointBehaviour "AWARE";
+_wp1 setWaypointCombatMode "RED";
+_wp1 setWaypointCompletionRadius 75;
 
 _wp2 = _grp addWaypoint [_pos, 0];
-_wp2 setWaypointType "DISMISS";
-[_grp, 2] setWaypointBehaviour "SAFE";
-[_grp, 2] setWaypointCombatMode "RED";
-[_grp, 2] setWaypointCompletionRadius 75;
-[_grp, 2] setWaypointStatements ["true", "(group this) setCurrentWaypoint [group this, 1]"];
+_wp2 setWaypointType "CYCLE";
+_wp2 setWaypointBehaviour "AWARE";
+_wp2 setWaypointCombatMode "RED";
+_wp2 setWaypointCompletionRadius 75;
 
 {
 	// Prevent units from wandering too far and from going prone
@@ -81,7 +79,8 @@ _wp2 setWaypointType "DISMISS";
 	{
 		private ["_unit", "_unitPos", "_targetPos", "_doMove"];
 		_unit = _this select 0;
-		_targetPos = ATLtoASL (_this select 1);
+		_targetPos = +(_this select 1);
+		_targetPos set [2, 0]; // Movement commands need a ground-level ATL destination.
 
 		while {alive _unit} do
 		{
@@ -102,15 +101,15 @@ _wp2 setWaypointType "DISMISS";
 
 			sleep 1;
 
-			if (!isNull _unit) then
+			if (alive _unit && {local _unit} && {!isPlayer _unit}) then
 			{
-				_unitPos = getPosASL _unit;
+				_unitPos = getPosATL _unit;
 
-				if (_unitPos vectorDistance _targetPos > 75 &&
+				if (_unitPos distance2D _targetPos > 75 &&
 					{!((vehicle _unit) getVariable ["A3W_missionVehicleAvoiding", false])}) then
 				{
 					_doMove = [[0, 5 + random 65, 0], -(([_targetPos, _unitPos] call BIS_fnc_dirTo) + (45 - random 90))] call BIS_fnc_rotateVector2D;
-					_unit moveTo (_targetPos vectorAdd _doMove);
+					_unit doMove (_targetPos vectorAdd _doMove);
 					sleep 3;
 				};
 			};
