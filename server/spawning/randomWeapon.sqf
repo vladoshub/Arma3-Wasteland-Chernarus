@@ -88,6 +88,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 		{
 			_car addWeaponCargoGlobal [_weapon, 1];
 			_car addMagazineCargoGlobal [_mag, 1 + floor random 2];
+			[_car, _weapon] call A3W_fnc_addWeaponGrenadeAmmo;
 		};
 		if (_random >= 0.5 || !_buildingLootOn) then
 		{
@@ -106,6 +107,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 			};
 			_car addWeaponCargoGlobal [_weapon, 1];
 			_car addMagazineCargoGlobal [_mag, _magCount];
+			[_car, _weapon] call A3W_fnc_addWeaponGrenadeAmmo;
 		};
 
 		if(random 1 < 0.7) then {
@@ -122,6 +124,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 		if(_weapon != "" && {random 1 < 0.8}) then {
 			_car addWeaponCargoGlobal [_weapon, 1];
 			_car addMagazineCargoGlobal [_mag, 1 + floor random 2];
+			[_car, _weapon] call A3W_fnc_addWeaponGrenadeAmmo;
 		};
 
 		// 2nd weapon
@@ -131,6 +134,7 @@ switch (["A3W_vehicleLoot", 1] call getPublicVar) do
 				_mag = ((getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines")) select 0) call getBallMagazine;
 				_car addWeaponCargoGlobal [_weapon, 1];
 				_car addMagazineCargoGlobal [_mag, 1 + floor random 2];
+				[_car, _weapon] call A3W_fnc_addWeaponGrenadeAmmo;
 			};
 		};
 

@@ -69,6 +69,7 @@ createWaitCondition = [_path, "createWaitCondition.sqf"] call mf_compile;
 
 //Function Compiles
 _path = "server\functions";
+A3W_fnc_addWeaponGrenadeAmmo = [_path, "fn_addWeaponGrenadeAmmo.sqf"] call mf_compile;
 A3W_fnc_checkHackedVehicles = [_path, "checkHackedVehicles.sqf"] call mf_compile;
 A3W_fnc_deleteEmptyGroup = [_path, "fn_deleteEmptyGroup.sqf"] call mf_compile;
 A3W_fnc_playerRespawnServer = [_path, "playerRespawnServer.sqf"] call mf_compile;

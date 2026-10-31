@@ -73,6 +73,7 @@ while {true} do {
 
 					_lootholder addWeaponCargoGlobal [_weapon, 1];
 					_lootholder addMagazineCargoGlobal [_mag, _magCount];
+					[_lootholder, _weapon] call A3W_fnc_addWeaponGrenadeAmmo;
 
 					if((random 1) < 0.35) then {
 						_addition = vehicleAddition call fn_selectRandomNested;
