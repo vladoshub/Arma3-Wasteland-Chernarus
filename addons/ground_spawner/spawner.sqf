@@ -129,7 +129,7 @@ while {true} do {
 		};
 
 
-		private _spawnItemsOne = ((round (_square / 30)) - ( ((count (_pos nearObjects ["Land_BakedBeans_F", (_square + 10)]))) )  -  (floor random 3));
+		private _spawnItemsOne = ((floor random 3) - ( ((count (_pos nearObjects ["Land_BakedBeans_F", (_square + 10)]))) ));
 		{
 			if(_spawnItemsOne > 0 && (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO")) then {
 			if(random 1 <= _randonAdditional) then {
@@ -146,7 +146,7 @@ while {true} do {
 		} forEach (_pos nearObjects ["Building", _square]);
 
 
-		private _spawnItemsTwo = ((round (_square / 30)) - ( ((count (_pos nearObjects ["Land_BottlePlastic_V2_F", (_square + 10)]))) )   -  (floor random 3) );
+		private _spawnItemsTwo = ((floor random 3) - ( ((count (_pos nearObjects ["Land_BottlePlastic_V2_F", (_square + 10)]))) ));
 		{
 			if(_spawnItemsTwo > 0 && (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO")) then {
 			if(random 1 <= _randonAdditional) then {
