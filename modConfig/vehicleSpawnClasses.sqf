@@ -49,7 +49,6 @@ civilianVehicles =
 
 		(CUP_Classes select {_x == "CUP_I_Datsun_4seat"}) select 0,
 		(CUP_Classes select {_x == "CUP_I_Hilux_unarmed_NAPA"}) select 0,
-		(CUP_Classes select {_x == "CUP_C_Datsun_Covered"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_LR_Transport_CTK"}) select 0,
 		(CUP_Classes select {_x == "CUP_C_UAZ_Open_TK_CIV"}) select 0,
 		(CUP_Classes select {_x == "CUP_I_LR_Transport_AAF"}) select 0,

@@ -1364,7 +1364,6 @@ landArray = compileFinal str
     ['UAZ (Closed)', 'CUP_O_UAZ_Militia_SLA', 5000, 'vehicle', 'SKIPSAVE', ["chance", 0.9]],
     ['Volha', 'CUP_O_Volha_SLA', 6000, 'vehicle', 'SKIPSAVE', ["chance", 0.85]],
     ['Ikarus 260', 'CUP_C_Ikarus_TKC', 6000, 'vehicle', 'SKIPSAVE', ["chance", 0.85]],
-    ['Datsun 620 Pickup (Covered)', 'CUP_C_Datsun_Covered', 7500, 'vehicle', 'SKIPSAVE', ["chance", 0.75]],
     ['Golf (Red)', 'CUP_C_Golf4_red_Civ', 9000, 'vehicle', 'SKIPSAVE', ["chance", 0.7]],
     ['Hatchback Sport', 'C_Hatchback_01_sport_F', 10000, 'vehicle', 'SKIPSAVE', ["chance", 0.6]],
     ['MB 4WD', 'C_Offroad_02_unarmed_F', 10000, 'vehicle', 'SKIPSAVE', ["chance", 0.6]],
