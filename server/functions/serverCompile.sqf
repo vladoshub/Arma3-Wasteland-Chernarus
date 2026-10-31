@@ -128,6 +128,7 @@ A3W_fnc_serverPlayerDied = [_path, "serverPlayerDied.sqf"] call mf_compile;
 //Spawning Compiles
 _path = "server\spawning";
 addVehicleRespawn = [_path, "addVehicleRespawn.sqf"] call mf_compile;
+A3W_fnc_setSpawnVehicleFuel = [_path, "setSpawnVehicleFuel.sqf"] call mf_compile;
 boatCreation = [_path, "boatCreation.sqf"] call mf_compile;
 objectCreation = [_path, "objectCreation.sqf"] call mf_compile;
 planeCreation = [_path, "planeCreation.sqf"] call mf_compile;

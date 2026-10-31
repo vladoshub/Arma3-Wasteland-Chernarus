@@ -34,7 +34,7 @@ if (_planeType isKindOf "Plane_Fighter_03_dynamicLoadout_base_F") then
 
 _plane setVariable ["A3W_notForSale", true, true];
 
-_plane setFuel (0.4 + random 0.2);
+[_plane, 0.4 + random 0.2, "staticPlaneList"] call A3W_fnc_setSpawnVehicleFuel;
 
 _plane setDir _markerDir;
 

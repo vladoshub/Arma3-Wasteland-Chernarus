@@ -18,13 +18,16 @@ _createRandomVehicle =
 	_maxrad = _this select 2;
 	_counter = _this select 3;
 
-	_vehicleType =
+	// Retain the source category alongside the nested class list for fuel rules.
+	private _vehiclePool =
 	[
-		[A3W_smallVehicles, 0.45],
-		[civilianVehicles, 1],
-		[lightMilitaryVehicles, 0.08], //0.1
-		[mediumMilitaryVehicles, 0.04] //0.15
-	] call fn_selectRandomWeightedPairs call fn_selectRandomNested;
+		[[A3W_smallVehicles, "A3W_smallVehicles"], 0.45],
+		[[civilianVehicles, "civilianVehicles"], 1],
+		[[lightMilitaryVehicles, "lightMilitaryVehicles"], 0.08], //0.1
+		[[mediumMilitaryVehicles, "mediumMilitaryVehicles"], 0.04] //0.15
+	] call fn_selectRandomWeightedPairs;
+	_vehiclePool params ["_vehicleList", "_spawnCategory"];
+	_vehicleType = _vehicleList call fn_selectRandomNested;
 
 	if (_vehicleType isKindOf "Quadbike_01_base_F") then {
 		_mindist = 1.5;
@@ -34,7 +37,7 @@ _createRandomVehicle =
 
 	_pos = [_pos, _minrad, _maxrad, _mindist, 0, 60*(pi/180), 0, _vehicleType] call findSafePos;
 
-	[_pos, _vehicleType] call vehicleCreation;
+	[_pos, _vehicleType, nil, _spawnCategory] call vehicleCreation;
 };
 
 _totalRadius = 0;

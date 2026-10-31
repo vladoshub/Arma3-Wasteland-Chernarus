@@ -31,7 +31,7 @@ _currHeli setVelocity [0,0,0.01];
 
 _currHeli setVariable ["A3W_notForSale", true, true];
 
-_currHeli setFuel (0.1 + random 0.2);
+[_currHeli, 0.1 + random 0.2, "staticHeliList"] call A3W_fnc_setSpawnVehicleFuel;
 _currHeli setVehicleAmmo 0.5;
 
 _currHeli enableSimulationGlobal true;

@@ -5,11 +5,11 @@
 //	@file Name: vehicleCreation.sqf
 //	@file Author: [404] Deadbeat, modded by AgentRev
 //	@file Created: 20/11/2012 05:19
-//	@file Args: markerPos [, vehicleType]
+//	@file Args: markerPos, vehicleType [, respawnSettings, spawnCategory]
 
 if (!isServer) exitWith {};
 
-params ["_markerPos", ["_vehicleType","",[""]], ["_respawnSettings",nil,[[]]]];
+params ["_markerPos", ["_vehicleType","",[""]], ["_respawnSettings",nil,[[]]], ["_spawnCategory","",[""]]];
 private ["_pos", "_vehicle", "_hitPoint"];
 
 private _isRespawn = !isNil "_respawnSettings";
@@ -60,7 +60,7 @@ if (!isNil "_respawnSettings") then
 [_vehicle, _markerPos, 5*60, 10*60, 25*60] call addVehicleRespawn; // Keep the original respawn anchor.
 
 //Set Vehicle Attributes
-_vehicle setFuel (0.2 + random 0.1);
+[_vehicle, 0.2 + random 0.1, _spawnCategory] call A3W_fnc_setSpawnVehicleFuel;
 
 // Reset Offroad HMG to 1-2 mags
 if (_vehicleType isKindOf "Offroad_01_armed_base_F") then

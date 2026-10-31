@@ -31,7 +31,7 @@ _currTank setVelocity [0,0,0.01];
 
 _currTank setVariable ["A3W_notForSale", true, true];
 
-_currTank setFuel (0.1 + random 0.2);
+[_currTank, 0.1 + random 0.2, "staticTankList"] call A3W_fnc_setSpawnVehicleFuel;
 _currTank setVehicleAmmo 0.5;
 
 _currTank enableSimulationGlobal true;

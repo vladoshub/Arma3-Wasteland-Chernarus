@@ -229,15 +229,18 @@ while {true} do
 					else
 					{
 						
-						_vehicleType =
+						// Select a fresh category too; a respawn can change vehicle class.
+						private _vehiclePool =
 						[
-							[A3W_smallVehicles, 0.45],
-							[civilianVehicles, 1],
-							[lightMilitaryVehicles, 0.08], //0.1
-							[mediumMilitaryVehicles, 0.04] //0.25
-						] call fn_selectRandomWeightedPairs call fn_selectRandomNested;
+							[[A3W_smallVehicles, "A3W_smallVehicles"], 0.45],
+							[[civilianVehicles, "civilianVehicles"], 1],
+							[[lightMilitaryVehicles, "lightMilitaryVehicles"], 0.08], //0.1
+							[[mediumMilitaryVehicles, "mediumMilitaryVehicles"], 0.04] //0.25
+						] call fn_selectRandomWeightedPairs;
+						_vehiclePool params ["_vehicleList", "_spawnCategory"];
+						_vehicleType = _vehicleList call fn_selectRandomNested;
 						
-						[_respawnPos, _vehicleType, _settings] spawn vehicleCreation;
+						[_respawnPos, _vehicleType, _settings, _spawnCategory] spawn vehicleCreation;
 						
 						//[_respawnPos, _vehClass, _settings] spawn vehicleCreation; //BY VLADOS
 					};

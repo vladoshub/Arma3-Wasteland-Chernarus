@@ -146,6 +146,8 @@ A3W_hcScriptID = 1;            // ID of HC for Scripts
 A3W_serverSpawning = 1;            // Vehicle, object, and loot spawning (0 = no, 1 = yes)
 A3W_vehicleSpawning = 1;           // If serverSpawning = 1, spawn vehicles in towns (0 = no, 1 = yes)
 A3W_vehicleQuantity = 240;         // Approximate number of land vehicles to be spawned in towns
+A3W_vehicleEmptyFuelChance = 50;   // Empty-tank chance in percent (0 to 100) for mediumMilitaryVehicles and staticJet/Heli/Tank/PlaneList, on every spawn/respawn
+// lightMilitaryVehicles use max(A3W_vehicleEmptyFuelChance - 25, 0); other town vehicles keep their usual fuel.
 A3W_boatSpawning = 1;              // If serverSpawning = 1, spawn boats at marked areas near coasts (0 = no, 1 = yes)
 A3W_heliSpawning = 1;              // If serverSpawning = 1, spawn helicopters in some towns and airfields (0 = no, 1 = yes)
 A3W_staticVehicleRespawnInterval = 190*60; // Seconds between random spawn attempts at empty heliSpawn_, jetSpawn_, tankSpawn_ markers (0 = startup only)

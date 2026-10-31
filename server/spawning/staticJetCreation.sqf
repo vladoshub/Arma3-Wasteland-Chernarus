@@ -32,7 +32,7 @@ _currJet setVelocity [0,0,0.01];
 
 _currJet setVariable ["A3W_notForSale", true, true];
 
-_currJet setFuel (0.1 + random 0.2);
+[_currJet, 0.1 + random 0.2, "staticJetList"] call A3W_fnc_setSpawnVehicleFuel;
 _currJet setVehicleAmmo 0.5;
 
 _currJet enableSimulationGlobal true;
