@@ -31,6 +31,11 @@ briefing = 0; // if 0, skip Continue button
 
 #include "debugFlag.hpp"
 
+class CfgCommands
+{
+	allowedHTMLLoadURIs[] += {"https://discord.gg/*", "https://discord.com/invite/*"};
+};
+
 // A3W UI color (default = sky blue)
 
 #define A3W_UICOLOR_R  0 // default = 0.25

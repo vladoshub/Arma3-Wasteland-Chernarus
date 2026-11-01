@@ -153,6 +153,8 @@ if (isServer) then
 	forEach
 	[
 		"A3W_startingMoney",
+		"A3W_discordButtonEnabled",
+		"A3W_discordURL",
 		"A3W_showGunStoreStatus",
 		"A3W_gunStoreIntruderWarning",
 		"A3W_playerSaving",

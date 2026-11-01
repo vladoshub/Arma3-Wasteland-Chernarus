@@ -10,6 +10,16 @@ disableSerialization;
 createDialog "playerSettings";
 
 private _Dialog = (findDisplay playersys_DIALOG);
+private _discordButton = _Dialog displayCtrl discordButton;
+private _discordURL = ["A3W_discordURL", ""] call getPublicVar;
+if (["A3W_discordButtonEnabled"] call isConfigOn && {_discordURL != ""}) then
+{
+	_discordButton ctrlSetURL _discordURL;
+	_discordButton ctrlSetURLOverlayMode 1; // Steam overlay, or the default browser if unavailable
+	_discordButton ctrlSetTooltip _discordURL;
+	_discordButton ctrlShow true;
+};
+
 private _moneytext = _Dialog displayCtrl money_text;
 private _mvalue = _Dialog displayCtrl money_value;
 private _rogue = _Dialog displayCtrl rogue_text;

@@ -8,6 +8,8 @@
 // This file is overriden by the external file "A3Wasteland_settings\main_config.sqf" if present
 
 // General settings
+A3W_discordButtonEnabled = 1;      // Show Discord above Rules in the player menu (0 = no, 1 = yes); hidden when URL is empty
+A3W_discordURL = "";               // Discord invite URL, e.g. https://discord.gg/YOUR_INVITE or https://discord.com/invite/YOUR_INVITE
 A3W_teamPlayersMap = 1;            // Show all friendly players on the map at all times, regardless of difficulty level (0 = no, 1 = yes)
 A3W_disableGlobalVoice = 1;        // Auto-switch channel to Direct communication whenever broadcasting voice on global, unless being admin (0 = no, 1 = yes)
 A3W_uavControl = "group";          // Restrict connection to UAVs based on ownership ("owner", "group", "side")

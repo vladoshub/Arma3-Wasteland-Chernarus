@@ -75,6 +75,16 @@ class playerSettings {
 		};
 		
 		// Left Menu
+		class DiscordButton : w_RscButton2 {
+			idc = discordButton;
+			text = "DISCORD";
+			colorBackground[] = {0,0,0,0.7};
+			colorBackgroundActive[] = {0, 0.729, 1, 1};
+			onLoad = "(_this select 0) ctrlShow false";
+			x = 0.02; y = 0.18;
+			w = 0.175; h = 0.033 * safezoneH;
+		};
+
 		class nAInfoButton : w_RscButton2 {
 			idc = -1;
 			text = "RULES";
