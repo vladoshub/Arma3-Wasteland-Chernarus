@@ -14,7 +14,7 @@ class DifficultyPresets
 			stanceIndicator=2;
 			reducedDamage=0;
 			staminaBar=1;
-			weaponCrosshair=0;
+			weaponCrosshair=1;
 			visionAid=0;
 			thirdPersonView=1;
 			cameraShake=1;
