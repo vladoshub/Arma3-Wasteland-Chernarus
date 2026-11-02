@@ -132,19 +132,17 @@ getListBuildingPositionjunction = {
 					//counter loot piling
 					_pos = _tmpBuild buildingPos _poscount;
 					_posOrg = _pos;
-					_posViable = false;
-					if (_poscount != 0) then {
-						{
-							if ((_pos distance _x) > _nearLootdist) exitWith {
-								_posViable = true;
-							};
-						}forEach _tmpPoslist;
-					} else {
-						_posViable = true;
-					};
-					_tmpPoslist pushBack _pos;
+					// Accept only positions farther than 0.5 m from every accepted position.
+					_posViable = true;
+					{
+						if ((_pos distance _x) <= _nearLootdist) exitWith {
+							_posViable = false;
+						};
+					} forEach _tmpPoslist;
 					//get Z adjustment for position
 					if (_posViable) then {
+						// Rejected positions must not block later candidates.
+						_tmpPoslist pushBack _posOrg;
 						_posIdxlist pushBack _poscount;
 						_posAdjustZ = 0;
 						if (swSpZadjust) then {
