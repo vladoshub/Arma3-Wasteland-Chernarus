@@ -14,10 +14,12 @@ if (_spawnCategory in ["mediumMilitaryVehicles", "lightMilitaryVehicles", "stati
 {
 	_emptyFuelChance = ((["A3W_vehicleEmptyFuelChance", 50] call getPublicVar) max 0) min 100;
 
-	if (_spawnCategory == "lightMilitaryVehicles") then
-	{
-		_emptyFuelChance = (_emptyFuelChance - 25) max 0;
-	};
+
+	//if (_spawnCategory == "lightMilitaryVehicles") then
+	//{
+	//	_emptyFuelChance = (_emptyFuelChance - 25) max 0;
+	//};
+
 };
 
 _vehicle setFuel (if (random 100 < _emptyFuelChance) then {0} else {_normalFuel});
