@@ -207,6 +207,47 @@ private _lootLists = [lootWeapon_list, lootMagazine_list, lootItem_list, lootBac
 									//1 category loot only per place so -> exit For
 									//no lootpiling
 									_lootholder setVariable ["Lootready", diag_tickTime];
+
+									// Independent bonus rolls per spawned loot spot; all three may succeed.
+									{
+										if (random 1 < 0.10) then
+										{
+											private _bonusClass = _x;
+											private _bonusPos = +_spwnPos;
+											_bonusPos set [0, (_bonusPos select 0) + (0.25 * (_forEachIndex - 1))];
+											private _bonusHolder = objNull;
+											if (_bonusClass == "FirstAidKit") then
+											{
+												_bonusHolder = createVehicle ["GroundWeaponHolder", _tmpPos, [], 0, "CAN_COLLIDE"];
+												_bonusHolder addItemCargoGlobal ["FirstAidKit", 1];
+											}
+											else
+											{
+												_bonusHolder = createVehicle [_bonusClass, _tmpPos, [], 0, "CAN_COLLIDE"];
+												private _itemId = "repairkit";
+												if (_bonusClass == "Land_CanisterFuel_F") then
+												{
+													_itemId = if (random 100 < _chfullfuel) then {"jerrycanfull"} else {"jerrycanempty"};
+												};
+												_bonusHolder setVariable ["mf_item_id", _itemId, true];
+											};
+
+											if (!isNull _bonusHolder) then
+											{
+												_bonusHolder setVariable ["A3W_lootSpawner", true, true];
+												_bonusHolder setVariable ["A3W_lootSpawnerBuilding", _building];
+												_bonusHolder setVariable ["Lootready", diag_tickTime];
+												_buildingLoot pushBack _bonusHolder;
+												LS_spawnedLoot pushBack _bonusHolder;
+
+												if (_height < 0) then {_bonusHolder setPosASL _bonusPos} else {_bonusHolder setPosATL _bonusPos};
+												sleep 0.001;
+												_bonusPos set [2, (_bonusPos select 2) - ((getPos _bonusHolder) select 2)];
+												if (_height < 0) then {_bonusHolder setPosASL _bonusPos} else {_bonusHolder setPosATL _bonusPos};
+												_bonusHolder setDir (random 360);
+											};
+										};
+									} forEach lootBonus_list;
 								};
 							};
 						};

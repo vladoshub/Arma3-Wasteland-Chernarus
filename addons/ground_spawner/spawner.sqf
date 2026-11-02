@@ -8,13 +8,13 @@ private _spawnedWeaponHolders = (allMissionObjects "GroundWeaponHolder") select 
 	_x getVariable ["expLootFlag", false]
 };
 
-// Recover this spawner's food, water, fuel and repair items after a script restart.
+// Recover this spawner's supplies and first-aid holders after a script restart.
 private _spawnedGroundItems = [];
 {
 	_spawnedGroundItems append ((allMissionObjects _x) select {
 		_x getVariable ["groundTownItemSpawn", false]
 	});
-} forEach ["Land_BakedBeans_F", "Land_BottlePlastic_V2_F", "Land_CanisterFuel_F", "Land_Suitcase_F"];
+} forEach ["Land_BakedBeans_F", "Land_BottlePlastic_V2_F", "Land_CanisterFuel_F", "Land_Suitcase_F", "GroundWeaponHolder"];
 
 while {true} do {
 
@@ -106,27 +106,22 @@ while {true} do {
 
 
 		private _randonAdditional = 0.1;
-		private _randonAdditionalTwo = 0.05;
 
 		if(_buildingsCount < 30) then {
 			_randonAdditional = 0.15;
-			_randonAdditionalTwo = 0.1;
 		};
 
 		if(_buildingsCount < 20) then {
 			_randonAdditional = 0.2;
-			_randonAdditionalTwo = 0.2;
 		};
 
 		if(_buildingsCount < 10) then {
 			_randonAdditional = 0.5;
-			_randonAdditionalTwo = 0.25;
 		};
 
 
 		if(_buildingsCount < 7) then {
 			_randonAdditional = 1;
-			_randonAdditionalTwo = 0.3;
 		};
 
 
@@ -164,38 +159,36 @@ while {true} do {
 		} forEach (_pos nearObjects ["Building", _square]);
 
 
-		private _spawnItemsThree = floor random 2 - ( ((count (_pos nearObjects ["Land_CanisterFuel_F", (_square + 10)]))) );
-		{
-			if(_spawnItemsThree > 0 && (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO")) then {
-			if(random 1 <= _randonAdditionalTwo) then {
-			_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
-			_safePos set [2, 0];
-			_newItem = createVehicle ["Land_CanisterFuel_F", _safePos, [], 0, "NONE"];
-			_newItem setVariable["mf_item_id", "jerrycanfull", true];
-			_newItem setVariable ["groundTownItemSpawn", true, true];
-			_spawnedGroundItems pushBack _newItem;
-
-			_spawnItemsThree = _spawnItemsThree - 1;
-			};
+		// One independent 10% roll per supply for the entire town, per cycle.
+		// On success, spawn one item beside a randomly selected eligible building.
+		private _supplyBuildings = (_pos nearObjects ["Building", _square]) select {
+			(_x getVariable ["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID", "NO"] == "NO")
 		};
-		} forEach (_pos nearObjects ["Building", _square]);
-
-
-		private _spawnItemsFour = floor random 2 - ( ((count (_pos nearObjects ["Land_Suitcase_F", (_square + 10)]))) );
+		if (count _supplyBuildings > 0) then
 		{
-			if(_spawnItemsFour > 0 && (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO")) then {
-			if(random 1 <= _randonAdditionalTwo) then {
-			_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
-			_safePos set [2, 0];
-			_newItem = createVehicle ["Land_Suitcase_F", _safePos, [], 0, "NONE"];
-			_newItem setVariable["mf_item_id", "repairkit", true];
-			_newItem setVariable ["groundTownItemSpawn", true, true];
-			_spawnedGroundItems pushBack _newItem;
-
-			_spawnItemsFour = _spawnItemsFour - 1;
-			};
+			{
+				if (random 1 < 0.10) then
+				{
+					private _itemClass = _x;
+					private _building = selectRandom _supplyBuildings;
+					_safePos = [getPos _building, 1, ((sizeOf (typeOf _building)) / 2) + 1, 1, 0, 0, 0] call findSafePos;
+					_safePos set [2, 0];
+					if (_itemClass == "FirstAidKit") then
+					{
+						_newItem = createVehicle ["GroundWeaponHolder", _safePos, [], 0, "NONE"];
+						_newItem addItemCargoGlobal ["FirstAidKit", 1];
+					}
+					else
+					{
+						_newItem = createVehicle [_itemClass, _safePos, [], 0, "NONE"];
+						private _itemId = if (_itemClass == "Land_CanisterFuel_F") then {"jerrycanfull"} else {"repairkit"};
+						_newItem setVariable ["mf_item_id", _itemId, true];
+					};
+					_newItem setVariable ["groundTownItemSpawn", true, true];
+					_spawnedGroundItems pushBack _newItem;
+				};
+			} forEach ["FirstAidKit", "Land_CanisterFuel_F", "Land_Suitcase_F"];
 		};
-		} forEach (_pos nearObjects ["Building", _square]);
 
 	
 	} forEach (call cityListLimit);
