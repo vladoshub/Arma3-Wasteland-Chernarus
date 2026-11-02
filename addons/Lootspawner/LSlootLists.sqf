@@ -446,7 +446,7 @@ lootworldObject_list =
     ]
 ];
 
-// Additional loot: roll each classname independently with a 10% chance
+// Additional loot: roll each classname independently with a 7% chance
 // after an ordinary loot object has successfully spawned at a spot.
 // Multiple entries may spawn together; [] disables bonus loot.
 lootBonus_list =
