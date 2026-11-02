@@ -210,7 +210,7 @@ private _lootLists = [lootWeapon_list, lootMagazine_list, lootItem_list, lootBac
 
 									// Independent bonus rolls per spawned loot spot; all three may succeed.
 									{
-										if (random 1 < 0.07) then
+										if (random 1 < 0.10) then
 										{
 											private _bonusClass = _x;
 											private _bonusPos = +_spwnPos;
