@@ -69,6 +69,10 @@ fn_getBuildingstospawnLoot = {
 	#include "fn_LSgetBuildingstospawnLoot.sqf"
 } call mf_compile;
 
+LSspawnBonusLoot = {
+	#include "fn_LSspawnBonusLoot.sqf"
+} call mf_compile;
+
 LSdeleter = {
 	#include "LSdeleter.sqf"
 } call mf_compile;
@@ -105,6 +109,10 @@ getUsedclasses = {
 			if (_className != "") then {LSusedclass_list pushBackUnique _className};
 		} forEach (_x select 1);
 	} forEach lootworldObject_list;
+	// Bonus world objects also occupy spawn slots after removal from the ordinary tables.
+	{
+		if (isClass (configFile >> "CfgVehicles" >> _x)) then {LSusedclass_list pushBackUnique _x};
+	} forEach lootBonus_list;
 };
 
 //-------------------------------------------------------------------------------------

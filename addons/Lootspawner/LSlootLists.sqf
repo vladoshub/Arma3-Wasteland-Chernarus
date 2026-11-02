@@ -446,9 +446,10 @@ lootworldObject_list =
     ]
 ];
 
-// Additional loot: roll each classname independently with a 10% chance
-// after an ordinary loot object has successfully spawned at a spot.
-// Multiple entries may spawn together; [] disables bonus loot.
+// Additional loot: one independent roll per unique classname per building.
+// Chance percentage: A3W_buildingLootBonusChances in the server config (default 5).
+// Spawn bonuses first, at most one of each classname, then ordinary loot in free spots.
+// Several different bonus types may spawn in one building; [] disables bonus loot.
 lootBonus_list =
 [
     "FirstAidKit",

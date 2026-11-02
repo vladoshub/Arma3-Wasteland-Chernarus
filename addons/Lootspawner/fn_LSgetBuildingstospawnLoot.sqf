@@ -64,6 +64,9 @@ private _lootLists = [lootWeapon_list, lootMagazine_list, lootItem_list, lootBac
 			}forEach Buildingstoloot_list;
 			if (count _buildPosViable_list > 0 && {{_x > 0} count (spawnClassChance_list select _lootClass) > 0}) then
 			{
+				// Bonus loot rolls once per building and claims free slots before ordinary loot.
+				private _bonusZAdjustments = if (swSpZadjust) then {_buildPosZadj_list select 0} else {[]};
+				private _bonusPositions = [_building, _buildPosViable_list select 0, _bonusZAdjustments, _genZadjust, _chfullfuel] call LSspawnBonusLoot;
 				for "_poscount" from 0 to (count (_buildPosViable_list select 0) - 1) do
 				{
 					//consider chance per Slot
@@ -79,8 +82,11 @@ private _lootLists = [lootWeapon_list, lootMagazine_list, lootItem_list, lootBac
 						};
 						//generally add 0.1 on z
 						_spwnPos = [_spwnPos select 0, _spwnPos select 1, (_spwnPos select 2) + _genZadjust];
+						// Keep ordinary loot clear of bonus objects, including adjacent model positions.
+						private _spotASL = if (getTerrainHeightASL _spwnPos < 0) then {+_spwnPos} else {ATLToASL _spwnPos};
+						private _nearBonus = (_bonusPositions findIf {_x vectorDistance _spotASL <= 1.0}) >= 0;
 						//check if position has old loot
-						if ((count (nearestObjects [_spwnPos, LSusedclass_list, 0.5])) == 0) then {
+						if (!_nearBonus && {(count (nearestObjects [_spwnPos, LSusedclass_list, 0.5])) == 0}) then {
 							sleep 0.001;
 							//check what type of loot to spawn, get chance for loot every time, so all combos in spawnClassChance_list are viable
 							_lootType = [[1,2,3,4,5], spawnClassChance_list select _lootClass] call fn_selectRandomWeighted;
@@ -208,46 +214,6 @@ private _lootLists = [lootWeapon_list, lootMagazine_list, lootItem_list, lootBac
 									//no lootpiling
 									_lootholder setVariable ["Lootready", diag_tickTime];
 
-									// Independent bonus rolls per spawned loot spot; all three may succeed.
-									{
-										if (random 1 < 0.10) then
-										{
-											private _bonusClass = _x;
-											private _bonusPos = +_spwnPos;
-											_bonusPos set [0, (_bonusPos select 0) + (0.25 * (_forEachIndex - 1))];
-											private _bonusHolder = objNull;
-											if (_bonusClass == "FirstAidKit") then
-											{
-												_bonusHolder = createVehicle ["GroundWeaponHolder", _tmpPos, [], 0, "CAN_COLLIDE"];
-												_bonusHolder addItemCargoGlobal ["FirstAidKit", 1];
-											}
-											else
-											{
-												_bonusHolder = createVehicle [_bonusClass, _tmpPos, [], 0, "CAN_COLLIDE"];
-												private _itemId = "repairkit";
-												if (_bonusClass == "Land_CanisterFuel_F") then
-												{
-													_itemId = if (random 100 < _chfullfuel) then {"jerrycanfull"} else {"jerrycanempty"};
-												};
-												_bonusHolder setVariable ["mf_item_id", _itemId, true];
-											};
-
-											if (!isNull _bonusHolder) then
-											{
-												_bonusHolder setVariable ["A3W_lootSpawner", true, true];
-												_bonusHolder setVariable ["A3W_lootSpawnerBuilding", _building];
-												_bonusHolder setVariable ["Lootready", diag_tickTime];
-												_buildingLoot pushBack _bonusHolder;
-												LS_spawnedLoot pushBack _bonusHolder;
-
-												if (_height < 0) then {_bonusHolder setPosASL _bonusPos} else {_bonusHolder setPosATL _bonusPos};
-												sleep 0.001;
-												_bonusPos set [2, (_bonusPos select 2) - ((getPos _bonusHolder) select 2)];
-												if (_height < 0) then {_bonusHolder setPosASL _bonusPos} else {_bonusHolder setPosATL _bonusPos};
-												_bonusHolder setDir (random 360);
-											};
-										};
-									} forEach lootBonus_list;
 								};
 							};
 						};
