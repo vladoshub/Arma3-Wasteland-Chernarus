@@ -71,7 +71,7 @@ private _bonusPositions = [];
 			if (_bonusClass == "Land_CanisterFuel_F") then
 			{
 				//_itemId = if (random 100 < _chfullfuel) then {"jerrycanfull"} else {"jerrycanempty"};
-				_itemId = "jerrycanfull";
+				_itemId = if (random 100 < 80) then {"jerrycanfull"} else {"jerrycanempty"};
 			};
 			_bonusHolder setVariable ["mf_item_id", _itemId, true];
 		};
