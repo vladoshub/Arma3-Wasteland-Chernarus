@@ -70,7 +70,8 @@ private _bonusPositions = [];
 			private _itemId = "repairkit";
 			if (_bonusClass == "Land_CanisterFuel_F") then
 			{
-				_itemId = if (random 100 < _chfullfuel) then {"jerrycanfull"} else {"jerrycanempty"};
+				//_itemId = if (random 100 < _chfullfuel) then {"jerrycanfull"} else {"jerrycanempty"};
+				_itemId = "jerrycanfull";
 			};
 			_bonusHolder setVariable ["mf_item_id", _itemId, true];
 		};
