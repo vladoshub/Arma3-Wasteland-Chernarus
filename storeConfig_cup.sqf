@@ -27,7 +27,7 @@ pistolArray = compileFinal str
     ['Zubr Revolver', 'hgun_Pistol_heavy_02_F', 3000, ["chance", 0.55]],
     ['4-five Pistol', 'hgun_Pistol_heavy_01_F', 4000, ["chance", 0.35]],
     ['4-five Pistol (Green)', 'hgun_Pistol_heavy_01_green_F', 4000, 'noDLC', ["chance", 0.35]],
-    ['Spectrum Device', 'hgun_esd_01_F', 100000, ["chance", 1.0]]
+    ['Spectrum Device (Anti UAV)', 'hgun_esd_01_F', 100000, ["chance", 1.0]]
 ];
 
 smgArray = compileFinal str
@@ -1661,9 +1661,9 @@ planesArray = compileFinal str
     ['MV-22B Osprey (VIV)', 'CUP_B_MV22_VIV_USMC', 225000, 'vehicle', ["chance", 0.85]],
     ['MV-22B Osprey (Ramp Gun)', 'CUP_B_MV22_USMC_RAMPGUN', 270000, 'vehicle', ["chance", 0.8]],
     ['V-44 X Blackfish (Infantry)', 'B_T_VTOL_01_infantry_F', 300000, 'vehicle', ["chance", 0.01]],
-    ['Pchela-1T', 'CUP_O_Pchela1T_RU', 300000, 'vehicle', ["chance", 0.4]],
     ['L-39ZA', 'CUP_B_L39_CZ', 577500, 'vehicle', ["chance", 0.01]],
     ['V-44 X Blackfish (Gunship)', 'B_T_VTOL_01_armed_F', 577500, 'vehicle', ["chance", 0.01]],
+    ['Pchela-1T', 'CUP_O_Pchela1T_RU', 600000, 'vehicle', ["chance", 0.4]],
     ['A-143 Buzzard AA', 'I_Plane_Fighter_03_dynamicLoadout_F', 750000, 'vehicle', 'variant_buzzardEX', ["chance", 0.05]],
     ['A-143 Buzzard CAS', 'I_Plane_Fighter_03_dynamicLoadout_F', 750000, 'vehicle', 'variant_buzzardCAS', ["chance", 0.05]],
     ['To-199 Neophron CAS', 'O_Plane_CAS_02_dynamicLoadout_F', 750000, 'vehicle', ["chance", 0.05]],
