@@ -93,7 +93,7 @@ _storePositions = [];
 		{
 			_nearestObjects = (nearestObjects [_storePosition, SL_cleanUpObjects, SL_cleanUpRadius]) select
 			{
-				(_x getVariable ["A3W_markerLootSource", ""]) == ""
+				(_x getVariable ["A3W_markerLootSource", ""]) == "" && {!(_x getVariable ["expLootFlag", false])}
 			};
 			if (count _nearestObjects != 0) then
 			{

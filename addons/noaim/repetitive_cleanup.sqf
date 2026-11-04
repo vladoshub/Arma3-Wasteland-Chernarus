@@ -89,7 +89,8 @@ GVAR(addToCleanup) = {
 		["_resetValuesIfObjectAlreadyPresent", false, [true,false]]
 	];
 	private ["_newTime", "_index", "_currentTime"];
-	if(IS_SANE(_object) && {!(_object getVariable["persistent",false])}) then {
+	// The ground spawner replaces its own weapon holders on the next cycle.
+	if(IS_SANE(_object) && {!(_object getVariable["persistent",false])} && {!(_object getVariable ["expLootFlag", false])}) then {
 		_newTime = _delay + time;
 		_index = GVAR(objectsToCleanup) find _object;
 		if(_index == -1) then {
@@ -197,7 +198,7 @@ while{GVAR(isRunning)} do {
 	{
 		_object = _x;
 		_objectIndex = _forEachIndex;
-		if(IS_SANE(_object)) then {
+		if(IS_SANE(_object) && {!(_object getVariable ["expLootFlag", false])}) then {
 			if(GVAR(resetTimeIfPlayerNearby) select _objectIndex) then {
 				_myPos = getPosATL _object;
 				{
