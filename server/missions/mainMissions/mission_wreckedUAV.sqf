@@ -13,8 +13,7 @@ private ["_vehicle", "_vehicleName", "_vehDeterminer", "_vehicleClass", "_veh1Ob
 
 _setupVars =
 {
-	_vehicleClass =
-	selectRandom [
+	private _uavClasses = [
 		"B_T_UAV_03_F", 
 		"O_T_UAV_04_CAS_F",
 		"B_UAV_05_F",
@@ -23,6 +22,15 @@ _setupVars =
 		"I_UAV_02_dynamicLoadout_F"
 	];
 
+	private _cupUav = "CUP_O_Pchela1T_RU";
+	if ((["A3W_use_CUP", false] call getPublicVar) &&
+		{_cupUav in CUP_Classes} &&
+		{isClass (configFile >> "CfgVehicles" >> _cupUav)}) then
+	{
+		_uavClasses pushBack _cupUav;
+	};
+
+	_vehicleClass = selectRandom _uavClasses;
 	_missionType = "MIDDLE: UAV Wrecked";
 	_locationsArray = MissionSpawnMarkers;
 };
