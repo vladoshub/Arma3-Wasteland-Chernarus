@@ -66,7 +66,7 @@ class customload
 			h = 0.0689 * SZ_SCALE;
 		};
 
-		class DialogTitleText: w_RscTextCenter
+		class DialogTitleText: A3W_StoreTitle
 		{
 			idc = -1;
 			text = "Prespawn loot";

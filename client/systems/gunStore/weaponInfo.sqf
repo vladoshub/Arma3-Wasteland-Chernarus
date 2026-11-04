@@ -34,7 +34,16 @@ _itemData = _gunlist lbData _itemIndex;
 
 _gunlisttext ctrlSetText "";
 
-_itemConfigInfo = [_itemText, _itemData] call getItemInfo;
+private _ammoIndex = (_gunlist lbValue _itemIndex) - 1;
+_itemConfigInfo = if (_ammoIndex >= 0) then
+{
+	private _ammo = (call ammoArray) select _ammoIndex;
+	["CfgMagazines", _ammo select 2, getText (configFile >> "CfgMagazines" >> _itemData >> "descriptionShort"), false]
+}
+else
+{
+	[_itemText, _itemData] call getItemInfo
+};
 
 _parentCfg = _itemConfigInfo select 0;
 _price = _itemConfigInfo select 1;

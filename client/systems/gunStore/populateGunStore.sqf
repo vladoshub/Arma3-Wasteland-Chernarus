@@ -140,14 +140,29 @@ if (_wepFilter) then
 	_wepFilterDropdown ctrlAddEventHandler ["LBSelChanged", { [7] call populateGunStore }];
 };
 
-_wepFilterItems = if (_wepFilterData != "") then { [_wepFilterData] call BIS_fnc_compatibleItems } else { [] };
+private _wepFilterItems = [];
+private _accessoryCount = count _itemsArray;
+private _shopAmmo = [];
+if (_wepFilterData != "") then
+{
+	_wepFilterItems = [_wepFilterData] call BIS_fnc_compatibleItems;
+	private _compatibleMags = compatibleMagazines _wepFilterData;
+	_shopAmmo = call ammoArray;
+	_itemsArray append (_shopAmmo select
+	{
+		private _magClass = _x select 1;
+		{ _x == _magClass } count _compatibleMags > 0 &&
+		{ [_x, "ammoArray"] call A3W_fnc_isStoreItemAvailable }
+	});
+};
 
 {
 	_weaponClass = _x select 1;
+	private _isAmmo = _forEachIndex >= _accessoryCount;
 
 	_parentCfg = switch (true) do
 	{
-		case (_wepFilterData != "" && {{_x == _weaponClass} count _wepFilterItems == 0}): { nil };
+		case (!_isAmmo && {_wepFilterData != ""} && {{_x == _weaponClass} count _wepFilterItems == 0}): { nil };
 		case ("HIDDEN" in (_x select [3,999])):                        { nil };
 		case (isClass (configFile >> "CfgVehicles" >> _weaponClass)):  { configFile >> "CfgVehicles" };
 		case (isClass (configFile >> "CfgWeapons" >> _weaponClass)):   { configFile >> "CfgWeapons" };
@@ -163,6 +178,8 @@ _wepFilterItems = if (_wepFilterData != "") then { [_wepFilterData] call BIS_fnc
 
 		_gunlistIndex = _gunlist lbAdd format ["%1", [_x select 0, getText (_weapon >> "displayName")] select (_x select 0 == "")];
 		_gunlist lbSetData [_gunlistIndex, _weaponClass];
+		// A positive value identifies the exact ammoArray row, even for duplicate class names.
+		_gunlist lbSetValue [_gunlistIndex, if (_isAmmo) then { 1 + (_shopAmmo find _x) } else { 0 }];
 	
 		// Show scope on sniper rifle pictures
 		if ([["_SOS_F", "_LRPS_F"], _weaponClass] call fn_findString != -1) then

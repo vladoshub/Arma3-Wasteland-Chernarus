@@ -44,7 +44,7 @@ class genstored
 			h = GenStoreTopBar_H;
 		};
 
-		class DialogTitleText: w_RscTextCenter
+		class DialogTitleText: A3W_StoreTitle
 		{
 			idc = -1;
 			text = "General Store";

@@ -11,8 +11,14 @@ if (isNull _list) exitWith {};
 
 private _display = ctrlParent _list;
 private _listId = ctrlIDC _list;
-if (_row < 0 && {_listId != (_display getVariable ["A3W_storePreviewList", -1])}) exitWith {};
-_display setVariable ["A3W_storePreviewList", _listId];
+private _previousSelection = _display getVariable ["A3W_storePreviewSelection", []];
+if (_row < 0 && {_listId != (_previousSelection param [0, -1])}) exitWith {};
+
+private _data = if (_row >= 0 && {_row < lbSize _list}) then { _list lbData _row } else { "" };
+private _selection = if (_data == "") then { [] } else { [_listId, _row, _data] };
+if (_selection isEqualTo _previousSelection) exitWith {};
+_display setVariable ["A3W_storePreviewSelection", _selection];
+_display setVariable ["A3W_storePreviewDrag", []];
 
 private _background = _display displayCtrl A3W_STORE_PREVIEW_BACKGROUND;
 private _pictureCtrl = _display displayCtrl A3W_STORE_PREVIEW_PICTURE;
@@ -28,9 +34,6 @@ if (_rotation != -1) then
 _background ctrlShow false;
 _pictureCtrl ctrlShow false;
 _modelCtrl ctrlShow false;
-if (_row < 0 || {_row >= lbSize _list}) exitWith {};
-
-private _data = _list lbData _row;
 if (_data == "") exitWith {};
 
 // Vehicle store rows keep the full catalog entry for the purchase script.
@@ -68,7 +71,7 @@ if (!isClass _cfg) then
 if (_w <= 0) exitWith {};
 
 private _model = getText (_cfg >> "model");
-private _extent = 0;
+private _modelSize = [0, 0, 0];
 private _center = [0, 0, 0];
 if (_model != "" && {!isNull _modelCtrl}) then
 {
@@ -81,37 +84,117 @@ if (_model != "" && {!isNull _modelCtrl}) then
 		private _sample = createSimpleObject [_model select [1], [0, 0, -1000], true];
 		if (!isNull _sample) then
 		{
-			(boundingBoxReal _sample) params ["_min", "_max"];
+			// ClipVisual measures the rendered model instead of its collision or shadow bounds.
+			private _bounds = 0 boundingBoxReal _sample;
+			if ((_bounds select 0) isEqualTo (_bounds select 1)) then { _bounds = boundingBoxReal _sample };
+			_bounds params ["_min", "_max"];
 			deleteVehicle _sample;
-			_extent = vectorMagnitude (_max vectorDiff _min);
+			_modelSize = _max vectorDiff _min;
 			_center = (_min vectorAdd _max) vectorMultiply 0.5;
 		};
 	};
 };
 
-if (_extent > 0) exitWith
+if (vectorMagnitude _modelSize > 0) exitWith
 {
-	private _scale = 0.5 * ((_w * 4 / 3) min _h) / _extent;
-	private _panelCenter = [_x + _w / 2, _y + _h / 2 + ((_center select 2) * _scale)];
-	private _offset = _center vectorMultiply (_scale * 0.75);
+	private _horizontalSpan = vectorMagnitude [_modelSize select 0, _modelSize select 1, 0];
+	private _height = _modelSize select 2;
+	private _panelCenter = [_x + _w / 2, _y + _h / 2];
+
+	_display setVariable ["A3W_storePreviewAutoRotate", true];
+	_display setVariable ["A3W_storePreviewAngles", [45, 15]];
+
+	if !(_display getVariable ["A3W_storePreviewMouseHandlers", false]) then
+	{
+		_display displayAddEventHandler ["MouseButtonDown",
+		{
+			params ["_display", "_button"];
+			if (_button != 0) exitWith { false };
+			if !(ctrlShown (_display displayCtrl A3W_STORE_PREVIEW_MODEL)) exitWith { false };
+
+			(ctrlPosition (_display displayCtrl A3W_STORE_PREVIEW_BACKGROUND)) params ["_x", "_y", "_w", "_h"];
+			private _mouse = getMousePosition;
+			_mouse params ["_mouseX", "_mouseY"];
+			if (_mouseX < _x || {_mouseX > _x + _w} || {_mouseY < _y} || {_mouseY > _y + _h}) exitWith { false };
+
+			_display setVariable ["A3W_storePreviewAutoRotate", false];
+			_display setVariable ["A3W_storePreviewDrag", [_mouse, _display getVariable "A3W_storePreviewAngles"]];
+			true
+		}];
+
+		// Listen on the display so releasing outside the preview also ends the drag.
+		_display displayAddEventHandler ["MouseButtonUp",
+		{
+			params ["_display", "_button"];
+			private _drag = _display getVariable ["A3W_storePreviewDrag", []];
+			if (_button != 0 || {_drag isEqualTo []}) exitWith { false };
+
+			// Pass the release position to the renderer so it also applies the final movement.
+			_display setVariable ["A3W_storePreviewDrag", (_drag select [0, 2]) + [getMousePosition]];
+			true
+		}];
+
+		_display setVariable ["A3W_storePreviewMouseHandlers", true];
+	};
 
 	_modelCtrl ctrlSetModel _model;
-	_modelCtrl ctrlSetModelScale _scale;
 	_background ctrlShow true;
 
 	_rotation = addMissionEventHandler ["EachFrame",
 	{
-		_thisArgs params ["_modelCtrl", "_panelCenter", "_offset", "_start"];
+		_thisArgs params ["_modelCtrl", "_panelCenter", "_center", "_horizontalSpan", "_height", "_w", "_h", "_start"];
 		if (isNull _modelCtrl) exitWith { removeMissionEventHandler ["EachFrame", _thisEventHandler] };
 
+		private _display = ctrlParent _modelCtrl;
+		private _autoRotate = _display getVariable "A3W_storePreviewAutoRotate";
+		private _drag = _display getVariable "A3W_storePreviewDrag";
+		if (!_autoRotate && {_drag isEqualTo []}) exitWith {};
+
 		private _angle = 45 + ((diag_tickTime - _start) mod 5) * 72;
+		private _pitch = 15;
+		if (!_autoRotate) then
+		{
+			_drag params ["_mouseStart", "_anglesStart", ["_mouseEnd", []]];
+			private _mouse = getMousePosition;
+			if !(_mouseEnd isEqualTo []) then
+			{
+				_mouse = _mouseEnd;
+				_display setVariable ["A3W_storePreviewDrag", []];
+			};
+			_angle = ((_anglesStart select 0) + ((_mouse select 0) - (_mouseStart select 0)) * 180 / _w) mod 360;
+			_pitch = (((_anglesStart select 1) + ((_mouse select 1) - (_mouseStart select 1)) * 90 / _h) max -45) min 45;
+		};
+
+		private _tiltSin = sin _pitch;
+		private _tiltCos = cos _pitch;
+		private _verticalSpan = _height * _tiltCos + _horizontalSpan * abs _tiltSin;
+		private _halfDepth = (_horizontalSpan * _tiltCos + _height * abs _tiltSin) / 2;
+
+		// Fit the entire turn at one scale for this pitch, with padding for perspective.
+		private _fit = 0.86 * (((_w * 4 / 3) / (_horizontalSpan max 0.001)) min (_h / (_verticalSpan max 0.001)));
+		private _scale = _fit / (1 + _fit * _halfDepth);
+		private _shown = ctrlShown _modelCtrl;
+		private _previousAngles = _display getVariable "A3W_storePreviewAngles";
+		if (!_shown || {_pitch != (_previousAngles select 1)}) then { _modelCtrl ctrlSetModelScale _scale };
+		_display setVariable ["A3W_storePreviewAngles", [_angle, _pitch]];
+
 		private _sin = sin _angle;
 		private _cos = cos _angle;
+		private _direction = [_sin, _cos * _tiltCos, _cos * _tiltSin];
+		private _up = [0, -_tiltSin, _tiltCos];
+
+		// Keep the center of the visible geometry fixed even if the P3D origin is off-center.
+		private _offset = _center vectorMultiply _scale;
 		private _sideOffset = _offset vectorDotProduct [_cos, -_sin, 0];
-		_modelCtrl ctrlSetModelDirAndUp [[_sin, _cos, 0], [0, 0, 1]];
-		_modelCtrl ctrlSetPosition [(_panelCenter select 0) - _sideOffset, 1, _panelCenter select 1];
-		if !(ctrlShown _modelCtrl) then { _modelCtrl ctrlShow true };
-	}, [_modelCtrl, _panelCenter, _offset, diag_tickTime]];
+		private _forwardOffset = _offset vectorDotProduct [_sin, _cos, 0];
+		private _heightOffset = _offset select 2;
+		private _depthOffset = _forwardOffset * _tiltCos - _heightOffset * _tiltSin;
+		private _upOffset = _forwardOffset * _tiltSin + _heightOffset * _tiltCos;
+
+		_modelCtrl ctrlSetModelDirAndUp [_direction, _up];
+		_modelCtrl ctrlSetPosition [(_panelCenter select 0) - _sideOffset * 0.75, 1 - _depthOffset, (_panelCenter select 1) + _upOffset];
+		if (!_shown) then { _modelCtrl ctrlShow true };
+	}, [_modelCtrl, _panelCenter, _center, _horizontalSpan, _height, _w, _h, diag_tickTime]];
 	_display setVariable ["A3W_storePreviewRotation", _rotation];
 };
 

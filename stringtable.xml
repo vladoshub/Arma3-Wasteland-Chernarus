@@ -98,6 +98,10 @@
 		</Key>
 	</Package>
 	<Package name="ShopDescriptions">
+		<Key ID="STR_WL_Store_RotationTitle">
+			<Original>%1 — Stock changes during the session</Original>
+			<Russian>%1 — Ассортимент обновляется в течение сессии</Russian>
+		</Key>
 		<Key ID="STR_WL_ShopDescriptions_Water">
 			<Original>Greece is a hot place! Drink plenty!</Original>
 		</Key>
@@ -394,7 +398,7 @@
 			<French>Liste des Kill</French>
 			<Turkish>Öldürme Kayıtları</Turkish>
 			<Dutch>doden lijst</Dutch>
-			<Russian>Список убийств</Dutch>
+			<Russian>Список убийств</Russian>
 		</Key>
 		<Key ID="STR_PMenu_MarkObj">
 			<Original>Mark obj.</Original>

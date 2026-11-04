@@ -5,7 +5,7 @@
 //	@file Name: buyAmmo.sqf
 //	@file Author: [KoS] His_Shadow, AgentRev
 //	@file Created: 20/11/2012 05:13
-//	@file Args: [int (0 = buy to player 1 = buy to crate)]
+//	@file Args: [purchase mode, optional [ammoArray index, class, label] from Accessories]
 
 if (!isNil "storePurchaseHandle" && {typeName storePurchaseHandle == "SCRIPT"} && {!scriptDone storePurchaseHandle}) exitWith {hint "Please wait, your previous purchase is being processed"};
 
@@ -32,11 +32,29 @@ storePurchaseHandle = _this spawn
 
 	_playerMoney = player getVariable [(player getVariable ["playerPayType", "bmoney"]), 0];
 
-	_itemIndex = lbCurSel gunshop_ammo_list;
+	_itemIndex = lbCurSel _ammoList;
 	_itemText = _ammoList lbText _itemIndex;
 	_itemData = _ammoList lbData _itemIndex;
 
-	if !([_itemData] call A3W_fnc_isStoreItemAvailable) exitWith { hint "This item is no longer available in the current store rotation. Reopen the store."; };
+	private _accessoryAmmo = _this param [1, []];
+	private _ammoRows = call ammoArray;
+	private _available = if (_accessoryAmmo isEqualTo []) then
+	{
+		[_itemData] call A3W_fnc_isStoreItemAvailable
+	}
+	else
+	{
+		_accessoryAmmo params ["_ammoIndex", "_selectedClass", "_selectedLabel"];
+		_itemData = _selectedClass;
+		_itemText = _selectedLabel;
+		private _ammo = _ammoRows param [_ammoIndex, []];
+		_ammoRows = [_ammo];
+		!(_ammo isEqualTo []) &&
+		{ (_ammo select 1) == _itemData } &&
+		{ [_ammo, "ammoArray"] call A3W_fnc_isStoreItemAvailable }
+	};
+
+	if (!_available) exitWith { hint "This item is no longer available in the current store rotation. Reopen the store."; };
 
 	_showInsufficientFundsError =
 	{
@@ -85,7 +103,7 @@ storePurchaseHandle = _this spawn
 						[_itemText] call _showInsufficientSpaceError;
 					};
 				}
-			} forEach (call ammoArray);
+			} forEach _ammoRows;
 		};
 	};
 

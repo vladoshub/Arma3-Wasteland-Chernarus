@@ -7,7 +7,18 @@
 //	@file Created: 20/11/2012 05:13
 //	@file Args: [int (0 = buy to player 1 = buy to crate)]
 
+#include "dialog\gunstoreDefines.sqf";
+
 scriptName "buyGuns";
+disableSerialization;
+
+private _list = (findDisplay gunshop_DIALOG) displayCtrl gunshop_gun_list;
+private _row = lbCurSel _list;
+private _ammoIndex = (_list lbValue _row) - 1;
+if (_ammoIndex >= 0) exitWith
+{
+	[_this select 0, [_ammoIndex, _list lbData _row, _list lbText _row]] execVM "client\systems\gunStore\buyAmmo.sqf";
+};
 
 if (!isNil "storePurchaseHandle" && {typeName storePurchaseHandle == "SCRIPT"} && {!scriptDone storePurchaseHandle}) exitWith {hint "Please wait, your previous purchase is being processed"};
 
@@ -22,9 +33,6 @@ if (!isNil "gunStore_lastPurchaseTime") then //BY VLADOS
 		breakOut "buyGuns";
 	};
 };
-
-
-#include "dialog\gunstoreDefines.sqf";
 
 #define PURCHASED_CRATE_TYPE_AMMO 60
 #define PURCHASED_CRATE_TYPE_WEAPON 61

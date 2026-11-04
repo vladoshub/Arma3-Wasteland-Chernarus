@@ -7,6 +7,11 @@
 #define A3W_STORE_DIALOG_X(WIDTH) ((CENTER(1, WIDTH) min (A3W_STORE_PREVIEW_LEFT - WIDTH - A3W_STORE_PREVIEW_GAP)) max safezoneX)
 #define A3W_STORE_PREVIEW_X(WIDTH) (A3W_STORE_PREVIEW_LEFT max (A3W_STORE_DIALOG_X(WIDTH) + WIDTH + A3W_STORE_PREVIEW_GAP))
 
+class A3W_StoreTitle: w_RscTextCenter
+{
+	onLoad = "if ((missionNamespace getVariable ['A3W_dynamicStoreNextRefresh', -1]) > 0) then { private _title = _this select 0; _title ctrlSetText format [localize 'STR_WL_Store_RotationTitle', ctrlText _title]; _title ctrlSetFontHeight (0.7 * ctrlFontHeight _title) }";
+};
+
 class A3W_StorePreviewBackground: RscText
 {
 	idc = A3W_STORE_PREVIEW_BACKGROUND;
@@ -38,5 +43,5 @@ class A3W_StorePreviewModel
 	z = 1;
 	inBack = 0;
 	enableZoom = 0;
-	onLoad = "(_this select 0) ctrlShow false";
+	onLoad = "(_this select 0) ctrlEnable false; (_this select 0) ctrlShow false";
 };
