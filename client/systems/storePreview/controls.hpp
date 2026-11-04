@@ -43,5 +43,6 @@ class A3W_StorePreviewModel
 	z = 1;
 	inBack = 0;
 	enableZoom = 0;
+	zoomDuration = 0;
 	onLoad = "(_this select 0) ctrlEnable false; (_this select 0) ctrlShow false";
 };
