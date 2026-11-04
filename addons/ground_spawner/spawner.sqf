@@ -3,6 +3,8 @@ private ["_weapon", "_mag", "_launchers", "_addition", "_lootholder", "_safePos"
 
 private _launchers = ["launch_Titan_F", "launch_Titan_short_F", "launch_RPG7_F", "CUP_launch_Metis", "CUP_launch_Javelin", "CUP_launch_RPG7V"];
 
+private _weaponDensity = 1 / 3;
+
 // Recover this spawner's existing holders if the script is restarted.
 private _spawnedWeaponHolders = (allMissionObjects "GroundWeaponHolder") select {
 	_x getVariable ["expLootFlag", false]
@@ -46,14 +48,17 @@ while {true} do {
 		};
 
 
-		private _spawnHolders = ( round ({ _x getVariable["R3F_LOG_disabled", true] && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO") } count ( (_pos nearObjects ["Building", _square])) ) / (round ( 1/ _randonWeapon)) ) - ( ( {_x getVariable ["expLootFlag", false]} count (_pos nearObjects ["GroundWeaponHolder", (_square + 10)]))  );
-
-		if(_spawnHolders > 200) then {
-			_spawnHolders = 200;
-		};
+		private _eligibleBuildings = {
+			(_x getVariable ["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID", "NO"] == "NO")
+		} count (_pos nearObjects ["Building", _square]);
+		private _weaponBudget = (round (_eligibleBuildings / (round (1 / _randonWeapon)))) min 200;
+		private _existingHolders = {
+			_x getVariable ["expLootFlag", false]
+		} count (_pos nearObjects ["GroundWeaponHolder", _square + 10]);
+		private _spawnHolders = ceil (_weaponBudget * _weaponDensity) - _existingHolders;
 
 		{
-			if( (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO") && _spawnHolders > 0 && ((random 1) <= _randonWeapon)) then {
+			if( (_x getVariable["R3F_LOG_disabled", true]) && !(_x getVariable ["objectLocked", false]) && (_x getVariable ["ownerUID" , "NO"] == "NO") && _spawnHolders > 0 && {random 1 < (_randonWeapon * _weaponDensity)}) then {
 				
 
 				_safePos = [getPos _x , 1, ((sizeOf (typeOf _x)) / 2) + 1 , 1, 0 ,0 , 0] call findSafePos;
@@ -192,5 +197,5 @@ while {true} do {
 
 	
 	} forEach (call cityListLimit);
-	sleep (600 + random [0, 350, 600]);
+	sleep (900 + random [0, 350, 600]);
 };
