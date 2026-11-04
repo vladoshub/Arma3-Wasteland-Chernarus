@@ -1663,7 +1663,7 @@ planesArray = compileFinal str
     ['V-44 X Blackfish (Infantry)', 'B_T_VTOL_01_infantry_F', 300000, 'vehicle', ["chance", 0.01]],
     ['L-39ZA', 'CUP_B_L39_CZ', 577500, 'vehicle', ["chance", 0.01]],
     ['V-44 X Blackfish (Gunship)', 'B_T_VTOL_01_armed_F', 577500, 'vehicle', ["chance", 0.01]],
-    ['Pchela-1T', 'CUP_O_Pchela1T_RU', 600000, 'vehicle', ["chance", 0.4]],
+    ['Pchela-1T', 'CUP_O_Pchela1T_RU', 600000, 'vehicle', ["chance", 0.15]],
     ['A-143 Buzzard AA', 'I_Plane_Fighter_03_dynamicLoadout_F', 750000, 'vehicle', 'variant_buzzardEX', ["chance", 0.05]],
     ['A-143 Buzzard CAS', 'I_Plane_Fighter_03_dynamicLoadout_F', 750000, 'vehicle', 'variant_buzzardCAS', ["chance", 0.05]],
     ['To-199 Neophron CAS', 'O_Plane_CAS_02_dynamicLoadout_F', 750000, 'vehicle', ["chance", 0.05]],
