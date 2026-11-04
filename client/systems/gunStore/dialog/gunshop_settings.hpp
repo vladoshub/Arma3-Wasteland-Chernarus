@@ -16,7 +16,7 @@ class gunshopd
 	{
 		#define GunStoreMainBG_W (0.7333 * SZ_SCALE)
 		#define GunStoreMainBG_H (0.65 * SZ_SCALE)
-		#define GunStoreMainBG_X CENTER(1, GunStoreMainBG_W)
+		#define GunStoreMainBG_X A3W_STORE_DIALOG_X(GunStoreMainBG_W)
 		#define GunStoreMainBG_Y CENTER(1, GunStoreMainBG_H)
 
 		class MainBackground: IGUIBack
@@ -90,14 +90,27 @@ class gunshopd
 			h = 0.0448 * SZ_SCALE;
 		};
 		*/
+
+		class PreviewBackground: A3W_StorePreviewBackground
+		{
+			x = A3W_STORE_PREVIEW_X(GunStoreMainBG_W);
+			w = 0 max (A3W_STORE_PREVIEW_RIGHT - (A3W_STORE_PREVIEW_X(GunStoreMainBG_W)));
+		};
+	};
+
+	class Objects
+	{
+		class PreviewModel: A3W_StorePreviewModel {};
 	};
 
 	class Controls
 	{
+		class PreviewPicture: A3W_StorePreviewPicture {};
+
 		class SelectionList: w_RscList
 		{
 			idc = gunshop_gun_list;
-			onLBSelChanged = "call weaponInfo";
+			onLBSelChanged = "call weaponInfo; _this call A3W_fnc_updateStorePreview";
 			sizeEx = 0.04 * TEXT_SCALE;
 			rowHeight = 0.05 * TEXT_SCALE;
 
@@ -122,7 +135,8 @@ class gunshopd
 		class AmmoList: w_RscList
 		{
 			idc = gunshop_ammo_list;
-			onLBSelChanged = "[] execVM 'client\systems\gunStore\ammoInfo.sqf'";
+			onLBSelChanged = "[] execVM 'client\systems\gunStore\ammoInfo.sqf'; _this call A3W_fnc_updateStorePreview";
+			onSetFocus = "private _list = _this select 0; [_list, lbCurSel _list] call A3W_fnc_updateStorePreview";
 			sizeEx = 0.04 * TEXT_SCALE;
 			rowHeight = 0.05 * TEXT_SCALE;
 

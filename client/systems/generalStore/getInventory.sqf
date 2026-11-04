@@ -18,6 +18,7 @@ _itemlisttext = _dialog displayCtrl genstore_item_TEXT;
 _itemlist = _dialog displayCtrl genstore_sell_list;
 
 //Clear the list
+[_itemlist, -1] call A3W_fnc_updateStorePreview;
 lbClear _itemlist;
 _itemlist lbSetCurSel -1;
 

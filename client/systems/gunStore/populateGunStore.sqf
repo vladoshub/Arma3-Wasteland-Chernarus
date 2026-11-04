@@ -26,7 +26,9 @@ _wepFilterDropdown = _dialog displayCtrl gunshop_WeaponFilterDropdown_IDC;
 
 _ammoLbl ctrlSetText "";
 
+[_gunlist, -1] call A3W_fnc_updateStorePreview;
 lbClear _gunlist;
+[_ammolist, -1] call A3W_fnc_updateStorePreview;
 lbClear _ammolist;
 _gunlist lbSetCurSel -1;
 

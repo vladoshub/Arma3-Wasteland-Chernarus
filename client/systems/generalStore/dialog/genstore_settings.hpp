@@ -16,7 +16,7 @@ class genstored
 	{
 		#define GenStoreMainBG_W (0.7333 * SZ_SCALE)
 		#define GenStoreMainBG_H (0.65 * SZ_SCALE)
-		#define GenStoreMainBG_X CENTER(1, GenStoreMainBG_W)
+		#define GenStoreMainBG_X A3W_STORE_DIALOG_X(GenStoreMainBG_W)
 		#define GenStoreMainBG_Y CENTER(1, GenStoreMainBG_H)
 
 		class MainBackground: IGUIBack
@@ -91,14 +91,27 @@ class genstored
 			w = 0.119 * SZ_SCALE;
 			h = 0.0689 * SZ_SCALE;
 		};
+
+		class PreviewBackground: A3W_StorePreviewBackground
+		{
+			x = A3W_STORE_PREVIEW_X(GenStoreMainBG_W);
+			w = 0 max (A3W_STORE_PREVIEW_RIGHT - (A3W_STORE_PREVIEW_X(GenStoreMainBG_W)));
+		};
+	};
+
+	class Objects
+	{
+		class PreviewModel: A3W_StorePreviewModel {};
 	};
 
 	class Controls
 	{
+		class PreviewPicture: A3W_StorePreviewPicture {};
+
 		class SelectionList: w_RscList
 		{
 			idc = genstore_item_list;
-			onLBSelChanged = "[] execVM 'client\systems\generalStore\itemInfo.sqf'";
+			onLBSelChanged = "[] execVM 'client\systems\generalStore\itemInfo.sqf'; _this call A3W_fnc_updateStorePreview";
 			sizeEx = 0.04 * TEXT_SCALE;
 			rowHeight = 0.05 * TEXT_SCALE;
 
@@ -123,7 +136,7 @@ class genstored
 		class SellList: w_RscList
 		{
 			idc = genstore_sell_list;
-			onLBSelChanged = "[] execVM 'client\systems\generalStore\sellInfo.sqf'";
+			onLBSelChanged = "[] execVM 'client\systems\generalStore\sellInfo.sqf'; _this call A3W_fnc_updateStorePreview";
 			sizeEx = 0.04 * TEXT_SCALE;
 			rowHeight = 0.05 * TEXT_SCALE;
 

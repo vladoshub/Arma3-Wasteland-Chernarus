@@ -60,6 +60,7 @@ class CfgCommands
 #include "addons\far_revive\reviveBlank_gui.hpp"
 #include "client\systems\playerMenu\dialog\player_settings.hpp"
 #include "client\systems\groups\dialog\groupManagement.hpp"
+#include "client\systems\storePreview\controls.hpp"
 #include "client\systems\gunStore\dialog\gunshop_settings.hpp"
 #include "client\systems\customLoad\dialog\customload_settings.hpp"
 #include "client\systems\generalStore\dialog\genstore_settings.hpp"

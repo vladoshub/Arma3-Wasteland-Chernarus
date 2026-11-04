@@ -16,7 +16,7 @@ class vehshopd
 	{
 		#define VehStoreMainBG_W (0.8853 * SZ_SCALE)
 		#define VehStoreMainBG_H (0.65 * SZ_SCALE)
-		#define VehStoreMainBG_X CENTER(1, VehStoreMainBG_W)
+		#define VehStoreMainBG_X A3W_STORE_DIALOG_X(VehStoreMainBG_W)
 		#define VehStoreMainBG_Y CENTER(1, VehStoreMainBG_H)
 
 		class MainBackground: IGUIBack
@@ -80,14 +80,27 @@ class vehshopd
 			h = 0.0448 * SZ_SCALE;
 		};
 		*/
+
+		class PreviewBackground: A3W_StorePreviewBackground
+		{
+			x = A3W_STORE_PREVIEW_X(VehStoreMainBG_W);
+			w = 0 max (A3W_STORE_PREVIEW_RIGHT - (A3W_STORE_PREVIEW_X(VehStoreMainBG_W)));
+		};
+	};
+
+	class Objects
+	{
+		class PreviewModel: A3W_StorePreviewModel {};
 	};
 
 	class Controls
 	{
+		class PreviewPicture: A3W_StorePreviewPicture {};
+
 		class SelectionList: w_RscList
 		{
 			idc = vehshop_veh_list;
-			onLBSelChanged = "call vehicleInfo";
+			onLBSelChanged = "call vehicleInfo; [(_this select 0), (_this select 1), true] call A3W_fnc_updateStorePreview";
 			font = "RobotoCondensed";
 			sizeEx = 0.04 * TEXT_SCALE;
 			rowHeight = 0.05 * TEXT_SCALE;

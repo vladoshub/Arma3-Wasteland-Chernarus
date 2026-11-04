@@ -1313,7 +1313,7 @@ genObjectsArray = compileFinal str
     ['Fortress', 'Fortress2', 30000, 'object', ["chance", 0.5]],
     ['Camp', 'WarfareBCamp', 30000, 'object', ["chance", 0.5]],
     ['Dirthump', 'Dirthump_3_F', 30000, 'object', ["chance", 0.5]],
-    ['Barrier 10x Tall', 'TK_WarfareBBarrier10xTall_EP1', 30000, 'object', ["chance", 0.5]],    
+    ['Barrier 10x Tall', 'TK_WarfareBBarrier10xTall_EP1', 30000, 'object', ["chance", 0.65]],
     ['Bag Bunker (Large)', 'Land_BagBunker_Large_F', 30000, 'object', ["chance", 0.5]],
     ['Big Block', 'Land_ConcreteBlock', 30000, 'object', ["chance", 0.5]],
     ['Big Block 2', 'BlockConcrete_F', 30000, 'object', ["chance", 0.5]],

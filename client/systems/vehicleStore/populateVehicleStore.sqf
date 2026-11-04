@@ -19,6 +19,7 @@ _vehlist = _dialog displayCtrl vehshop_veh_list;
 _colorlist = _dialog displayCtrl vehshop_color_list;
 private _partList = _dialog displayCtrl vehshop_part_list;
 
+[_vehlist, -1] call A3W_fnc_updateStorePreview;
 lbClear _vehlist;
 lbClear _colorlist;
 lbClear _partList;

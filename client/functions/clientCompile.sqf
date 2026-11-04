@@ -142,6 +142,7 @@ addBackpackCustomLoad = "client\systems\customLoad\addBackpack.sqf" call mf_comp
 populateVehicleStore = "client\systems\vehicleStore\populateVehicleStore.sqf" call mf_compile;
 repaintVehicle = "client\systems\vehicleStore\repaintVehicle.sqf" call mf_compile;
 requestStoreObject = "client\functions\requestStoreObject.sqf" call mf_compile;
+A3W_fnc_updateStorePreview = "client\systems\storePreview\update.sqf" call mf_compile;
 vehicleInfo = "client\systems\vehicleStore\vehicleInfo.sqf" call mf_compile;
 weaponInfo = "client\systems\gunStore\weaponInfo.sqf" call mf_compile;
 weaponCustomLoad = "client\systems\customLoad\weaponCustomLoad.sqf" call mf_compile;
