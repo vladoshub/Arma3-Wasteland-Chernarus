@@ -1656,7 +1656,6 @@ planesArray = compileFinal str
     ['Antonov An-2', 'CUP_C_AN2_CIV', 67500, 'vehicle', ["chance", 1.0]],
     ['Li-2 (Military)', 'CUP_O_C47_SLA', 105000, 'vehicle', ["chance", 0.95]],
     ['Antonov An-2 (Military)', 'CUP_O_AN2_TK', 180000, 'vehicle', ["chance", 0.9]],
-    ['Boeing P-8 Poseidon (Ambient)', 'CUP_B_P8Poseidon_RAAF', 225000, 'vehicle', ["chance", 0.85]],
     ['C-130J', 'CUP_B_C130J_GB', 225000, 'vehicle', ["chance", 0.85]],
     ['C-130J (VIV)', 'CUP_B_C130J_Cargo_GB', 225000, 'vehicle', ["chance", 0.85]],
     ['MV-22B Osprey', 'CUP_B_MV22_USMC', 225000, 'vehicle', ["chance", 0.85]],

@@ -137,7 +137,7 @@ if (vectorMagnitude _modelSize > 0) exitWith
 			if (_isWheel) exitWith
 			{
 				private _zoom = _display getVariable "A3W_storePreviewZoom";
-				_display setVariable ["A3W_storePreviewZoom", ((_zoom * (1.12 ^ _input)) max 0.5) min 2.5];
+				_display setVariable ["A3W_storePreviewZoom", ((_zoom * (1.12 ^ _input)) max 0.5) min 3.5];
 				true
 			};
 
