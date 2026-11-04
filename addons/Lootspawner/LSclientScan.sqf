@@ -7,7 +7,7 @@
 // execVM this file on clients
 
 #define PLAYER_LOOT_SPAWN_RADIUS 50 //Radius (in meter) around players to spawn loot
-#define LOOT_SPAWN_INTERVAL 10*60	//Time (in sec.) to pass before an building spawns new loot (must also change in Lootspawner.sqf)  //was 5 BY VLADOS
+#define LOOT_SPAWN_INTERVAL (5 * 60)	//Time (in sec.) to pass before an building spawns new loot (must also change in Lootspawner.sqf)  //was 5 BY VLADOS
 
 //Buildings that can spawn loot go in this list
 #include "LSlootBuildings.sqf"
@@ -50,6 +50,6 @@ if (hasInterface) then
 			};
 		};
 
-		sleep 10;
+		sleep 5;
 	};
 };
