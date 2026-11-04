@@ -70,6 +70,9 @@ if (!isClass _cfg) then
 (ctrlPosition _background) params ["_x", "_y", "_w", "_h"];
 if (_w <= 0) exitWith {};
 
+private _isFirearm = getNumber (_cfg >> "type") in [1, 2, 4] && { _cfg isEqualTo (configFile >> "CfgWeapons" >> _class) };
+_background ctrlSetBackgroundColor [0, 0, 0, [0.65, 0.88] select _isFirearm];
+
 private _model = getText (_cfg >> "model");
 private _modelSize = [0, 0, 0];
 private _center = [0, 0, 0];
@@ -86,6 +89,16 @@ if (_model != "" && {!isNull _modelCtrl}) then
 		{
 			// ClipVisual measures the rendered model instead of its collision or shadow bounds.
 			private _bounds = 0 boundingBoxReal _sample;
+			if (_isFirearm) then
+			{
+				// Use the finest exterior mesh, excluding first-person, shadow and other special LODs.
+				private _resolutions = (allLODs _sample apply { _x select 2 }) select { _x >= 0 && {_x < 1000} };
+				if !(_resolutions isEqualTo []) then
+				{
+					private _visualBounds = boundingBoxReal [_sample, selectMin _resolutions];
+					if !((_visualBounds select 0) isEqualTo (_visualBounds select 1)) then { _bounds = _visualBounds };
+				};
+			};
 			if ((_bounds select 0) isEqualTo (_bounds select 1)) then { _bounds = boundingBoxReal _sample };
 			_bounds params ["_min", "_max"];
 			deleteVehicle _sample;
@@ -100,9 +113,10 @@ if (vectorMagnitude _modelSize > 0) exitWith
 	private _horizontalSpan = vectorMagnitude [_modelSize select 0, _modelSize select 1, 0];
 	private _height = _modelSize select 2;
 	private _panelCenter = [_x + _w / 2, _y + _h / 2];
+	private _startAngle = if (_isFirearm) then { [0, 90] select ((_modelSize select 1) > (_modelSize select 0)) } else { 45 };
 
 	_display setVariable ["A3W_storePreviewAutoRotate", true];
-	_display setVariable ["A3W_storePreviewAngles", [45, 15]];
+	_display setVariable ["A3W_storePreviewAngles", [_startAngle, 15]];
 
 	if !(_display getVariable ["A3W_storePreviewMouseHandlers", false]) then
 	{
@@ -142,7 +156,7 @@ if (vectorMagnitude _modelSize > 0) exitWith
 
 	_rotation = addMissionEventHandler ["EachFrame",
 	{
-		_thisArgs params ["_modelCtrl", "_panelCenter", "_center", "_horizontalSpan", "_height", "_w", "_h", "_start"];
+		_thisArgs params ["_modelCtrl", "_panelCenter", "_center", "_horizontalSpan", "_height", "_w", "_h", "_isFirearm", "_startAngle", "_start"];
 		if (isNull _modelCtrl) exitWith { removeMissionEventHandler ["EachFrame", _thisEventHandler] };
 
 		private _display = ctrlParent _modelCtrl;
@@ -150,7 +164,7 @@ if (vectorMagnitude _modelSize > 0) exitWith
 		private _drag = _display getVariable "A3W_storePreviewDrag";
 		if (!_autoRotate && {_drag isEqualTo []}) exitWith {};
 
-		private _angle = 45 + ((diag_tickTime - _start) mod 5) * 72;
+		private _angle = _startAngle + ((diag_tickTime - _start) mod 5) * 72;
 		private _pitch = 15;
 		if (!_autoRotate) then
 		{
@@ -171,11 +185,14 @@ if (vectorMagnitude _modelSize > 0) exitWith
 		private _halfDepth = (_horizontalSpan * _tiltCos + _height * abs _tiltSin) / 2;
 
 		// Fit the entire turn at one scale for this pitch, with padding for perspective.
-		private _fit = 0.86 * (((_w * 4 / 3) / (_horizontalSpan max 0.001)) min (_h / (_verticalSpan max 0.001)));
+		private _fill = [0.86, 0.96] select _isFirearm;
+		private _fit = _fill * (((_w * 4 / 3) / (_horizontalSpan max 0.001)) min (_h / (_verticalSpan max 0.001)));
 		private _scale = _fit / (1 + _fit * _halfDepth);
+		// For compact weapons, bring the model closer instead of relying on a large control scale.
+		private _depth = if (_isFirearm) then { (1 / (_scale max 1)) max 0.25 } else { 1 };
 		private _shown = ctrlShown _modelCtrl;
 		private _previousAngles = _display getVariable "A3W_storePreviewAngles";
-		if (!_shown || {_pitch != (_previousAngles select 1)}) then { _modelCtrl ctrlSetModelScale _scale };
+		if (!_shown || {_pitch != (_previousAngles select 1)}) then { _modelCtrl ctrlSetModelScale (_scale * _depth) };
 		_display setVariable ["A3W_storePreviewAngles", [_angle, _pitch]];
 
 		private _sin = sin _angle;
@@ -192,9 +209,9 @@ if (vectorMagnitude _modelSize > 0) exitWith
 		private _upOffset = _forwardOffset * _tiltSin + _heightOffset * _tiltCos;
 
 		_modelCtrl ctrlSetModelDirAndUp [_direction, _up];
-		_modelCtrl ctrlSetPosition [(_panelCenter select 0) - _sideOffset * 0.75, 1 - _depthOffset, (_panelCenter select 1) + _upOffset];
+		_modelCtrl ctrlSetPosition [(_panelCenter select 0) - _sideOffset * 0.75, _depth * (1 - _depthOffset), (_panelCenter select 1) + _upOffset];
 		if (!_shown) then { _modelCtrl ctrlShow true };
-	}, [_modelCtrl, _panelCenter, _center, _horizontalSpan, _height, _w, _h, diag_tickTime]];
+	}, [_modelCtrl, _panelCenter, _center, _horizontalSpan, _height, _w, _h, _isFirearm, _startAngle, diag_tickTime]];
 	_display setVariable ["A3W_storePreviewRotation", _rotation];
 };
 
