@@ -140,6 +140,7 @@ CUP_Classes = [
     "CUP_O_BTR90_HQ_RU",
 	"CUP_B_BRDM2_HQ_CDF",
 	"CUP_B_BMP_HQ_CDF",
+	"CUP_O_Pchela1T_RU",
 
 
 

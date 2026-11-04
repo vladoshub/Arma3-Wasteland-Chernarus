@@ -195,7 +195,7 @@ staticJetList =
 		staticJetList append [
 		(CUP_Classes select {_x == "CUP_B_SU34_CDF"}) select 0,
     	(CUP_Classes select {_x == "CUP_B_Su25_Dyn_CDF"}) select 0,
-    	(CUP_Classes select {_x == "CUP_O_AN2_TK"}) select 0,
+    	(CUP_Classes select {_x == "CUP_C_AN2_CIV"}) select 0,
         (CUP_Classes select {_x == "CUP_B_F35B_BAF"}) select 0
 		];
 	};
