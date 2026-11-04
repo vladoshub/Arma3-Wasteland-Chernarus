@@ -117,13 +117,16 @@ if (vectorMagnitude _modelSize > 0) exitWith
 
 	_display setVariable ["A3W_storePreviewAutoRotate", true];
 	_display setVariable ["A3W_storePreviewAngles", [_startAngle, 15]];
+	_display setVariable ["A3W_storePreviewZoom", 1];
+	_display setVariable ["A3W_storePreviewRenderedZoom", 1];
 
 	if !(_display getVariable ["A3W_storePreviewMouseHandlers", false]) then
 	{
-		_display displayAddEventHandler ["MouseButtonDown",
+		private _previewMouseInput =
 		{
-			params ["_display", "_button"];
-			if (_button != 0) exitWith { false };
+			params ["_display", "_input"];
+			private _isWheel = toLower _thisEvent == "mousezchanged";
+			if (!_isWheel && {_input != 0}) exitWith { false };
 			if !(ctrlShown (_display displayCtrl A3W_STORE_PREVIEW_MODEL)) exitWith { false };
 
 			(ctrlPosition (_display displayCtrl A3W_STORE_PREVIEW_BACKGROUND)) params ["_x", "_y", "_w", "_h"];
@@ -131,10 +134,19 @@ if (vectorMagnitude _modelSize > 0) exitWith
 			_mouse params ["_mouseX", "_mouseY"];
 			if (_mouseX < _x || {_mouseX > _x + _w} || {_mouseY < _y} || {_mouseY > _y + _h}) exitWith { false };
 
+			if (_isWheel) exitWith
+			{
+				private _zoom = _display getVariable "A3W_storePreviewZoom";
+				_display setVariable ["A3W_storePreviewZoom", ((_zoom * (1.12 ^ _input)) max 0.5) min 2.5];
+				true
+			};
+
 			_display setVariable ["A3W_storePreviewAutoRotate", false];
 			_display setVariable ["A3W_storePreviewDrag", [_mouse, _display getVariable "A3W_storePreviewAngles"]];
 			true
-		}];
+		};
+		_display displayAddEventHandler ["MouseButtonDown", _previewMouseInput];
+		_display displayAddEventHandler ["MouseZChanged", _previewMouseInput];
 
 		// Listen on the display so releasing outside the preview also ends the drag.
 		_display displayAddEventHandler ["MouseButtonUp",
@@ -162,11 +174,14 @@ if (vectorMagnitude _modelSize > 0) exitWith
 		private _display = ctrlParent _modelCtrl;
 		private _autoRotate = _display getVariable "A3W_storePreviewAutoRotate";
 		private _drag = _display getVariable "A3W_storePreviewDrag";
-		if (!_autoRotate && {_drag isEqualTo []}) exitWith {};
+		private _zoom = _display getVariable "A3W_storePreviewZoom";
+		private _zoomChanged = _zoom != (_display getVariable "A3W_storePreviewRenderedZoom");
+		if (!_autoRotate && {_drag isEqualTo []} && {!_zoomChanged}) exitWith {};
 
-		private _angle = _startAngle + ((diag_tickTime - _start) mod 5) * 72;
-		private _pitch = 15;
-		if (!_autoRotate) then
+		private _previousAngles = _display getVariable "A3W_storePreviewAngles";
+		_previousAngles params ["_angle", "_pitch"];
+		if (_autoRotate) then { _angle = _startAngle + ((diag_tickTime - _start) mod 5) * 72 };
+		if !(_drag isEqualTo []) then
 		{
 			_drag params ["_mouseStart", "_anglesStart", ["_mouseEnd", []]];
 			private _mouse = getMousePosition;
@@ -185,14 +200,17 @@ if (vectorMagnitude _modelSize > 0) exitWith
 		private _halfDepth = (_horizontalSpan * _tiltCos + _height * abs _tiltSin) / 2;
 
 		// Fit the entire turn at one scale for this pitch, with padding for perspective.
-		private _fill = [0.86, 0.96] select _isFirearm;
+		private _fill = ([0.86, 0.96] select _isFirearm) * _zoom;
 		private _fit = _fill * (((_w * 4 / 3) / (_horizontalSpan max 0.001)) min (_h / (_verticalSpan max 0.001)));
 		private _scale = _fit / (1 + _fit * _halfDepth);
 		// For compact weapons, bring the model closer instead of relying on a large control scale.
 		private _depth = if (_isFirearm) then { (1 / (_scale max 1)) max 0.25 } else { 1 };
 		private _shown = ctrlShown _modelCtrl;
-		private _previousAngles = _display getVariable "A3W_storePreviewAngles";
-		if (!_shown || {_pitch != (_previousAngles select 1)}) then { _modelCtrl ctrlSetModelScale (_scale * _depth) };
+		if (!_shown || {_zoomChanged} || {_pitch != (_previousAngles select 1)}) then
+		{
+			_modelCtrl ctrlSetModelScale (_scale * _depth);
+			_display setVariable ["A3W_storePreviewRenderedZoom", _zoom];
+		};
 		_display setVariable ["A3W_storePreviewAngles", [_angle, _pitch]];
 
 		private _sin = sin _angle;
