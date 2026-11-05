@@ -37,7 +37,7 @@ objectList =
 	[0.7, "Land_HBarrierTower_F"],
 	[0.8, "Land_HBarrierWall4_F"],
 	[0.65, "Land_HBarrierWall6_F"],
-	[1, "Land_MetalBarrel_F"],
+	[0.05, "Land_MetalBarrel_F"],
 	[0.75, "Land_RampConcrete_F"],
 	[0.5, "Land_RampConcreteHigh_F"],
 	[0.75, "Land_Rampart_F"],
