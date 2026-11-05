@@ -236,116 +236,116 @@ class CfgSounds
 
 class georgeDamageg101 {
 	name = "georgeDamageg101";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg102 {
 	name = "georgeDamageg102";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg103 {
 	name = "georgeDamageg103";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-03.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-03.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg104 {
 	name = "georgeDamageg104";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-04.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g1-04.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg201 {
 	name = "georgeDamageg201";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg202 {
 	name = "georgeDamageg202";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg203 {
 	name = "georgeDamageg203";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-03.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-03.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeDamageg207 {
 	name = "georgeDamageg207";
-	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-07.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\george-damage-g2-07.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikDamageg101 {
 	name = "jennikDamageg101";
-	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikDamageg102 {
 	name = "jennikDamageg102";
-	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 
 class jennikDamageg104 {
 	name = "jennikDamageg104";
-	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-04.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-04.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikDamageg105 {
 	name = "jennikDamageg105";
-	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-05.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-05.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikDamageg106 {
 	name = "jennikDamageg106";
-	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-06.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-06.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikDamageg107 {
 	name = "jennikDamageg107";
-	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-07.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\jennik-damage-g1-07.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaDamageg101 {
 	name = "vasaDamageg101";
-	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaDamageg102 {
 	name = "vasaDamageg102";
-	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaDamageg103 {
 	name = "vasaDamageg103";
-	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-03.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-03.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaDamageg104 {
 	name = "vasaDamageg104";
-	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-04.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-04.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaDamageg105 {
 	name = "vasaDamageg105";
-	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-05.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\damage\vasa-damage-g1-05.wav", 3, 1, 50};
 	titles[] = {};
 };
 
@@ -353,115 +353,115 @@ class vasaDamageg105 {
 
 class georgeHit01 {
 	name = "georgeHit01";
-	sound[] = {"client\sounds\arma2\pain\hit\george-hit-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeHit02 {
 	name = "georgeHit02";
-	sound[] = {"client\sounds\arma2\pain\hit\george-hit-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeHit04 {
 	name = "georgeHit04";
-	sound[] = {"client\sounds\arma2\pain\hit\george-hit-04.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-04.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeHit05 {
 	name = "georgeHit05";
-	sound[] = {"client\sounds\arma2\pain\hit\george-hit-05.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-05.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class georgeHit06 {
 	name = "georgeHit06";
-	sound[] = {"client\sounds\arma2\pain\hit\george-hit-06.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\george-hit-06.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikHit01 {
 	name = "jennikHit01";
-	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikHit02 {
 	name = "jennikHit02";
-	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikHit03 {
 	name = "jennikHit03";
-	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-03.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-03.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikHit04 {
 	name = "jennikHit04";
-	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-04.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-04.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class jennikHit06 {
 	name = "jennikHit06";
-	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-06.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\jennik-hit-06.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit01 {
 	name = "vasaHit01";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-01.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-01.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit02 {
 	name = "vasaHit02";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-02.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-02.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit03 {
 	name = "vasaHit03";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-03.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-03.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit04 {
 	name = "vasaHit04";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-04.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-04.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit05 {
 	name = "vasaHit05";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-05.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-05.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit06 {
 	name = "vasaHit06";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-06.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-06.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit07 {
 	name = "vasaHit07";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-07.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-07.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit08 {
 	name = "vasaHit08";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-08.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-08.wav", 3, 1, 50};
 	titles[] = {};
 };
 
 class vasaHit09 {
 	name = "vasaHit09";
-	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-09.wav", 2, 1, 50};
+	sound[] = {"client\sounds\arma2\pain\hit\vasa-hit-09.wav", 3, 1, 50};
 	titles[] = {};
 };
 
