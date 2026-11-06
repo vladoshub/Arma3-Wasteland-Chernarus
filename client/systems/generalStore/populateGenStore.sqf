@@ -60,7 +60,7 @@ switch(_switch) do
 			_excludedItems pushBack "warchest";
 		};
 
-		if (["A3W_unlimitedStamina"] call isConfigOn) then
+		if (["A3W_unlimitedStamina"] call isConfigOn || {["A3W_unlimitedStaminaV2"] call isConfigOn}) then
 		{
 			_excludedItems pushBack "energydrink";
 		};

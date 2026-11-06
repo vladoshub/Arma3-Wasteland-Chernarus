@@ -4,6 +4,7 @@
 params [["_position", [], [[]], 3], ["_shooter", objNull, [objNull]], ["_instigator", objNull, [objNull]]];
 if (!hasInterface || {isNull player} || {!alive player}) exitWith {};
 if !(player isEqualTo (missionNamespace getVariable ["A3W_staminaLocalUnit", objNull])) exitWith {};
+if !(["A3W_unlimitedStaminaV2"] call isConfigOn) exitWith {};
 if (!isNull objectParent player || {player getVariable ["playerSpawning", false]} || {player in [_shooter, _instigator]}) exitWith {};
 if ((getPosASL player) distance _position > A3W_STAMINA_IMPACT_RADIUS) exitWith {};
 

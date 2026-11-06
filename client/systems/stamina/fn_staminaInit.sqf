@@ -6,7 +6,7 @@ if (isNil "A3W_staminaProjectileEH") then
 	A3W_staminaProjectileEH = addMissionEventHandler ["ProjectileCreated",
 	{
 		params ["_projectile"];
-		if (isNil "isConfigOn" || {!(["A3W_unlimitedStamina"] call isConfigOn)} || {!local _projectile} || {!(_projectile isKindOf "BulletBase")}) exitWith {};
+		if (isNil "isConfigOn" || {!(["A3W_unlimitedStaminaV2"] call isConfigOn)} || {!local _projectile} || {!(_projectile isKindOf "BulletBase")}) exitWith {};
 
 		_projectile addEventHandler ["HitPart",
 		{
