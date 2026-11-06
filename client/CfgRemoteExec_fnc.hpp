@@ -71,6 +71,7 @@ class A3W_fnc_takeOwnership { allowedTargets = 2; };
 class A3W_fnc_takeArtilleryStrike { allowedTargets = 2; };
 class A3W_fnc_setVarServer { allowedTargets = 2; };
 class A3W_fnc_titleTextMessage {};
+class A3W_fnc_staminaImpact {};
 class A3W_fnc_towingHelper {};
 class A3W_fnc_updateSpawnTimestamp { allowedTargets = 2; };
 class FAR_fnc_headshotHitPartEH {};

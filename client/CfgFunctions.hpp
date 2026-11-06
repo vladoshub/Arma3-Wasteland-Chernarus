@@ -24,5 +24,10 @@ class ClientDir
 	class markerLogPvar {file = "client\functions\fn_markerLogPvar.sqf";};
 	class markerLogInit {preInit = 1; file = "client\functions\fn_markerLogInit.sqf";};
 	class flashBang {file = "client\functions\fn_flashBang.sqf";};
+	class staminaInit {postInit = 1; file = "client\systems\stamina\fn_staminaInit.sqf";};
+	class staminaStart {file = "client\systems\stamina\fn_staminaStart.sqf";};
+	class staminaUpdate {file = "client\systems\stamina\fn_staminaUpdate.sqf";};
+	class staminaStop {file = "client\systems\stamina\fn_staminaStop.sqf";};
+	class staminaImpact {file = "client\systems\stamina\fn_staminaImpact.sqf";};
 	class pulloutVeh {file = "client\functions\fn_pulloutVeh.sqf";};
 };

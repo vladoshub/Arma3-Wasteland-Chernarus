@@ -17,7 +17,7 @@ _player disableTIEquipment false;
 
 if (["A3W_unlimitedStamina"] call isConfigOn) then
 {
-	_player enableFatigue true; //BY_VLADOS
+	_player enableFatigue false; // Custom fatigue is handled by the mission.
 	_player enableStamina false;
 	_player allowSprint true;
 	_player setCustomAimCoef 0.3; //BY_VLADOS
