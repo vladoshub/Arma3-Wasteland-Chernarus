@@ -20,4 +20,8 @@ if (_edenFace != "") then {
 };
 
 _player groupChat "Wasteland - Initialization Complete";
+if (["A3W_unlimitedStaminaV2"] call isConfigOn) then
+{
+	[_player] call A3W_fnc_staminaStart;
+};
 playerSetupComplete = true;

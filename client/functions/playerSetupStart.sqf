@@ -23,6 +23,16 @@ if (["A3W_unlimitedStamina"] call isConfigOn) then
 	_player setCustomAimCoef 0.3; //BY_VLADOS
 };
 
+// V2 takes priority when both stamina options are enabled.
+if (["A3W_unlimitedStaminaV2"] call isConfigOn) then
+{
+	_player enableFatigue false;
+	_player enableStamina false;
+	_player enableAimPrecision true;
+	_player allowSprint true;
+	_player setCustomAimCoef 0.3; //BY_VLADOS
+};
+
 enableSentences false;
 
 removeAllWeapons _player;

@@ -160,6 +160,7 @@ if (isServer) then
 		"A3W_playerSaving",
 		"A3W_combatAbortDelay",
 		"A3W_unlimitedStamina",
+		"A3W_unlimitedStaminaV2",
 		"A3W_survivalSystem",
 		"A3W_bleedingTime",
 		"A3W_teamPlayersMap",

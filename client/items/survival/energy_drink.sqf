@@ -9,6 +9,11 @@
 
 #define ERR_CANCELLED "Drinking Cancelled";
 #define ANIMATION "Acts_CivilHiding_2"
+if (["A3W_unlimitedStaminaV2"] call isConfigOn) exitWith
+{
+	["Energy drinks are disabled with custom stamina.", 5] call mf_notify_client;
+	false
+};
 private ["_checks", "_hasFailed"];
 _hasFailed = {
 	private ["_progress","_failed", "_text"];

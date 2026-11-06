@@ -139,7 +139,7 @@ private _lootLists = [lootWeapon_list, lootMagazine_list, lootItem_list, lootBac
 									//special for world objects: account for Wasteland and other items
 									case 5:
 									{
-										if (_loot == "Land_Can_V3_F" && {["A3W_unlimitedStamina"] call isConfigOn} ||
+										if (_loot == "Land_Can_V3_F" && {["A3W_unlimitedStamina"] call isConfigOn || {["A3W_unlimitedStaminaV2"] call isConfigOn}} ||
 										{(_loot == "Land_BakedBeans_F" || _loot == "Land_BottlePlastic_V2_F") && !(["A3W_survivalSystem"] call isConfigOn)}) exitWith
 										{
 											_lootholder = objNull;
