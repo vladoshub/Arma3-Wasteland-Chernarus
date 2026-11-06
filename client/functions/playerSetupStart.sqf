@@ -30,6 +30,7 @@ if (["A3W_unlimitedStaminaV2"] call isConfigOn) then
 	_player enableStamina false;
 	_player enableAimPrecision true;
 	_player allowSprint true;
+	_player setCustomAimCoef 0.3; //BY_VLADOS
 };
 
 enableSentences false;
