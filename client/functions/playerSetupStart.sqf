@@ -28,8 +28,8 @@ if (["A3W_unlimitedStaminaV2"] call isConfigOn) then
 {
 	_player enableFatigue false;
 	_player enableStamina false;
+	_player enableAimPrecision true;
 	_player allowSprint true;
-	_player setCustomAimCoef 0.3;
 };
 
 enableSentences false;
