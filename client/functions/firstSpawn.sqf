@@ -215,6 +215,12 @@ if (["A3W_combatAbortDelay", 0] call getPublicVar > 0) then
 		};
 	}];
 
+    //disable standard hit sounds
+	player addEventHandler ["SoundPlayed", {
+        params ["_unit", "_soundID"];
+        if (_soundID isEqualTo 6) then { 0 } else { nil };
+    }];
+
 	player addEventHandler ["Hit",
 	{
 		params ["_unit", "_source", "_damage", "_instigator"];
