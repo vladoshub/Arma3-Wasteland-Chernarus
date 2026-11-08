@@ -4,7 +4,7 @@
 #define A3W_STAMINA_RECOVERY 40
 #define A3W_STAMINA_SPEED_PENALTY 0.22
 #define A3W_STAMINA_AIM_MULTIPLIER 3
-#define A3W_STAMINA_IMPACT_RADIUS 2
+#define A3W_STAMINA_IMPACT_RADIUS 1
 
 // Optional CfgSounds class names or mission-relative sound file paths.
 // Heavy breathing repeats whole clips while the second minute is in use.
