@@ -200,7 +200,7 @@ if(handgunWeapon _player == "") then {
 _player addItem "Chemlight_red";
 _player addItem "Chemlight_yellow";
 
-_player addItem "FirstAidKit";
+//_player addItem "FirstAidKit";
 
 if (!([_player, "ItemMap"] call BIS_fnc_hasItem)) then {
 	_player addWeapon "ItemMap";

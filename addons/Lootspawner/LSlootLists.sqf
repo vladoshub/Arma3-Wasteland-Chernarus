@@ -273,7 +273,7 @@ lootItem_list =
           ["acc_flashlight", 1.0],
           ["acc_pointer_IR", 1.0],
           ["ItemGPS", 1.0],
-          ["Medikit", 1.0],
+          ["Medikit", 0.1],
           ["muzzle_snds_acp", 1.0],                  // .45 ACP
           ["muzzle_snds_B", 1.0],                    // 7.62mm
           ["muzzle_snds_H", 1.0],                    // 6.5mm
@@ -291,7 +291,7 @@ lootItem_list =
           ["optic_Holosight", 1.0],
           ["optic_Holosight_smg", 1.0],
           ["optic_SOS", 1.0],
-          ["ToolKit", 1.0],
+          ["ToolKit", 0.1],
           ["H_HelmetB", 1.0],
           ["H_CrewHelmetHeli_B", 1.0], //BY VLADOS
           ["H_HelmetIA", 1.0],
@@ -304,23 +304,24 @@ lootItem_list =
     [ // INDUSTRIAL
        2,
        [
-          ["Medikit", 1.0],
-          ["ToolKit", 1.0],
-          ["ToolKit", 1.0]
+          ["Medikit", 0.1],
+          ["ToolKit", 0.1],
+          ["NVGoggles", 0.5],
+          ["ItemGPS", 1.0]
        ]
     ],
     [ // RESEARCH
        3,
        [
           ["ItemGPS", 1.0],
-          ["Medikit", 1.0],
+          ["Medikit", 0.1],
           ["NVGoggles", 1.0],
           //["NVGoggles_INDEP", 1.0],
           //["NVGoggles_OPFOR", 1.0],
           //["optic_Nightstalker", 1.0],
           ["optic_NVS", 1.0],
           ["optic_SOS", 1.0],
-          ["V_RebreatherB", 1.0]
+          ["V_RebreatherB", 0.2]
        ]
     ]
 ];
@@ -413,7 +414,7 @@ lootworldObject_list =
           ["Land_BottlePlastic_V2_F", 1.0],          // water
           ["Land_BottlePlastic_V2_F", 1.0],          // water
           //["Land_Can_V3_F", 1.0],                    // energydrink
-          ["Land_CanisterOil_F", 1.0]               // syphon hose
+          ["Land_CanisterOil_F", 0.4]               // syphon hose
        ]
     ],
     [ // MILITARY
@@ -422,7 +423,7 @@ lootworldObject_list =
           ["Land_BakedBeans_F", 1.0],                // food
           ["Land_BottlePlastic_V2_F", 1.0],          // water
           //["Land_Can_V3_F", 1.0],                    // energydrink
-          ["Land_CanisterOil_F", 1.0]               // syphon hose
+          ["Land_CanisterOil_F", 0.4]               // syphon hose
        ]
     ],
     [ // INDUSTRIAL
@@ -431,8 +432,8 @@ lootworldObject_list =
           ["Land_BakedBeans_F", 1.0],                // food
           ["Land_BottlePlastic_V2_F", 1.0],          // water
           //["Land_Can_V3_F", 1.0],                    // energydrink
-          ["Land_CanisterOil_F", 1.0],               // syphon hose
-          ["Land_CanisterOil_F", 1.0]               // syphon hose
+          ["Land_CanisterOil_F", 0.4],               // syphon hose
+          ["Land_CanisterOil_F", 0.4]               // syphon hose
        ]
     ],
     [ // RESEARCH
@@ -441,7 +442,7 @@ lootworldObject_list =
           ["Land_BakedBeans_F", 1.0],                // food
           ["Land_BottlePlastic_V2_F", 1.0],          // water
           //["Land_Can_V3_F", 1.0],                    // energydrink
-          ["Land_CanisterOil_F", 1.0]               // syphon hose
+          ["Land_CanisterOil_F", 0.4]               // syphon hose
        ]
     ]
 ];

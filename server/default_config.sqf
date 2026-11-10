@@ -169,7 +169,7 @@ A3W_vehicleLoot = 2;               // Level of loot added to vehicles (0 = none,
 // Weapon loot in terrain buildings around loots_spawn_1, loots_spawn_2, ...
 A3W_markerLoot = 1;               // Enable marker weapon spawning independently of ordinary building loot (0 = no, 1 = yes)
 A3W_markerLootRadius = 100;       // Spawn radius in metres; individual indoor positions must be inside this radius
-A3W_markerLootInterval = 60*60;   // Seconds between complete refreshes of marker-owned ground holders
+A3W_markerLootInterval = 100*60;   // Seconds between complete refreshes of marker-owned ground holders
 A3W_markerLootMaxWeapons = 100;   // Maximum weapon count per marker (magazines do not count)
 A3W_markerLootWeaponsPerMeter = 2; // Building limit = floor(horizontal bounding-box diagonal in metres * this value)
 A3W_markerLootWeapons = [         // Weapon classnames; every weapon gets 1-4 compatible primary-muzzle magazines

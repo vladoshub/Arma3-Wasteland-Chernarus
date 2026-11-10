@@ -66,6 +66,8 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 		["repairkit", 1] call mf_inventory_add;
 	};
 
+	player addItem "FirstAidKit";
+
 	/*
 	if (hmd player == "") then { 
 		player linkItem "NVGoggles"; 
@@ -83,19 +85,25 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 
 
-	if (primaryWeapon player == "" && ((CUP_Classes select {_x == "CUP_arifle_G36C"}) select 0 == "CUP_arifle_G36C")) then {
+	if (primaryWeapon player == "" && ((CUP_Classes select {_x == "CUP_arifle_G36A"}) select 0 == "CUP_arifle_G36A")) then {
 			player addMagazine "CUP_100Rnd_556x45_BetaCMag";
-			player addWeapon "CUP_arifle_G36C";
-			player addPrimaryWeaponItem "optic_DMS";
+			player addWeapon "CUP_arifle_G36A";
 			player addMagazine "CUP_30Rnd_556x45_G36";
 			//player addMagazine "CUP_100Rnd_556x45_BetaCMag";
 	};
-	
-	if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_launch_RPG7V"}) select 0 == "CUP_launch_RPG7V")) then {
-			player addMagazine "CUP_PG7V_M";
-			player addWeapon "CUP_launch_RPG7V";
-			//player addMagazine "CUP_PG7V_M";
-	};
+
+
+	if (SecondaryWeapon  player == "") then {
+    		player addMagazine "RPG7_F";
+    		player addWeapon "launch_RPG7_F";
+    		//player addMagazine "RPG7_F";
+    };
+
+	//if (SecondaryWeapon  player == "" && ( (CUP_Classes select {_x == "CUP_launch_RPG7V"}) select 0 == "CUP_launch_RPG7V")) then {
+	//		player addMagazine "CUP_PG7V_M";
+	//		player addWeapon "CUP_launch_RPG7V";
+	//		//player addMagazine "CUP_PG7V_M";
+	//};
 
 
 

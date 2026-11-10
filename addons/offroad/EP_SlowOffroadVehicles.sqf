@@ -111,7 +111,7 @@ private _value = (str {
 				if(_vehHasPlayers) then {
 				if(
 					((isOnRoad (ASLToAGL (getPosASL _vehicle))) ||
-					("Concrete" in (surfaceType (getPos _vehicle)) || "#CRSSterk" in (surfaceType (getPos _vehicle)))) &&
+					("Concrete" in (surfaceType (getPos _vehicle)) || "#CRSterk" in (surfaceType (getPos _vehicle)))) &&
 					((getRoadInfo roadAt (ASLToAGL (getPosASL _vehicle))) select 0) != "TRACK" &&
 					((getRoadInfo roadAt (ASLToAGL (getPosASL _vehicle))) select 3) != "ca\roads2\data\grav_dirt_ca.paa"
 				) then {
@@ -150,7 +150,7 @@ private _value = (str {
 
                     if (!_isForest && {"grass" in _surface}) then {
                         private _trees = nearestTerrainObjects [
-                            _vehicle, ["TREE", "SMALL TREE"], 25, false, true
+                            _vehicle, ["TREE", "SMALL TREE"], 16, false, true
                         ];
 
                         _isForest = (count _trees) >= 6;
@@ -212,18 +212,31 @@ private _value = (str {
                     };
 
 					
-					(driver _vehicle) setVariable ["offRoadSpeedLimit", MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef, true]; 
+					private _speedLimit = MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef;
+					(driver _vehicle) setVariable ["offRoadSpeedLimit", _speedLimit, true];
 
 					private _localCrew = [];
 					{
 						if (alive _x && isPlayer _x) then {                        
-							_x setVariable ["offRoadSpeedLimit", MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef, true]; 
+							_x setVariable ["offRoadSpeedLimit", _speedLimit, true];
 							_localCrew append [_x];
             			};                        
             		} forEach crew _vehicle;
 
-					[[], {
+					[[_vehicle, _speedLimit], {
+						params ["_vehicle", "_speedLimit"];
+						if ((vehicle player) isNotEqualTo _vehicle) exitWith {};
 						[true] call MAZ_fnc_toggleVehicleSlowness;
+
+						if (_speedLimit > 0 && {local _vehicle} && {alive _vehicle} &&
+						    {(driver _vehicle) isEqualTo player} && {isTouchingGround _vehicle}) then {
+							private _velocity = velocityModelSpace _vehicle;
+							private _reverseLimit = -(_speedLimit / 3.6);
+							if ((_velocity select 1) < _reverseLimit) then {
+								_velocity set [1, _reverseLimit];
+								_vehicle setVelocityModelSpace _velocity;
+							};
+						};
 					}] remoteExec ['spawn', _localCrew];
 
 					/*
@@ -232,8 +245,8 @@ private _value = (str {
 					}] remoteExec ['spawn',crew _vehicle];
 					*/
 
-					_vehicle limitSpeed  MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef;
-					(driver _vehicle) setCruiseControl [ MAZ_EP_maxVehicleOffroadSpeed * _vehCoef * _roadCoef * _forestCoef,false];
+					_vehicle limitSpeed  _speedLimit;
+					(driver _vehicle) setCruiseControl [ _speedLimit,false];
 				};
 				};
 				sleep 0.5;
