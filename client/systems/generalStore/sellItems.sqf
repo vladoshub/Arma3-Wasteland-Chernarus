@@ -31,16 +31,43 @@ storeSellingHandle = [] spawn
 	_itemText = _itemlist lbText _itemIndex;
 	_itemData = _itemlist lbData _itemIndex;
 
+	private _sellingGear = _itemData in GENSTORE_SELL_GEAR_CLASSES;
+	if (_sellingGear) then
 	{
-		if (_itemText == _x select 0 && _itemData == _x select 1) exitWith
-		{
-			_price = _x select 5;
+		private _itemKey = toLower _itemData;
+
+		// Keep the inventory check and removal together before crediting the sale.
+		isNil {
+			private _quantityBefore = { (toLower _x) isEqualTo _itemKey } count (items player);
+			if (_quantityBefore > 0) then
+			{
+				player removeItem _itemData;
+				private _quantityAfter = { (toLower _x) isEqualTo _itemKey } count (items player);
+				if (_quantityAfter == (_quantityBefore - 1)) then
+				{
+					_price = GENSTORE_SELL_GEAR_PRICE;
+				};
+			};
 		};
-	} forEach (call customPlayerItems);
+	}
+	else
+	{
+		{
+			if (_itemText == _x select 0 && _itemData == _x select 1) exitWith
+			{
+				_price = _x select 5;
+			};
+		} forEach (call customPlayerItems);
+	};
+
+	if (_sellingGear && {isNil "_price"}) exitWith
+	{
+		[] execVM "client\systems\generalStore\getInventory.sqf";
+	};
 
 	if (!isNil "_price") then
 	{
-		[_itemData, 1] call mf_inventory_remove;
+		if (!_sellingGear) then { [_itemData, 1] call mf_inventory_remove };
 
 		//player setVariable ["cmoney", _playerMoney + _price, true];
 

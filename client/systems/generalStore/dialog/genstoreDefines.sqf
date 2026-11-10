@@ -15,3 +15,6 @@
 #define genstore_item_desc 2023
 #define genstore_object_button 2025
 
+#define GENSTORE_SELL_GEAR_CLASSES ["Medikit", "ToolKit"]
+#define GENSTORE_SELL_GEAR_PRICE 500
+

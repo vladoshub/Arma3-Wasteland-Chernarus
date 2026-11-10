@@ -13,7 +13,6 @@ private ["_weap_type", "_price", "_dialog", "_itemlist", "_itemlisttext", "_buys
 
 //Initialize Values
 _weap_type = "";
-_price = 0;
 
 // Grab access to the controls
 _dialog = findDisplay genstore_DIALOG;
@@ -26,13 +25,24 @@ _itemIndex = lbCurSel _itemlist;
 _itemText = _itemlist lbText _itemIndex;
 _itemData = _itemlist lbData _itemIndex;
 
+if (_itemData in GENSTORE_SELL_GEAR_CLASSES) then
 {
-	if (_itemText == _x select 0 && _itemData == _x select 1) exitWith
+	_price = GENSTORE_SELL_GEAR_PRICE;
+}
+else
+{
 	{
-		_price = _x select 5;
-		if((player getVariable ["playerPayType", "bmoney"]) == "bmoney") then {
-			_price = ceil(_price * 0.7);
+		if (_itemText == _x select 0 && _itemData == _x select 1) exitWith
+		{
+			_price = _x select 5;
 		};
-		_itemlisttext ctrlSetText format ["Value: $%1", [_price] call fn_numbersText];
-	}
-} forEach (call customPlayerItems);
+	} forEach (call customPlayerItems);
+};
+
+if (isNil "_price") exitWith {};
+
+if ((player getVariable ["playerPayType", "bmoney"]) isEqualTo "bmoney") then
+{
+	_price = ceil (_price * 0.7);
+};
+_itemlisttext ctrlSetText format ["Value: $%1", [_price] call fn_numbersText];

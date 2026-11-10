@@ -41,3 +41,18 @@ _itemlist lbSetCurSel -1;
 		} forEach call customPlayerItems;
 	};
 } forEach call mf_inventory_all;
+
+private _gearItems = items player;
+{
+	private _gearClass = _x;
+	private _gearKey = toLower _gearClass;
+	private _gearConfig = configFile >> "CfgWeapons" >> _gearClass;
+	private _quantity = { (toLower _x) isEqualTo _gearKey } count _gearItems;
+
+	for "_i" from 1 to _quantity do
+	{
+		private _row = _itemlist lbAdd getText (_gearConfig >> "displayName");
+		_itemlist lbSetPicture [_row, getText (_gearConfig >> "picture")];
+		_itemlist lbSetData [_row, _gearClass];
+	};
+} forEach GENSTORE_SELL_GEAR_CLASSES;
