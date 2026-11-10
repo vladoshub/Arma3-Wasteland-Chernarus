@@ -4,6 +4,8 @@
 //	@file Name: getSellPriceList.sqf
 //	@file Author: AgentRev
 
+#include "..\generalStore\dialog\genstoreDefines.sqf"
+
 // Returns an array in the format:
 // _x select 0 = Class
 // _x select 1 = Quantity
@@ -179,12 +181,19 @@ _allObjItems append _objBackpacks;
 		}
 		else
 		{
+			if ((GENSTORE_SELL_GEAR_CLASSES findIf { _x == _itemClass }) >= 0) then
 			{
-				if (_x select 1 == _itemClass) exitWith
+				_itemValue = GENSTORE_SELL_GEAR_PRICE * _itemQty;
+			}
+			else
+			{
 				{
-					_itemValue = GET_HALF_PRICE((_x select 2) * _itemQty);
-				};
-			} forEach _allStoreItems;
+					if (_x select 1 == _itemClass) exitWith
+					{
+						_itemValue = GET_HALF_PRICE((_x select 2) * _itemQty);
+					};
+				} forEach _allStoreItems;
+			};
 
 			_sellValue = _sellValue + _itemValue;
 		};
