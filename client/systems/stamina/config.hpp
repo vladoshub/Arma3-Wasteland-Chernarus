@@ -7,5 +7,14 @@
 #define A3W_STAMINA_IMPACT_RADIUS 1
 
 // Optional mission-relative sound file paths. Empty arrays disable that stage.
-#define A3W_STAMINA_RUN_SOUNDS []
-#define A3W_STAMINA_SPRINT_SOUNDS []
+#define A3W_STAMINA_RUN_SOUNDS [ \
+    getMissionPath "client\sounds\arma2\breath\zozo-run-breath-01.wav", \
+    getMissionPath "client\sounds\arma2\breath\vasa-run-breath-05.wav", \
+    getMissionPath "client\sounds\arma2\breath\george-run-breath-03.wav" \
+]
+
+#define A3W_STAMINA_SPRINT_SOUNDS [ \
+    getMissionPath "client\sounds\arma2\breath\zozo-sprint-breath-05.wav", \
+    getMissionPath "client\sounds\arma2\breath\vasa-sprint-breath-05.wav", \
+    getMissionPath "client\sounds\arma2\breath\george-sprint-breath-04.wav" \
+]
