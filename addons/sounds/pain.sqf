@@ -10,16 +10,16 @@ while {true} do {
 	_wait = 0;
 	_health = (1 - damage player) * 100;
 	if(_health < 50 && _health > 0) then {
-		_wait = 60 + (round (random 10));
+		_wait = 80 + (round (random 10));
 	};
 	if(_health >= 50 && _health < 75) then {
-		_wait = 120 + (round (random 20));
+		_wait = 100 + (round (random 20));
 	};
 	if(_health >= 75 && _health < 95) then {
-		_wait = 180 + (round (random 30));
+		_wait = 120 + (round (random 30));
 	};
 	if(_health >= 95 && _health < 99) then {
-		_wait = 300 + (round (random 40));
+		_wait = 160 + (round (random 40));
 	};
 
 	if (_wait != 0 && (isNull objectParent player) && alive player) then {
