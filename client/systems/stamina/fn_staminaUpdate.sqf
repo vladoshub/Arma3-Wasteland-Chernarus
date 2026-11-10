@@ -24,11 +24,12 @@ private _running = _active && {_onFoot} && {_moving} && {stance _unit in ["STAND
 
 private _total = A3W_STAMINA_FREE_RUN + A3W_STAMINA_PENALTY_RUN;
 private _exertion = _unit getVariable ["A3W_staminaExertion", 0];
-if (_running) then
+// Sprinting spends stamina. Jogging and tactical running hold the current exertion.
+if (_running && {_movement isEqualTo "meva"}) then
 {
 	_exertion = (_exertion + _delta) min _total;
-}
-else
+};
+if (!_running) then
 {
 	_exertion = (_exertion - _delta * (_total / A3W_STAMINA_RECOVERY)) max 0;
 };
