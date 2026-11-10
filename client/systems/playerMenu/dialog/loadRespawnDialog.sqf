@@ -1021,7 +1021,9 @@ while {!isNull _display} do
 			{
 				_spawnCooldown = 0;
 				if (["Spawn_", _location] call fn_startsWith) then {
-					_spawnCooldown = _spawnPointCooldown;
+					private _playerCountSpawnPoint = count (allPlayers - (entities "HeadlessClient_F"));
+                	private _spawnCooldownPeople = 60 + (5 * 60) * (floor (_playerCountSpawnPoint / 8) min 3);
+					_spawnCooldown = _spawnCooldownPeople;
 				} else {
 					_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { _territorySpawnCooldown } else { _townSpawnCooldown };
 				};
