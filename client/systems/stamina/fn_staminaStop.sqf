@@ -1,12 +1,9 @@
 params ["_unit"];
 if (isNull _unit) exitWith {};
 
-{
-	private _sound = _unit getVariable [_x, -1];
-	if (_sound >= 0) then {stopSound _sound};
-	_unit setVariable [_x, -1];
-} forEach ["A3W_staminaBreathSound", "A3W_staminaRecoveredSound", "A3W_staminaImpactSound"];
-_unit setVariable ["A3W_staminaRecoveryPending", false];
+private _sound = _unit getVariable ["A3W_staminaBreathSound", -1];
+if (_sound >= 0) then {stopSound _sound};
+_unit setVariable ["A3W_staminaBreathSound", -1];
 
 // Restore only coefficients still owned by this system.
 if (local _unit) then

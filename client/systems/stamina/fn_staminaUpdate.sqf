@@ -62,70 +62,21 @@ if (abs (_currentAim - _aim) > 0.0001) then {_unit setCustomAimCoef _aim};
 _unit setVariable ["A3W_staminaAppliedAim", _aim];
 
 private _breathSound = _unit getVariable ["A3W_staminaBreathSound", -1];
-private _recoveredSound = _unit getVariable ["A3W_staminaRecoveredSound", -1];
-private _impactSound = _unit getVariable ["A3W_staminaImpactSound", -1];
-// Observe the actual end of playback, including when no more bullets arrive.
-if (_impactSound >= 0 && {(soundParams _impactSound) isEqualTo []}) then
+if (!_active || {!_onFoot}) exitWith
 {
-	_impactSound = -1;
-	_unit setVariable ["A3W_staminaImpactSound", -1];
-	_unit setVariable ["A3W_staminaImpactSoundReadyAt", _now + A3W_STAMINA_IMPACT_SOUND_GAP];
-};
-private _hadPenalty = _unit getVariable ["A3W_staminaHadPenalty", false];
-private _recoveryPending = _unit getVariable ["A3W_staminaRecoveryPending", false];
-if (_penalty > 0) then
-{
-	// A fresh penalty cancels a recovery announcement that has not started yet.
-	_recoveryPending = false;
-}
-else
-{
-	if (_hadPenalty) then {_recoveryPending = true};
-};
-
-if (!_active || {!_onFoot}) then
-{
-	// Vehicle entry and incapacitation silence all sounds and discard the queue.
-	if (_impactSound >= 0) then
+	if (_breathSound >= 0) then
 	{
-		_unit setVariable ["A3W_staminaImpactSoundReadyAt", _now + A3W_STAMINA_IMPACT_SOUND_GAP];
-	};
-	{
-		private _sound = _unit getVariable [_x, -1];
-		if (_sound >= 0) then {stopSound _sound};
-		_unit setVariable [_x, -1];
-	} forEach ["A3W_staminaBreathSound", "A3W_staminaRecoveredSound", "A3W_staminaImpactSound"];
-	_recoveryPending = false;
-}
-else
-{
-	private _breathPlaying = _breathSound >= 0 && {!((soundParams _breathSound) isEqualTo [])};
-	private _recoveredPlaying = _recoveredSound >= 0 && {!((soundParams _recoveredSound) isEqualTo [])};
-	if (!_breathPlaying) then {_unit setVariable ["A3W_staminaBreathSound", -1]};
-	if (!_recoveredPlaying) then {_unit setVariable ["A3W_staminaRecoveredSound", -1]};
-
-	// Start the next clip only after the current one has finished naturally.
-	if (!_breathPlaying && {!_recoveredPlaying}) then
-	{
-		if (_penalty > 0) then
-		{
-			if (A3W_STAMINA_HEAVY_SOUND != "") then
-			{
-				_unit setVariable ["A3W_staminaBreathSound", playSoundUI [A3W_STAMINA_HEAVY_SOUND, 1, 1, true]];
-			};
-		}
-		else
-		{
-			if (_recoveryPending) then
-			{
-				if (A3W_STAMINA_RECOVERED_SOUND != "") then
-				{
-					_unit setVariable ["A3W_staminaRecoveredSound", playSoundUI [A3W_STAMINA_RECOVERED_SOUND, 1, 1, true]];
-				};
-				_recoveryPending = false;
-			};
-		};
+		stopSound _breathSound;
+		_unit setVariable ["A3W_staminaBreathSound", -1];
 	};
 };
-_unit setVariable ["A3W_staminaRecoveryPending", _recoveryPending];
-_unit setVariable ["A3W_staminaHadPenalty", _penalty > 0];
+
+// Finish the current clip before choosing a sound for the current penalty.
+if (_breathSound >= 0 && {!((soundParams _breathSound) isEqualTo [])}) exitWith {};
+if (_breathSound >= 0) then {_unit setVariable ["A3W_staminaBreathSound", -1]};
+if (_penalty <= 0) exitWith {};
+
+private _sounds = if (_penalty >= 1) then {A3W_STAMINA_SPRINT_SOUNDS} else {A3W_STAMINA_RUN_SOUNDS};
+if (_sounds isEqualTo []) exitWith {};
+
+_unit setVariable ["A3W_staminaBreathSound", playSoundUI [selectRandom _sounds, 1, 1, true]];
