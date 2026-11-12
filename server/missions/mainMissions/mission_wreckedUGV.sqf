@@ -33,8 +33,8 @@ _setupObjects =
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 
 		_vehChoices append [
-			(CUP_Classes select {_x == "CUP_I_Datsun_AA_Random"}),
-			(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"})
+			(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}),
+			(CUP_Classes select {_x == "CUP_B_BMP2_CDF"})
 		];
 
 

@@ -22,14 +22,15 @@ _setupObjects =
 
 	/*
 	if(["A3W_use_CUP", false] call getPublicVar) then {
-		_vehChoices append 
+		_vehChoices append
 		[
-			(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"}),
-		    (CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}),
-			(CUP_Classes select {_x == "CUP_I_Datsun_AA_Random"}),
-			(CUP_Classes select {_x == "CUP_B_UAZ_AA_CDF"}),
-		    (CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}),
-			(CUP_Classes select {_x == "CUP_I_Datsun_AA_Random"})
+    		(CUP_Classes select {_x == "CUP_O_BTR60_TK"}),
+    		(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}),
+    		(CUP_Classes select {_x == "CUP_I_SUV_Armored_ION"}),
+    		(CUP_Classes select {_x == "CUP_B_UAZ_AGS30_CDF"}),
+    		(CUP_Classes select {_x == "CUP_B_BRDM2_CDF"}),
+    		(CUP_Classes select {_x == "CUP_B_HMMWV_Crows_M2_USA"}),
+    		(CUP_Classes select {_x == "CUP_O_GAZ_Vodnik_BPPU_RU"})
 		 ];
 	};
 	*/

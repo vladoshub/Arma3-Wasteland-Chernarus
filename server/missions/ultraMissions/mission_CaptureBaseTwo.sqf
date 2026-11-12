@@ -65,13 +65,13 @@ _setupObjects =
 	private _vehChoices =
 	[
 		["I_LT_01_AT_F", "B_MRAP_01_gmg_F"],
-		["O_APC_Tracked_02_cannon_F", "I_C_Offroad_02_AT_F"]
+		["O_APC_Tracked_02_cannon_F", "I_MRAP_03_gmg_F"]
 	];
 
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 		_vehChoices append [
 		[(CUP_Classes select {_x == "CUP_B_BMP2_CDF"}) select 0, (CUP_Classes select {_x == "CUP_B_M1167_USA"}) select 0],
-		[(CUP_Classes select {_x == "CUP_B_UAZ_METIS_CDF"}) select 0, (CUP_Classes select {_x == "CUP_O_BTR90_RU"}) select 0]
+		[(CUP_Classes select {_x == "CUP_B_HMMWV_Avenger_USMC"}) select 0, (CUP_Classes select {_x == "CUP_O_BTR90_RU"}) select 0]
 		];
 	};
 
