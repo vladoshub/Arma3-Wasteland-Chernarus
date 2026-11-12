@@ -224,7 +224,7 @@ addMissionEventHandler ["MapSingleClick", {
 		if (!isNil "_pointSpawnTime") then
 		{
 				private _playerCount = count (allPlayers - (entities "HeadlessClient_F"));
-				private _spawnCooldown = 60 + (5 * 60) * (floor (_playerCount / 8) min 3);
+				private _spawnCooldown = 200 + (5 * 60) * (floor (_playerCount / 8) min 3);
 				private _remaining = _spawnCooldown - (diag_tickTime - _pointSpawnTime);
 				if (_remaining > 0) then {
 					_canSpawn = false;

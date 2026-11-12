@@ -1197,8 +1197,8 @@ genItemArray = compileFinal str
 	['IR Grenade', 'B_IR_Grenade', 5500, 'mag', 'WEST', ["chance", 0.8]],
     ['IR Grenade', 'O_IR_Grenade', 5500, 'mag', 'EAST', ["chance", 0.8]],
     ['IR Grenade', 'I_IR_Grenade', 5500, 'mag', 'GUER', ["chance", 0.8]],
-	['Medikit', 'Medikit', 75000, 'item', ["chance", 0.15]],
-	['Toolkit', 'ToolKit', 75000, 'item', ["chance", 0.15]],
+	['Medikit', 'Medikit', 100000, 'item', ["chance", 0.15]],
+	['Toolkit', 'ToolKit', 100000, 'item', ["chance", 0.15]],
 
     ['AL-6 UAV (LDF)', 'I_E_UAV_06_backpack_F', 25000, 'backpack', ["chance", 0.6]],
 
@@ -1884,7 +1884,7 @@ customPlayerItems = compileFinal str
 	["Canned Food", "cannedfood", localize "STR_WL_ShopDescriptions_CanFood", "client\icons\cannedfood.paa", 100, 15, ["chance", 0.5]],
 	//["Energy Drink", "energydrink", localize "STR_WL_ShopDescriptions_Energy_Drink", "client\icons\energydrink.paa", 100, 50, ["chance", 1.0]],
 	["Camo Net", "camonet", localize "STR_WL_ShopDescriptions_Camo", "client\icons\camonet.paa", 1000, 100, ["chance", 0.85]],
-	["Syphon Hose", "syphonhose", localize "STR_WL_ShopDescriptions_SyphonHose", "client\icons\syphonhose.paa", 1000, 100, ["chance", 0.85]],
+	["Syphon Hose", "syphonhose", localize "STR_WL_ShopDescriptions_SyphonHose", "client\icons\syphonhose.paa", 1000, 100, ["chance", 0.5]],
 	["Jerry Can (Empty)", "jerrycanempty", localize "STR_WL_ShopDescriptions_fuelEmpty", "client\icons\jerrycan.paa", 30000, 25, ["chance", 0.5]],
 	["Jerry Can (Full)", "jerrycanfull", localize "STR_WL_ShopDescriptions_fuelFull", "client\icons\jerrycan.paa", 50000, 75, ["chance", 0.1]],
 	["Stash", "stash", localize "STR_WL_ShopDescriptions_Stash", "client\icons\stash.paa", 15000, 5000, "HIDDEN", ["chance", 0.5]],

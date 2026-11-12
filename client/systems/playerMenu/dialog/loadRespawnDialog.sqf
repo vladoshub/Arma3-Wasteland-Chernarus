@@ -15,7 +15,7 @@
 #define SPAWN_BEACON_COOLDOWN (["A3W_spawnBeaconCooldown", 5*60] call getPublicVar)
 #define TERRITORY_SPAWN_COOLDOWN (["A3W_territorySpawnCooldown", 15*60] call getPublicVar)
 #define FLAG_SPAWN_COOLDOWN (["A3W_flagSpawnCooldown", 1.5*60] call getPublicVar)
-#define SPAWN_POINT_COOLDOWN 60
+#define SPAWN_POINT_COOLDOWN (200 + (5 * 60) * (floor ((count (allPlayers - (entities "HeadlessClient_F"))) / 8) min 3))
 #define HQ_SPAWN_COOLDOWN (["A3W_hqSpawnCooldown", 7.5*60] call getPublicVar)
 #define BEACON_CHECK_RADIUS 250
 
@@ -1021,9 +1021,7 @@ while {!isNull _display} do
 			{
 				_spawnCooldown = 0;
 				if (["Spawn_", _location] call fn_startsWith) then {
-					private _playerCountSpawnPoint = count (allPlayers - (entities "HeadlessClient_F"));
-                	private _spawnCooldownPeople = 60 + (5 * 60) * (floor (_playerCountSpawnPoint / 8) min 3);
-					_spawnCooldown = _spawnCooldownPeople;
+                    _spawnCooldown = SPAWN_POINT_COOLDOWN;
 				} else {
 					_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { _territorySpawnCooldown } else { _townSpawnCooldown };
 				};
