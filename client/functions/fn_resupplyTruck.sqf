@@ -78,7 +78,7 @@ _resupplyThread = [_vehicle, _unit] spawn
 			_price = _x select 2;
 			//_price = round (_price / PRICE_RELATIONSHIP); //BY VLADOS
 			if(_price > 900000) then {
-				_price = ceil (_price / 20);
+				_price = ceil (_price / 8);
 			} else {
 				_price = ceil (_price / 8);
 			};
