@@ -8,12 +8,14 @@ if (!isServer) exitWith {};
 
 params ["_vehicle", "_group"];
 private _shepherd = -1;
+private _hasGunnerSeat = false;
 private _crew = (crew _vehicle) select {alive _x && {!isPlayer _x} && {group _x isEqualTo _group}};
 
 // Only the vehicle's own crew may board. Do not re-enable boarding for infantry.
 _crew allowGetIn true;
 
 if (_vehicle isKindOf "LandVehicle") then {
+	_hasGunnerSeat = (fullCrew [_vehicle, "gunner", true]) findIf {!(_x select 4)} >= 0;
 	_vehicle setUnloadInCombat [false, false];
 	_vehicle setVariable ["A3W_missionVehicleCrew", _crew];
 	_vehicle setVariable ["A3W_missionVehicleCrewGroup", _group];
@@ -90,6 +92,24 @@ while {alive _vehicle && _vehicle getVariable ["R3F_LOG_disabled", false]} do {
 		if (locked _vehicle < 3) then { _vehicle lock 3 };
 	} else {
 		if (locked _vehicle > 1) then { _vehicle lock 1 };
+	};
+
+	if (_hasGunnerSeat) then {
+		// MoveToGunner can swap occupants. Check the seat and move in the same unscheduled block.
+		isNil {
+			private _gunner = gunner _vehicle;
+			private _driver = driver _vehicle;
+			if (!alive _vehicle || {!(_vehicle getVariable ["R3F_LOG_disabled", false])} ||
+				{alive _gunner} || {!alive _driver} || {!local _driver} ||
+				{!(_driver in _crew)} || {!(group _driver isEqualTo _group)} ||
+				{(crew _vehicle) findIf {isPlayer _x} >= 0}) exitWith {};
+
+			if (!isNull _gunner) then { _gunner moveOut _vehicle };
+			if (!isNull gunner _vehicle) exitWith {};
+
+			_driver actionNow ["MoveToGunner", _vehicle];
+			if (gunner _vehicle isEqualTo _driver) then { _driver assignAsGunner _vehicle };
+		};
 	};
 
 	sleep 3;
