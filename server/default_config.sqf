@@ -100,7 +100,7 @@ A3W_objectLifetimeFlag = 60*24;    // Maximum lifetime in hours for saved object
 A3W_vehicleLifetime = 3*24;           // Maximum lifetime in hours for saved vehicles across server restarts, regardless of usage (0 = no time limit)
 A3W_vehicleMaxUnusedTime = 2*24;   // Maximum parking time in hours after which unused saved vehicles will be marked for deletion (0 = no time limit) //WAS 2*24
 A3W_serverSavingInterval = 5*60;   // Interval in seconds between automatic vehicle & object saves; should be kept at 1 min for profileNamespace and iniDB, while for extDB it can be relaxed to 3-5 mins
-A3W_mineSaving = 1;                // Save placed mines between server restarts (0 = no, 1 = yes)
+A3W_mineSaving = 0;                // Save placed mines between server restarts (0 = no, 1 = yes)
 A3W_mineLifetime = 24;           // Maximum lifetime in hours for saved mines across server restarts (0 = no time limit)
 A3W_privateStorage = 1;            // Enable persistent private storage locations across the map (0 = no, 1 = yes)
 A3W_privateParking = 1;            // If vehicleSaving = 1 and savingMethod = "extDB" or "sock", enable persistent private parking locations across the map (0 = no, 1 = yes)

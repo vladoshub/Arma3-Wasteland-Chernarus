@@ -18,14 +18,6 @@ waitUntil {!isNil "A3W_serverSetupComplete"};
 
 
 
-#define respawn_Random_Button_init 3413
-#define respawn_Halo_Spawn_Button 3415
-#define respawn_Preload_Checkbox_init 3416
-#define respawn_Locations_Type_init 3449
-#define respawn_Locations_List_init 3450
-#define respawn_Spawn_Button_init 3453
-#define custom_Loadout_Button 3417
-
 [] execVM "client\functions\bannedNames.sqf";
 [] execVM "addons\CodeLock\doorConfig.sqf"; //codeLock
 //[] execVM "R3F_LOG\client\checker.sqf"; //no players in tow vehicles
@@ -212,42 +204,15 @@ if (["A3W_survivalSystem"] call isConfigOn) then
 
 
 
-addMissionEventHandler ["MapSingleClick", {
+addMissionEventHandler ["MapSingleClick",
+{
+	params ["", "_pos"];
+	if (!respawnDialogActive) exitWith {};
 
-	params ["_units", "_pos", "_alt", "_shift"];
-
-	private _localMarkerArray = ((call spawnList) select {_pos inArea (_x select 0)} );
-
-	if(respawnDialogActive && (count (_localMarkerArray)) == 1 && player getVariable ["airBornSpawn", true]) then {
-		private _canSpawn = true;
-		private _pointSpawnTime =  player getVariable (((_localMarkerArray select 0) select 0) + "_lastSpawn");
-		if (!isNil "_pointSpawnTime") then
-		{
-				private _playerCount = count (allPlayers - (entities "HeadlessClient_F"));
-				private _spawnCooldown = 200 + (5 * 60) * (floor (_playerCount / 8) min 3);
-				private _remaining = _spawnCooldown - (diag_tickTime - _pointSpawnTime);
-				if (_remaining > 0) then {
-					_canSpawn = false;
-					hint format ["This point has been blocked since you spawned there. Left: %1 SEC", round (_remaining)];
-					playSound "FD_CP_Not_Clear_F";
-				};
-		};
-		
-		if(_canSpawn) then {
-			player setVariable ["airBornSpawn", false];
-				{ 
-					ctrlEnable [_x, false]
-				}		
-				forEach  [respawn_Random_Button_init, respawn_Halo_Spawn_Button, respawn_Preload_Checkbox_init, respawn_Locations_Type_init, respawn_Locations_List_init, respawn_Spawn_Button_init, custom_Loadout_Button];
-
-				/////
-				{
-					(_x select 0) setMarkerColorLocal "ColorWhite";
-		
-				} forEach (call spawnList);
-
-				[nil, [6, (_localMarkerArray select 0) select 0]] execVM "client\functions\spawnAction.sqf";
-		};
+	private _spawnPoints = (call spawnList) select { _pos inArea (_x select 0) };
+	if (count _spawnPoints == 1) then
+	{
+		[(_spawnPoints select 0) select 0] call fn_requestAirborneSpawn;
 	};
 }];
 

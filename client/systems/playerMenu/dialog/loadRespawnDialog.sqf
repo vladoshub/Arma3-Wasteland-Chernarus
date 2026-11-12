@@ -15,7 +15,6 @@
 #define SPAWN_BEACON_COOLDOWN (["A3W_spawnBeaconCooldown", 5*60] call getPublicVar)
 #define TERRITORY_SPAWN_COOLDOWN (["A3W_territorySpawnCooldown", 15*60] call getPublicVar)
 #define FLAG_SPAWN_COOLDOWN (["A3W_flagSpawnCooldown", 1.5*60] call getPublicVar)
-#define SPAWN_POINT_COOLDOWN (200 + (5 * 60) * (floor ((count (allPlayers - (entities "HeadlessClient_F"))) / 8) min 3))
 #define HQ_SPAWN_COOLDOWN (["A3W_hqSpawnCooldown", 7.5*60] call getPublicVar)
 #define BEACON_CHECK_RADIUS 250
 
@@ -51,7 +50,6 @@ ctrlMapAnimCommit _locMap;
 _townSpawnCooldown = TOWN_SPAWN_COOLDOWN;
 _territorySpawnCooldown = TERRITORY_SPAWN_COOLDOWN;
 _spawnBeaconCooldown = SPAWN_BEACON_COOLDOWN;
-_spawnPointCooldown = SPAWN_POINT_COOLDOWN;
 _hqPointCooldown = HQ_SPAWN_COOLDOWN;
 
 _hqTypes = ["B_T_VTOL_01_armed_olive_F", "CUP_O_BTR90_HQ_RU", "CUP_B_BRDM2_HQ_CDF", "CUP_B_BMP_HQ_CDF", "B_T_APC_Tracked_01_rcws_F", "CUP_I_ZUBR_UN", "B_T_APC_Wheeled_01_cannon_F"]; // Массив типов техник
@@ -507,33 +505,44 @@ _selLocChanged =
 			{
 				_isValid = true;
 				_location call _getPlayersInfo;
-				_lastSpawn = player getVariable (_location + "_lastSpawn");
-				_cooldown = false;
 
-				if (!isNil "_lastSpawn") then
+				if (["Spawn_", _location] call fn_startsWith) then
 				{
-					_spawnCooldown = 0;
-					if (["Spawn_", _location] call fn_startsWith) then {
-						_spawnCooldown = SPAWN_POINT_COOLDOWN;
-					} else {
-						_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { TERRITORY_SPAWN_COOLDOWN } else { TOWN_SPAWN_COOLDOWN };
+					([_location] call fn_getAirborneSpawnState) params ["_blockedByOnline", "_remaining"];
+					if (_blockedByOnline) then
+					{
+						_textStr = _textStr + "[<t color='#ff0000'>Blocked</t>] ";
 					};
-					_remaining = _spawnCooldown - (diag_tickTime - _lastSpawn);
-
-					if (_spawnCooldown > 0 && _remaining > 0) then
+					if (_remaining > 0) then
 					{
 						_textStr = _textStr + format ["[<t color='#ffff00'>%1</t>] ", _remaining call fn_formatTimer];
-						_cooldown = true;
 					};
-				};
-
-				if (_enemyPlayers > _friendlyPlayers && !(["Spawn_", _location] call fn_startsWith)) then
-				{
-					_textStr = _textStr + "[<t color='#ff0000'>Blocked by enemy</t>] ";
+					_spawnBtnEnabled = !_blockedByOnline && {_remaining <= 0};
 				}
 				else
 				{
-					_spawnBtnEnabled = !_cooldown;
+					_lastSpawn = player getVariable (_location + "_lastSpawn");
+					_cooldown = false;
+
+					if (!isNil "_lastSpawn") then
+					{
+						_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { TERRITORY_SPAWN_COOLDOWN } else { TOWN_SPAWN_COOLDOWN };
+						_remaining = _spawnCooldown - (diag_tickTime - _lastSpawn);
+						if (_spawnCooldown > 0 && _remaining > 0) then
+						{
+							_textStr = _textStr + format ["[<t color='#ffff00'>%1</t>] ", _remaining call fn_formatTimer];
+							_cooldown = true;
+						};
+					};
+
+					if (_enemyPlayers > _friendlyPlayers) then
+					{
+						_textStr = _textStr + "[<t color='#ff0000'>Blocked by enemy</t>] ";
+					}
+					else
+					{
+						_spawnBtnEnabled = !_cooldown;
+					};
 				};
 			};
 			};
@@ -605,7 +614,14 @@ _selLocChanged =
 			};
 			};
 
-			_spawnBtnAction = format ["%1 %2 execVM 'client\functions\spawnAction.sqf'", DISABLE_ALL_BUTTONS, [respawn_Spawn_Button, _data]];
+			_spawnBtnAction = if ((_data select 0) == 6) then
+			{
+				format ["%1 call fn_requestAirborneSpawn", [_location]]
+			}
+			else
+			{
+				format ["%1 %2 execVM 'client\functions\spawnAction.sqf'", DISABLE_ALL_BUTTONS, [respawn_Spawn_Button, _data]]
+			};
 
 			if (uiNamespace getVariable ["RespawnSelectionDialog_lastSelLoc", ""] != _selData) then
 			{
@@ -864,6 +880,7 @@ while {!isNull _display} do
 		};
 	};
 
+	private _spawnPlayerCount = if (showBeacons == "Spawn") then { count (allPlayers - (entities "HeadlessClient_F")) } else { -1 };
 	_newLocArray = []; // Location, Text, Data, Picture, Enabled
 
 	{
@@ -1014,37 +1031,34 @@ while {!isNull _display} do
 
 			} else 
 			{
-			_lastSpawn = player getVariable (_location + "_lastSpawn");
-			_cooldown = false;
-
-			if (!isNil "_lastSpawn") then
-			{
-				_spawnCooldown = 0;
-				if (["Spawn_", _location] call fn_startsWith) then {
-                    _spawnCooldown = SPAWN_POINT_COOLDOWN;
-				} else {
-					_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { _territorySpawnCooldown } else { _townSpawnCooldown };
-				};
-				_remaining = _spawnCooldown - (diag_tickTime - _lastSpawn);
-
-				if (_spawnCooldown > 0 && _remaining > 0) then
+				private _locked = false;
+				if (["Spawn_", _location] call fn_startsWith) then
 				{
-					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
-					_cooldown = true;
-				};
-			};
-
-			/////
-				if((["Spawn_", _location] call fn_startsWith)) then {
-					if(_cooldown) then {
-						_location setMarkerColorLocal "ColorOrange";
-					} else {
-						_location setMarkerColorLocal "ColorGreen";
+					([_location, _spawnPlayerCount] call fn_getAirborneSpawnState) params ["_blockedByOnline", "_remaining"];
+					_locked = _blockedByOnline || {_remaining > 0};
+					if (_blockedByOnline) then
+					{
+						_text = _text + " [Blocked]";
+					};
+					_location setMarkerColorLocal (if (_locked) then { "ColorOrange" } else { "ColorGreen" });
+				}
+				else
+				{
+					_lastSpawn = player getVariable (_location + "_lastSpawn");
+					if (!isNil "_lastSpawn") then
+					{
+						_spawnCooldown = if (["TERRITORY_", _location] call fn_startsWith) then { _territorySpawnCooldown } else { _townSpawnCooldown };
+						_remaining = _spawnCooldown - (diag_tickTime - _lastSpawn);
+						_locked = _spawnCooldown > 0 && {_remaining > 0};
 					};
 				};
-			
 
-			_enabled = (!_cooldown && _enemyPlayers <= _friendlyPlayers);
+				if (_locked) then
+				{
+					_picture = "\A3\ui_f\Data\gui\Rsc\RscDisplayMultiplayer\sessions_locked_ca.paa";
+				};
+
+				_enabled = (!_locked && _enemyPlayers <= _friendlyPlayers);
 			};
 		};
 

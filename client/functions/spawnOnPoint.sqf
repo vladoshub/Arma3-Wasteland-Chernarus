@@ -9,7 +9,7 @@ _index = _spawns findIf { _x select 0 == _marker };
 _sizes = markerSize _marker;
 _fullSizes = _sizes apply {_x * 2};
 _radian = (markerDir _marker) * pi / 180;
-_spawnName = _spawns select _index select 1;
+_spawnName = _spawns select _index select 2;
 
 _playerPos = _marker call BIS_fnc_randomPosTrigger;
 
