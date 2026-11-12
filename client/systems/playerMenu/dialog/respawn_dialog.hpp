@@ -162,6 +162,10 @@ class RespawnSelectionDialog
 			onButtonClick = ""; // Action is now set dynamically in loadRespawnDialog.sqf using buttonSetAction
 			text = "Random Town";
 
+			colorBackground[]       = {0.80, 0.04, 0.04, 1};
+			colorBackgroundActive[] = {1.00, 0.10, 0.10, 1};
+			colorFocused[]          = {0.55, 0.02, 0.02, 1};
+
 			// relative to RspnTopBar
 			#define RspnRandomButton_X (RspnTopBar_X + CENTER(RspnTopBar_W, RspnButton_W)) // centered under RspnTopBar
 

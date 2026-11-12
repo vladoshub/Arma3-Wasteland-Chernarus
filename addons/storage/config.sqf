@@ -19,4 +19,4 @@ ps_markers_properties = ["ICON", "mil_dot", "ColorUNKNOWN", [1,1], "Storage"];
  * Supply140, Supply150, Supply160, Supply170, Supply180, Supply190, Supply200, Supply210, Supply220, Supply230, Supply240
  * Supply250, Supply300, Supply350, Supply380, Supply400, Supply420, Supply440, Supply450, Supply480, Supply500
  */
-ps_container_class = "ReammoBox_F";
+ps_container_class = "Box_NATO_Ammo_F";
