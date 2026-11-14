@@ -12,9 +12,9 @@ private "_unit";
 private _group = _this select 0;
 private _pos = _this select 1;
 private _nbUnits = param [2, 7, [0]];
-private _radius = param [3, 10, [0]];;
+private _radius = param [3, 10, [0]];
 
-_unitTypes = [
+private _unitTypes = [
 	"C_man_polo_1_F", "C_man_polo_1_F_euro", "C_man_polo_1_F_afro", "C_man_polo_1_F_asia",
 	"C_man_polo_2_F", "C_man_polo_2_F_euro", "C_man_polo_2_F_afro", "C_man_polo_2_F_asia",
 	"C_man_polo_3_F", "C_man_polo_3_F_euro", "C_man_polo_3_F_afro", "C_man_polo_3_F_asia",
@@ -36,12 +36,15 @@ for "_i" from 1 to _nbUnits do {
 	removeHeadgear _unit;
 	removeGoggles _unit;
 
-	_unit addVest "V_PlateCarrier1_rgr";
-	_unit addMagazine "30Rnd_556x45_Stanag";
-	_unit addMagazine "30Rnd_556x45_Stanag";
-	_unit addMagazine "30Rnd_556x45_Stanag";
+	private _isMarksman = _i == 1;
+	private _isRpgMachineGunner = _i in [3, 9];
 
-	switch (true) do{
+	_unit addVest "V_PlateCarrier1_rgr";
+	if (!_isMarksman && !_isRpgMachineGunner) then {
+		_unit addMagazines ["30Rnd_556x45_Stanag", 3];
+	};
+
+	switch (true) do {
 		// Grenadier every 3 units, starting from #2
 		case ((_i + 4) % 3 isEqualTo 0): {
 			_unit addUniform "U_B_CombatUniform_mcam_vest";
@@ -50,7 +53,7 @@ for "_i" from 1 to _nbUnits do {
 			_unit addMagazine "1Rnd_HE_Grenade_shell";
 			_unit addMagazine "1Rnd_HE_Grenade_shell";
 		};
-		// PCML every 6 units, starting from #6
+		// Titan AT every 6 units, starting from #6
 		case (_i % 6 isEqualTo 0): {
 			_unit addUniform "U_B_CombatUniform_mcam_tshirt";
 			_unit addBackpack "B_Kitbag_mcamo";
@@ -64,7 +67,14 @@ for "_i" from 1 to _nbUnits do {
 		case ((_i + 3) % 6 isEqualTo 0): {
 			_unit addUniform "U_B_CombatUniform_mcam_tshirt";
 			_unit addBackpack "B_Kitbag_mcamo";
-			_unit addWeapon "arifle_TRG20_F";
+
+			if (_isRpgMachineGunner) then {
+				[_unit, "LMG_Zafir_F", 3, "150Rnd_762x54_Box"] call BIS_fnc_addWeapon;
+				_unit addPrimaryWeaponItem "optic_SOS";
+			} else {
+				_unit addWeapon "arifle_TRG20_F";
+			};
+
 			_unit addMagazine "RPG32_F";
 			_unit addWeapon "launch_RPG32_F";
 			_unit addMagazine "RPG32_F";
@@ -74,11 +84,16 @@ for "_i" from 1 to _nbUnits do {
 		default {
 			_unit addUniform "U_B_CombatUniform_mcam";
 
-			if (_unit isEqualTo leader _group) then {
-				_unit addWeapon "arifle_TRG21_F";
-				_unit setRank "SERGEANT";
+			private _isLeader = _unit isEqualTo leader _group;
+			if (_isMarksman) then {
+				[_unit, "srifle_DMR_02_F", 7, "10Rnd_338_Mag"] call BIS_fnc_addWeapon;
+				_unit addPrimaryWeaponItem "optic_AMS";
 			} else {
-				_unit addWeapon "arifle_TRG20_F";
+				_unit addWeapon (["arifle_TRG20_F", "arifle_TRG21_F"] select _isLeader);
+			};
+
+			if (_isLeader) then {
+				_unit setRank "SERGEANT";
 			};
 		};
 	};
