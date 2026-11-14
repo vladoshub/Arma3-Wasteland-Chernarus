@@ -35,20 +35,14 @@ for "_i" from 1 to _nbUnits do {
 	removeBackpack _unit;
 	removeHeadgear _unit;
 	removeGoggles _unit;
-
-	private _isMarksman = _i == 1;
-	private _isRpgMachineGunner = _i in [3, 9];
-
 	_unit addVest "V_PlateCarrier1_rgr";
-	if (!_isMarksman && !_isRpgMachineGunner) then {
-		_unit addMagazines ["30Rnd_556x45_Stanag", 3];
-	};
 
 	switch (true) do {
 		// Grenadier every 3 units, starting from #2
 		case ((_i + 4) % 3 isEqualTo 0): {
 			_unit addUniform "U_B_CombatUniform_mcam_vest";
 			_unit addMagazine "1Rnd_HE_Grenade_shell";
+			_unit addMagazines ["30Rnd_556x45_Stanag", 3];
 			_unit addWeapon "arifle_TRG21_GL_F";
 			_unit addMagazine "1Rnd_HE_Grenade_shell";
 			_unit addMagazine "1Rnd_HE_Grenade_shell";
@@ -57,6 +51,7 @@ for "_i" from 1 to _nbUnits do {
 		case (_i % 6 isEqualTo 0): {
 			_unit addUniform "U_B_CombatUniform_mcam_tshirt";
 			_unit addBackpack "B_Kitbag_mcamo";
+			_unit addMagazines ["30Rnd_556x45_Stanag", 3];
 			_unit addWeapon "arifle_TRG20_F";
 			_unit addMagazine "Titan_AT";
 			_unit addWeapon "launch_Titan_short_F";
@@ -67,14 +62,8 @@ for "_i" from 1 to _nbUnits do {
 		case ((_i + 3) % 6 isEqualTo 0): {
 			_unit addUniform "U_B_CombatUniform_mcam_tshirt";
 			_unit addBackpack "B_Kitbag_mcamo";
-
-			if (_isRpgMachineGunner) then {
-				[_unit, "LMG_Zafir_F", 3, "150Rnd_762x54_Box"] call BIS_fnc_addWeapon;
-				_unit addPrimaryWeaponItem "optic_SOS";
-			} else {
-				_unit addWeapon "arifle_TRG20_F";
-			};
-
+			[_unit, "LMG_Zafir_F", 3, "150Rnd_762x54_Box"] call BIS_fnc_addWeapon;
+			_unit addPrimaryWeaponItem "optic_SOS";
 			_unit addMagazine "RPG32_F";
 			_unit addWeapon "launch_RPG32_F";
 			_unit addMagazine "RPG32_F";
@@ -83,15 +72,9 @@ for "_i" from 1 to _nbUnits do {
 		// Rifleman
 		default {
 			_unit addUniform "U_B_CombatUniform_mcam";
-
 			private _isLeader = _unit isEqualTo leader _group;
-			if (_isMarksman) then {
-				[_unit, "srifle_DMR_02_F", 7, "10Rnd_338_Mag"] call BIS_fnc_addWeapon;
-				_unit addPrimaryWeaponItem "optic_AMS";
-			} else {
-				_unit addWeapon (["arifle_TRG20_F", "arifle_TRG21_F"] select _isLeader);
-			};
-
+			[_unit, "srifle_DMR_02_F", 7, "10Rnd_338_Mag"] call BIS_fnc_addWeapon;
+			_unit addPrimaryWeaponItem "optic_AMS";
 			if (_isLeader) then {
 				_unit setRank "SERGEANT";
 			};
