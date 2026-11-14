@@ -32,7 +32,7 @@ MF_ITEMS_TEAPOT_WATER = "teapotwater";
 
 //CUP
 [MF_ITEMS_SACK_FOOD, "Sack of Food", {25 call mf_items_survival_eat}, "Land_Sack_F","client\icons\cannedfood.paa", 2] call mf_inventory_create;
-[MF_ITEMS_TEAPOT_WATER, "TeaPot with Water", {25 mf_items_survival_drink}, "Land_Teapot_EP1","client\icons\waterbottle.paa", 2] call mf_inventory_create;
+[MF_ITEMS_TEAPOT_WATER, "TeaPot with Water", {25 call mf_items_survival_drink}, "Land_Teapot_EP1","client\icons\waterbottle.paa", 2] call mf_inventory_create;
 
 //[MF_ITEMS_ENERGY_DRINK, "Energy Drink", _energy_drink, "Land_Can_V3_F","client\icons\energydrink.paa", 2] call mf_inventory_create;
 
