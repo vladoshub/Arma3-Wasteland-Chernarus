@@ -137,6 +137,11 @@ if(missionNamespace getVariable [_playerGlobalNotFirstInit, true]) then {
         player unlinkItem (hmd player);
     };
 
+    private _binoc = binocular _player;
+        if (_binoc != "") then {
+        player removeWeapon _binoc;
+    };
+
 	 /*
 	if(["A3W_use_CUP", false] call getPublicVar) then {
 

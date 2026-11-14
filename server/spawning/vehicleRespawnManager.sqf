@@ -232,7 +232,7 @@ while {true} do
 						// Select a fresh category too; a respawn can change vehicle class.
 						private _vehiclePool =
 						[
-							[[A3W_smallVehicles, "A3W_smallVehicles"], 0.45],
+							[[A3W_smallVehicles, "A3W_smallVehicles"], 0.25],
 							[[civilianVehicles, "civilianVehicles"], 1],
 							[[lightMilitaryVehicles, "lightMilitaryVehicles"], 0.08], //0.1
 							[[mediumMilitaryVehicles, "mediumMilitaryVehicles"], 0.04] //0.25

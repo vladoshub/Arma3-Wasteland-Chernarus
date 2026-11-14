@@ -21,7 +21,7 @@ _createRandomVehicle =
 	// Retain the source category alongside the nested class list for fuel rules.
 	private _vehiclePool =
 	[
-		[[A3W_smallVehicles, "A3W_smallVehicles"], 0.45],
+		[[A3W_smallVehicles, "A3W_smallVehicles"], 0.25],
 		[[civilianVehicles, "civilianVehicles"], 1],
 		[[lightMilitaryVehicles, "lightMilitaryVehicles"], 0.08], //0.1
 		[[mediumMilitaryVehicles, "mediumMilitaryVehicles"], 0.04] //0.15
