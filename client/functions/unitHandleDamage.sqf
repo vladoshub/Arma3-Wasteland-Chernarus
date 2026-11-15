@@ -28,7 +28,7 @@ if (_selection != "?") then
 	if (!isNull _source && _source isKindOf "CAManBase" && !isPlayer _source && _ammo != "" && _damage > 0) then
 	{
 		_hitDamage = ((_hitDamage max 0) * BOT_DAMAGE_MULTIPLIER) min BOT_DAMAGE_LIMIT;
-		_damage = (damage _unit) + _hitDamage;
+		_damage = _oldDamage + _hitDamage;
 	}
 	else
 	{
