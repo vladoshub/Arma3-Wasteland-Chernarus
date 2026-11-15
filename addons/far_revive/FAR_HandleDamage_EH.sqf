@@ -7,16 +7,17 @@
 #include "FAR_defines.sqf"
 #include "gui_defines.hpp"
 
-params ["_unit", "", "", "_source", "_ammo", "", "_instigator", "", "", ["_context", -1]];
+params ["_unit", "", "", "_source", "_ammo", "", "_instigator", ["_hitPoint", ""], "", ["_context", -1]];
 
 // a critical hit is if this type of selection can trigger death upon suffering damage >= 1 (usually all of them except "hands", "arms", "legs", "?")
 // this is intercepted to prevent engine-triggered death and put the unit in revive mode instead; behavior and selections can change with game updates
 _criticalHit = _selection in ["","body","head","spine1","spine2","spine3","pelvis","neck","face_hub"];
 _fatalHit = {_damage >= 1 && alive _unit && _criticalHit}; // do not remove curly braces
 
-// Contexts 3 and 4 are the engine's synthetic head and pre-bleeding callbacks.
+// Only actual hit damage may bypass revive. The engine's Incapacitated hit point also uses "body".
 private _instantDeath = isPlayer _unit && {
-	_hitDamage >= FAR_InstantDeathThreshold && local _unit && !(_context in [3, 4]) && _fatalHit
+	local _unit && !(_context in [3, 4]) && _hitPoint != "incapacitated" &&
+	_hitDamage >= FAR_InstantDeathThreshold && _fatalHit
 };
 private _skipRevive = FAR_DisableRevive || _instantDeath;
 private _unconscious = UNCONSCIOUS(_unit);

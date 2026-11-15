@@ -9,13 +9,19 @@
 #define BOT_DAMAGE_MULTIPLIER 0.5  // Новый множитель для урона от ботов
 #define BOT_DAMAGE_LIMIT 0.5
 
-params ["_unit", "_selection", "_damage", "_source", "_ammo"];
+params ["_unit", "_selection", "_damage", "_source", "_ammo", ["_hitPartIndex", -1]];
 
 if (_unit getVariable ["playerSpawning", false]) exitWith {0};
 
 if (_selection != "?") then
 {
-	private _oldDamage = if (_selection == "") then { damage _unit } else { _unit getHit _selection };
+	// Different hit points can share a selection name, so read the damage by event index.
+	private _oldDamage = switch (true) do
+	{
+		case (_selection == ""):     { damage _unit };
+		case (_hitPartIndex >= 0):   { _unit getHitIndex _hitPartIndex };
+		default                     { _unit getHit _selection };
+	};
 	private _hitDamage = _damage - _oldDamage;
 
 	// Infantry AI damage
