@@ -27,8 +27,11 @@
 // cutText layer
 #define FAR_cutTextLayer 7890
 
-// Damage multiplier applied to units when inconscious
-#define FAR_DamageMultiplier 0.005
+// Damage added to a critical selection by one hit that skips revive for players
+#define FAR_InstantDeathThreshold 1.0
+
+// Damage multiplier applied to unconscious units when an instant kill does not apply
+#define FAR_DamageMultiplier 0.25
 
 // Functions
 #define UNCONSCIOUS(UNIT) (UNIT getVariable ["FAR_isUnconscious", 0] == 1)

@@ -13,59 +13,33 @@ params ["_unit", "_selection", "_damage", "_source", "_ammo"];
 
 if (_unit getVariable ["playerSpawning", false]) exitWith {0};
 
-private _AINotProcess = true;
-
 if (_selection != "?") then
 {
+	private _oldDamage = if (_selection == "") then { damage _unit } else { _unit getHit _selection };
+	private _hitDamage = _damage - _oldDamage;
 
-
-	//AI DAMGE REDUCE
-	if (!isNull _source && _source isKindOf "CAManBase" && !isPlayer _source && _ammo != "" && _damage > 0) then {
-
-
-
-		private _oldDamageAI = [_unit getHit _selection, damage _unit] select (_selection isEqualTo "");
-
-
-
-		if(!isNil "_oldDamageAI") then {
-			_damage = _damage - _oldDamageAI max 0;
-		};
-		
-
-
-		_damage = _damage * BOT_DAMAGE_MULTIPLIER;
-	
-		if (_damage > BOT_DAMAGE_LIMIT) then {
-			_damage = BOT_DAMAGE_LIMIT;
-		};
-
-	
-		_AINotProcess = false;
-
-		_damage = (damage _unit) + _damage;
-	
-	};
-
-
-
-	// Vehicle collisions and falling damage
-	if (_AINotProcess && _ammo == "" && (vehicle _source) in [vehicle _unit, objNull]) then
+	// Infantry AI damage
+	if (!isNull _source && _source isKindOf "CAManBase" && !isPlayer _source && _ammo != "" && _damage > 0) then
 	{
-		_oldDamage = [_unit getHit _selection, damage _unit] select (_selection isEqualTo "");
-
-		_damage = switch (true) do
+		_hitDamage = ((_hitDamage max 0) * BOT_DAMAGE_MULTIPLIER) min BOT_DAMAGE_LIMIT;
+		_damage = (damage _unit) + _hitDamage;
+	}
+	else
+	{
+		// Vehicle collisions and falling damage
+		if (_ammo == "" && (vehicle _source) in [vehicle _unit, objNull]) then
 		{
-			case (isNil "_oldDamage"):                         { _damage };
-			case ((vehicle _unit) isKindOf "ParachuteBase"):   { _oldDamage }; // Disable self-collision damage while in parachute
-			case (!isNull objectParent _unit):                 { ((_damage - _oldDamage) * IMPACT_DAMAGE_SEATED_MULTIPLIER) + _oldDamage }; // Greatly reduce in-vehicle unit self-impact damage
-			default                                            { ((_damage - _oldDamage) * IMPACT_DAMAGE_MULTIPLIER) + _oldDamage }; // Reduce on-foot self-impact and falling damage
+			_hitDamage = switch (true) do
+			{
+				case ((vehicle _unit) isKindOf "ParachuteBase"): { 0 }; // Disable self-collision damage while in parachute
+				case (!isNull objectParent _unit):               { _hitDamage * IMPACT_DAMAGE_SEATED_MULTIPLIER };
+				default                                         { _hitDamage * IMPACT_DAMAGE_MULTIPLIER };
+			};
+			_damage = _oldDamage + _hitDamage;
 		};
 	};
-	
 
-
-	// Revive stuff
+	// FAR uses the damage added by this hit, separate from the total for the selection.
 	call FAR_HandleDamage_EH;
 
 	//diag_log str [_unit, _selection, _damage, typeOf _source, _ammo];
